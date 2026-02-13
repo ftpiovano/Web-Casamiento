@@ -79,19 +79,19 @@ export function EventDetails() {
       <Typography as="h2">Onde & Quando</Typography>
       <div className="grid md:grid-cols-2 gap-8 mt-12">
         <EventCard
-          id="ceremony"
-          title="Cerimônia"
-          time="17:00"
-          location="Catedral Basílica"
-          address="Praça da Sé, Salvador - BA"
+          id="argentina"
+          title="Argentina"
+          time="11:00"
+          location="Registro Civil"
+          address="Buenos Aires, Argentina"
           mapLink={siteConfig.links.ceremony}
         />
         <EventCard
-          id="reception"
-          title="Recepção"
-          time="19:30"
-          location="Espaço Celebration"
-          address="Av. Oceânica, Salvador - BA"
+          id="brasil"
+          title="Brasil"
+          time="16:00"
+          location="Igreja Matriz"
+          address="Salvador, Brasil"
           mapLink={siteConfig.links.reception}
         />
       </div>

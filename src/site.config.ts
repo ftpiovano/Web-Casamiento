@@ -3,7 +3,7 @@ export const siteConfig = {
     groom: "Chico",
     bride: "Alexita",
   },
-  eventDate: "2026-10-10T17:00:00",
+  eventDate: "2027-03-06T17:00:00",
   theme: {
     colors: {
       background: "#faf8f5", // Warm off-white
