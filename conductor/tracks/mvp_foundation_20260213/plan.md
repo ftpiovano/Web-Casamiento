@@ -26,9 +26,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Content Sections' (Protocol in workflow.md) (437e0b6)
 
 ## Phase 4: Interactivity Prototypes
-- [ ] Task: Gift Grid
-    - [ ] Implement sortable registry grid
-- [ ] Task: Forms (RSVP & Guestbook)
-    - [ ] Build RSVP form with LocalStorage saving
-    - [ ] Create simple Guestbook message list
+- [x] Task: Gift Grid (0387985)
+    - [x] Implement sortable registry grid
+- [x] Task: Forms (RSVP & Guestbook) (e221c73)
+    - [x] Build RSVP form with LocalStorage saving
+    - [x] Create simple Guestbook message list
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Interactivity Prototypes' (Protocol in workflow.md)
