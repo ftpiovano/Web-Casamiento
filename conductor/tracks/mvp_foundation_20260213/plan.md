@@ -1,10 +1,10 @@
 # Implementation Plan: MVP Foundation and Core Single-Page Layout
 
 ## Phase 1: Environment & Config
-- [~] Task: Scaffolding
-    - [ ] Initialize Next.js 14+ app with TypeScript and Tailwind
-    - [ ] Configure 	ailwind.config.ts with brand palette and fonts
-    - [ ] Create site.config.ts with mock wedding data
+- [x] Task: Scaffolding (bf56b5e)
+    - [x] Initialize Next.js 14+ app with TypeScript and Tailwind
+    - [x] Configure tailwind.config.ts with brand palette and fonts
+    - [x] Create site.config.ts with mock wedding data
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Environment & Config' (Protocol in workflow.md)
 
 ## Phase 2: Core Components & Navigation
