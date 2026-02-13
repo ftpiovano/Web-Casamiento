@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Section, Typography, Card, Button } from "./Base";
 
 interface Message {

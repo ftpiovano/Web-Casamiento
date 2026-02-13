@@ -94,8 +94,8 @@ export function RSVPForm() {
                 type="number"
                 min="1"
                 className="bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50"
-                value={formData.adults}
-                onChange={(e) => setFormData({ ...formData, adults: parseInt(e.target.value) })}
+                value={formData.adults || ""}
+                onChange={(e) => setFormData({ ...formData, adults: e.target.value === "" ? 0 : parseInt(e.target.value) })}
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -105,8 +105,8 @@ export function RSVPForm() {
                 type="number"
                 min="0"
                 className="bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50"
-                value={formData.kids}
-                onChange={(e) => setFormData({ ...formData, kids: parseInt(e.target.value) })}
+                value={formData.kids === 0 ? "0" : formData.kids}
+                onChange={(e) => setFormData({ ...formData, kids: e.target.value === "" ? 0 : parseInt(e.target.value) })}
               />
             </div>
           </div>
