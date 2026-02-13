@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Welcome } from "@/components/Welcome";
+import { Countdown } from "@/components/Countdown";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Welcome />
+      <Countdown />
       
       <section id="couple" className="h-screen flex items-center justify-center bg-background">
         <h2 className="text-4xl font-heading">The Couple</h2>
