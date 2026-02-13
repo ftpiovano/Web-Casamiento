@@ -1,0 +1,34 @@
+# Implementation Plan: MVP Foundation and Core Single-Page Layout
+
+## Phase 1: Environment & Config
+- [ ] Task: Scaffolding
+    - [ ] Initialize Next.js 14+ app with TypeScript and Tailwind
+    - [ ] Configure 	ailwind.config.ts with brand palette and fonts
+    - [ ] Create site.config.ts with mock wedding data
+- [ ] Task: Conductor - User Manual Verification 'Phase 1: Environment & Config' (Protocol in workflow.md)
+
+## Phase 2: Core Components & Navigation
+- [ ] Task: Navigation
+    - [ ] Implement sticky Header component with anchor scrolling
+    - [ ] Build mobile hamburger menu/drawer
+- [ ] Task: Base Layout
+    - [ ] Create Section, Container, and Typography components
+- [ ] Task: Conductor - User Manual Verification 'Phase 2: Core Components & Navigation' (Protocol in workflow.md)
+
+## Phase 3: Content Sections
+- [ ] Task: Hero & Welcome
+    - [ ] Implement Hero section with monogram and names
+    - [ ] Build bilingual Welcome text section
+- [ ] Task: Countdown
+    - [ ] Create dynamic Countdown component
+- [ ] Task: Event Details
+    - [ ] Build Ceremony and Reception components with map/calendar links
+- [ ] Task: Conductor - User Manual Verification 'Phase 3: Content Sections' (Protocol in workflow.md)
+
+## Phase 4: Interactivity Prototypes
+- [ ] Task: Gift Grid
+    - [ ] Implement sortable registry grid
+- [ ] Task: Forms (RSVP & Guestbook)
+    - [ ] Build RSVP form with LocalStorage saving
+    - [ ] Create simple Guestbook message list
+- [ ] Task: Conductor - User Manual Verification 'Phase 4: Interactivity Prototypes' (Protocol in workflow.md)
