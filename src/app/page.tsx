@@ -1,14 +1,14 @@
 import Navbar from "@/components/Navbar";
+import { Hero } from "@/components/Hero";
+import { Welcome } from "@/components/Welcome";
 
 export default function Home() {
   return (
     <main className="relative">
       <Navbar />
+      <Hero />
+      <Welcome />
       
-      <section id="home" className="h-screen flex items-center justify-center bg-accent/10">
-        <h1 className="text-6xl font-heading text-center">Alexita & Chico</h1>
-      </section>
-
       <section id="couple" className="h-screen flex items-center justify-center bg-background">
         <h2 className="text-4xl font-heading">The Couple</h2>
       </section>
