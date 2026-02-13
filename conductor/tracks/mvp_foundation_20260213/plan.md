@@ -16,13 +16,13 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Core Components & Navigation' (Protocol in workflow.md) (38c1b1e)
 
 ## Phase 3: Content Sections
-- [ ] Task: Hero & Welcome
-    - [ ] Implement Hero section with monogram and names
-    - [ ] Build bilingual Welcome text section
-- [ ] Task: Countdown
-    - [ ] Create dynamic Countdown component
-- [ ] Task: Event Details
-    - [ ] Build Ceremony and Reception components with map/calendar links
+- [x] Task: Hero & Welcome (ae24128)
+    - [x] Implement Hero section with monogram and names
+    - [x] Build bilingual Welcome text section
+- [x] Task: Countdown (b95b306)
+    - [x] Create dynamic Countdown component
+- [x] Task: Event Details (ebcb8cf)
+    - [x] Build Ceremony and Reception components with map/calendar links
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Content Sections' (Protocol in workflow.md)
 
 ## Phase 4: Interactivity Prototypes
