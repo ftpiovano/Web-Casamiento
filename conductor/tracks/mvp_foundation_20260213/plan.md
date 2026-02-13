@@ -7,13 +7,13 @@
     - [x] Create site.config.ts with mock wedding data
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Environment & Config' (Protocol in workflow.md) (7ef8fa8)
 
-## Phase 2: Core Components & Navigation
+## Phase 2: Core Components & Navigation [checkpoint: 38c1b1e]
 - [x] Task: Navigation (570a98d)
     - [x] Implement sticky Header component with anchor scrolling
     - [x] Build mobile hamburger menu/drawer
 - [x] Task: Base Layout (7af27dc)
     - [x] Create Section, Container, and Typography components
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Core Components & Navigation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Core Components & Navigation' (Protocol in workflow.md) (38c1b1e)
 
 ## Phase 3: Content Sections
 - [ ] Task: Hero & Welcome
