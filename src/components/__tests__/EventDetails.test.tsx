@@ -1,11 +1,14 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, getAllByText } from "@testing-library/react";
 import { EventDetails } from "../EventDetails";
 import { describe, it, expect } from "vitest";
 
 describe("EventDetails", () => {
-  it("renders ceremony and reception headings", () => {
+  it("renders argentina and brasil headings", () => {
     render(<EventDetails />);
-    expect(screen.getByText(/Cerim/i)).toBeDefined();
-    expect(screen.getByText(/Recep/i)).toBeDefined();
+    const argentinaElements = screen.getAllByText(/Argentina/i);
+    const brasilElements = screen.getAllByText(/Brasil/i);
+    
+    expect(argentinaElements.length).toBeGreaterThan(0);
+    expect(brasilElements.length).toBeGreaterThan(0);
   });
 });
