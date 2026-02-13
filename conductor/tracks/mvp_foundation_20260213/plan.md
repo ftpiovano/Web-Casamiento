@@ -8,11 +8,11 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Environment & Config' (Protocol in workflow.md) (7ef8fa8)
 
 ## Phase 2: Core Components & Navigation
-- [ ] Task: Navigation
-    - [ ] Implement sticky Header component with anchor scrolling
-    - [ ] Build mobile hamburger menu/drawer
-- [ ] Task: Base Layout
-    - [ ] Create Section, Container, and Typography components
+- [x] Task: Navigation (570a98d)
+    - [x] Implement sticky Header component with anchor scrolling
+    - [x] Build mobile hamburger menu/drawer
+- [x] Task: Base Layout (7af27dc)
+    - [x] Create Section, Container, and Typography components
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Core Components & Navigation' (Protocol in workflow.md)
 
 ## Phase 3: Content Sections
