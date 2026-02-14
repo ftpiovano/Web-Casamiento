@@ -55,4 +55,23 @@ describe('GiftGrid Checkout Flow', () => {
     
     expect(screen.getByText(/Pagar com Pix/i)).toBeDefined();
   });
+
+  it('completes purchase and shows success screen', () => {
+    render(<GiftGrid />);
+    const presentearBtns = screen.getAllByText(/Presentear/i);
+    fireEvent.click(presentearBtns[0]);
+    
+    fireEvent.click(screen.getByText(/Continuar com a compra/i));
+    
+    const nameInput = screen.getByLabelText(/Seu Nome/i);
+    fireEvent.change(nameInput, { target: { value: 'John Doe' } });
+    
+    fireEvent.click(screen.getByText(/Ir para o pagamento/i));
+    
+    const pixBtn = screen.getByText(/Pagar com Pix/i);
+    fireEvent.click(pixBtn);
+    
+    expect(screen.getByText(/Pedido Confirmado/i)).toBeDefined();
+    expect(screen.getByText(/John Doe/i)).toBeDefined();
+  });
 });

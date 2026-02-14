@@ -260,7 +260,15 @@ export function GiftGrid() {
       </div>
 
       <div className='bg-primary/5 rounded-xl p-6 border border-primary/10'>
-        <Typography className='text-sm mb-2 opacity-60'>Resumo da compra:</Typography>
+        <Typography className='text-sm mb-4 opacity-60 uppercase tracking-widest font-bold'>Resumo do pedido:</Typography>
+        <div className='space-y-2 mb-6 border-b border-primary/10 pb-4'>
+          {cart.map((item, index) => (
+            <div key={`summary-${item.id}-${index}`} className='flex justify-between text-sm'>
+              <span className='opacity-80'>{item.name}</span>
+              <span className='font-medium'>R$ {item.price.toLocaleString('pt-BR')}</span>
+            </div>
+          ))}
+        </div>
         <div className='flex justify-between font-heading text-xl text-primary'>
           <span>Total a pagar</span>
           <span>R$ {totalPrice.toLocaleString('pt-BR')}</span>
