@@ -21,3 +21,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Stripe Payment Integration & Localization**
   *Link: [./tracks/stripe_integration_20260214/](./tracks/stripe_integration_20260214/)*
+
+---
+
+- [ ] **Track: Stripe Payment Activation and Validation**
+  *Link: [./tracks/stripe_activation_20260214/](./tracks/stripe_activation_20260214/)*
