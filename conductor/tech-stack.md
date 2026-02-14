@@ -17,7 +17,8 @@
 
 ## State Management & Storage
 - **React Hooks (useState, useEffect):** For local component state and session management.
-- **Supabase:** Cloud database for persisting guest RSVPs.
+- **Supabase:** Cloud database for persisting guest RSVPs and gift messages.
+- **Stripe:** Secure payment processing for credit card gifts.
 - **Next.js Server Actions:** For secure server-side data operations and authentication.
 
 ## Development Tools
