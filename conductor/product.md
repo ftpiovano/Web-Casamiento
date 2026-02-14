@@ -41,13 +41,14 @@ To create a clean, elegant, and airy single-page wedding website that serves as 
 - **The Couple:** To have a beautiful, digital memento of their special day and a streamlined way to manage guest interactions.
 
 ## Core Goals
-- **Information Hub:** Provide clear details on the ceremony and reception (locations, times, maps).
+- **Information Hub:** Provide clear details on the weddings in Argentina and Brasil (locations, times, maps).
 - **Communication:** Facilitate RSVPs and guestbook messages directly through the site.
 - **Gift Management:** Offer an intuitive, card-based gift registry for guest contributions.
 - **Storytelling:** Share the couple's journey through text and images in an engaging way.
 
 ## Key Features
-- **Bilingual Support:** UX designed for two languages (e.g., PT / ES).
+- **Bilingual Support:** UX designed for two languages (Portuguese and Spanish).
+- **Two-Event Structure:** Dedicated sections for the Argentinian (Civil) and Brazilian (Religious) celebrations.
 - **Interactive RSVP:** A multi-field form with local storage for responses.
 - **Dynamic Countdown:** A live timer counting down to the big day.
 - **Gift Registry Grid:** A sortable list of gift items with contribution calls-to-action.
