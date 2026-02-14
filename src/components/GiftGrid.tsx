@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Section, Typography, Card, Button } from './Base';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, ArrowLeft, CreditCard, Landmark, QrCode, Trash2 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 /**
  * Interface for a gift item.
@@ -39,6 +40,7 @@ export function GiftGrid() {
   const [cart, setCart] = useState<GiftItem[]>([]);
   const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name'>('name');
   const [gifterInfo, setGifterInfo] = useState({ name: '', note: '' });
+  const { config } = useLanguage();
 
   const sortedGifts = [...mockGifts].sort((a, b) => {
     if (sortBy === 'price-asc') return a.price - b.price;
@@ -63,7 +65,7 @@ export function GiftGrid() {
   const renderGrid = () => (
     <>
       <div className='flex flex-col md:flex-row justify-between items-center mb-12 gap-6'>
-        <Typography as='h2' className='mb-0'>Lista de Presentes</Typography>
+        <Typography as='h2' className='mb-0'>{config.content.giftListTitle}</Typography>
         
         <div className='flex items-center gap-4'>
           <span className='text-sm uppercase tracking-widest text-foreground/40 font-medium'>Ordenar por:</span>
@@ -100,7 +102,7 @@ export function GiftGrid() {
                 <Typography className='text-sm mb-6 flex-grow'>{gift.description}</Typography>
                 <div className='flex justify-between items-center mt-auto border-t border-accent/10 pt-6'>
                   <span className='text-xl font-heading text-primary'>
-                    R$ {gift.price.toLocaleString('pt-BR')}
+                    {config.currencySymbol} {gift.price.toLocaleString('pt-BR')}
                   </span>
                   <Button variant='outline' className='px-6 py-2 text-xs' onClick={() => addToCart(gift)}>
                     Presentear
@@ -140,7 +142,7 @@ export function GiftGrid() {
               <div key={`${item.id}-${index}`} className='flex justify-between items-center border-b border-accent/10 pb-4 last:border-0 last:pb-0'>
                 <div>
                   <Typography className='font-medium mb-0'>{item.name}</Typography>
-                  <Typography className='text-xs text-primary'>R$ {item.price.toLocaleString('pt-BR')}</Typography>
+                  <Typography className='text-xs text-primary'>{config.currencySymbol} {item.price.toLocaleString('pt-BR')}</Typography>
                 </div>
                 <button onClick={() => removeFromCart(index)} className='text-red-400 hover:text-red-600 transition-colors p-2'>
                   <Trash2 size={18} />
@@ -149,7 +151,7 @@ export function GiftGrid() {
             ))}
             <div className='pt-6 flex justify-between items-center font-heading text-2xl text-primary border-t border-accent/20'>
               <span>Total</span>
-              <span>R$ {totalPrice.toLocaleString('pt-BR')}</span>
+              <span>{config.currencySymbol} {totalPrice.toLocaleString('pt-BR')}</span>
             </div>
           </div>
         )}
@@ -158,10 +160,10 @@ export function GiftGrid() {
       {cart.length > 0 && (
         <div className='flex flex-col gap-4'>
           <Button onClick={() => setStep('info')} className='w-full py-4'>
-            Continuar com a compra
+            {config.region === 'br' ? 'Continuar com a compra' : 'Continuar con el regalo'}
           </Button>
           <Button variant='outline' onClick={() => setStep('grid')} className='w-full'>
-            Adicionar mais presentes
+            {config.region === 'br' ? 'Adicionar mais presentes' : 'Agregar más regalos'}
           </Button>
         </div>
       )}
@@ -265,13 +267,13 @@ export function GiftGrid() {
           {cart.map((item, index) => (
             <div key={`summary-${item.id}-${index}`} className='flex justify-between text-sm'>
               <span className='opacity-80'>{item.name}</span>
-              <span className='font-medium'>R$ {item.price.toLocaleString('pt-BR')}</span>
+              <span className='font-medium'>{config.currencySymbol} {item.price.toLocaleString('pt-BR')}</span>
             </div>
           ))}
         </div>
         <div className='flex justify-between font-heading text-xl text-primary'>
           <span>Total a pagar</span>
-          <span>R$ {totalPrice.toLocaleString('pt-BR')}</span>
+          <span>{config.currencySymbol} {totalPrice.toLocaleString('pt-BR')}</span>
         </div>
       </div>
     </div>
@@ -286,17 +288,21 @@ export function GiftGrid() {
         <div className='w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-8'>
           <CreditCard className='text-white' size={40} />
         </div>
-        <Typography as='h2' className='text-primary'>Pedido Confirmado!</Typography>
+        <Typography as='h2' className='text-primary'>
+          {config.region === 'br' ? 'Pedido Confirmado!' : '¡Pedido Confirmado!'}
+        </Typography>
         <Typography>
-          Obrigado pelo seu presente, <strong>{gifterInfo.name}</strong>! 
-          Suas instruções de pagamento foram enviadas por e-mail (simulação).
+          {config.region === 'br' 
+            ? <>Obrigado pelo seu presente, <strong>{gifterInfo.name}</strong>! Suas instruções de pagamento foram enviadas por e-mail (simulação).</>
+            : <>¡Gracias por tu regalo, <strong>{gifterInfo.name}</strong>! Las instrucciones de pago han sido enviadas por e-mail (simulación).</>
+          }
         </Typography>
         <Button onClick={() => {
           setCart([]);
           setGifterInfo({ name: '', note: '' });
           setStep('grid');
         }} className='mt-8'>
-          Voltar para o site
+          {config.region === 'br' ? 'Voltar para o site' : 'Volver al sitio'}
         </Button>
       </Card>
     </div>

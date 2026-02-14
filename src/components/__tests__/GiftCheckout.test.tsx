@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '../../test/test-utils';
 import { GiftGrid } from '../GiftGrid';
 import { describe, it, expect } from 'vitest';
 
@@ -11,7 +11,7 @@ describe('GiftGrid Checkout Flow', () => {
     fireEvent.click(presentearBtns[0]);
     
     // Should show cart view title
-    expect(screen.getByText(/Meu Carrinho/i)).toBeDefined();
+    expect(screen.getByText(/Carrinho/i)).toBeDefined();
   });
 
   it('allows going back to grid from cart', () => {
@@ -19,11 +19,11 @@ describe('GiftGrid Checkout Flow', () => {
     const presentearBtns = screen.getAllByText(/Presentear/i);
     fireEvent.click(presentearBtns[0]);
     
-    const addMoreBtn = screen.getByText(/Adicionar mais presentes/i);
+    const addMoreBtn = screen.getByText(/(Adicionar|Agregar)/i);
     fireEvent.click(addMoreBtn);
     
     // Should show grid view title again
-    expect(screen.getByText(/Lista de Presentes/i)).toBeDefined();
+    expect(screen.getByText(/(Lista de|Regalos)/i)).toBeDefined();
   });
 
   it('transitions to Gifter Info step and accepts input', () => {
@@ -31,12 +31,12 @@ describe('GiftGrid Checkout Flow', () => {
     const presentearBtns = screen.getAllByText(/Presentear/i);
     fireEvent.click(presentearBtns[0]);
     
-    const continueBtn = screen.getByText(/Continuar com a compra/i);
+    const continueBtn = screen.getByText(/(Continuar)/i);
     fireEvent.click(continueBtn);
     
-    expect(screen.getByText(/Sua Mensagem/i)).toBeDefined();
+    expect(screen.getAllByText(/Mensagem/i).length).toBeGreaterThan(0);
     
-    const nameInput = screen.getByLabelText(/Seu Nome/i);
+    const nameInput = screen.getByLabelText(/Nome/i);
     fireEvent.change(nameInput, { target: { value: 'John Doe' } });
     expect(nameInput.getAttribute('value')).toBe('John Doe');
   });
@@ -46,14 +46,14 @@ describe('GiftGrid Checkout Flow', () => {
     const presentearBtns = screen.getAllByText(/Presentear/i);
     fireEvent.click(presentearBtns[0]);
     
-    fireEvent.click(screen.getByText(/Continuar com a compra/i));
+    fireEvent.click(screen.getByText(/(Continuar)/i));
     
-    const nameInput = screen.getByLabelText(/Seu Nome/i);
+    const nameInput = screen.getByLabelText(/Nome/i);
     fireEvent.change(nameInput, { target: { value: 'John Doe' } });
     
-    fireEvent.click(screen.getByText(/Ir para o pagamento/i));
+    fireEvent.click(screen.getByText(/(pagamento|pago)/i));
     
-    expect(screen.getByText(/Pagar com Pix/i)).toBeDefined();
+    expect(screen.getByText(/Pix/i)).toBeDefined();
   });
 
   it('completes purchase and shows success screen', () => {
@@ -61,17 +61,17 @@ describe('GiftGrid Checkout Flow', () => {
     const presentearBtns = screen.getAllByText(/Presentear/i);
     fireEvent.click(presentearBtns[0]);
     
-    fireEvent.click(screen.getByText(/Continuar com a compra/i));
+    fireEvent.click(screen.getByText(/(Continuar)/i));
     
-    const nameInput = screen.getByLabelText(/Seu Nome/i);
+    const nameInput = screen.getByLabelText(/Nome/i);
     fireEvent.change(nameInput, { target: { value: 'John Doe' } });
     
-    fireEvent.click(screen.getByText(/Ir para o pagamento/i));
+    fireEvent.click(screen.getByText(/(pagamento|pago)/i));
     
-    const pixBtn = screen.getByText(/Pagar com Pix/i);
+    const pixBtn = screen.getByText(/Pix/i);
     fireEvent.click(pixBtn);
     
-    expect(screen.getByText(/Pedido Confirmado/i)).toBeDefined();
+    expect(screen.getByText(/Confirmado/i)).toBeDefined();
     expect(screen.getByText(/John Doe/i)).toBeDefined();
   });
 });

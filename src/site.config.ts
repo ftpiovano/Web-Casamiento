@@ -20,4 +20,40 @@ export const siteConfig = {
     ceremony: 'https://maps.app.goo.gl/example',
     reception: 'https://maps.app.goo.gl/example',
   },
+  // Region-specific configurations
+  regions: {
+    br: {
+      label: 'Brasil',
+      language: 'pt',
+      currency: 'BRL',
+      currencySymbol: 'R$',
+      content: {
+        welcomeTitle: 'Bem-vindos',
+        welcomeText: 'Estamos muito felizes em compartilhar este momento tão especial com vocês.',
+        giftListTitle: 'Lista de Presentes',
+        paymentMethods: ['Pix', 'Cartão de Crédito'],
+      },
+    },
+    ar: {
+      label: 'Argentina',
+      language: 'es',
+      currency: 'ARS',
+      currencySymbol: '$',
+      content: {
+        welcomeTitle: 'Bienvenidos',
+        welcomeText: 'Estamos muy felices de compartir este momento tan especial con ustedes.',
+        giftListTitle: 'Lista de Regalos',
+        paymentMethods: ['Transferencia Bancaria', 'Mercado Pago'],
+      },
+    },
+  },
+  // Bank details for manual transfers
+  bankDetails: {
+    ar: {
+      bank: 'Banco Galicia',
+      alias: 'boda.alexita.chico',
+      cbu: '0070000000000000000000',
+      holder: 'Alexita & Chico',
+    },
+  },
 };
