@@ -2,13 +2,16 @@
 
 import { useState } from 'react';
 import { Section, Typography, Card, Button } from './Base';
+import { submitRSVP } from '@/app/actions';
 
 /**
- * RSVP form component for guest confirmation.
+ * RSVP form component for guest confirmation with database integration.
  * @return {JSX.Element} The rendered RSVP form.
  */
 export function RSVPForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     attending: 'yes',
@@ -19,17 +22,23 @@ export function RSVPForm() {
   });
 
   /**
-   * Handles RSVP form submission and saves to LocalStorage.
+   * Handles RSVP form submission and saves to the database via Server Action.
    * @param {React.FormEvent} e The form event.
    */
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
     
-    // Save to LocalStorage
-    const existingRSVPs = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
-    localStorage.setItem('wedding_rsvps', JSON.stringify([...existingRSVPs, { ...formData, date: new Date().toISOString() }]));
+    const result = await submitRSVP(formData);
     
-    setSubmitted(true);
+    if (result.success) {
+      setSubmitted(true);
+    } else {
+      setError(result.error || 'Ocorreu um erro ao enviar sua confirmação. Tente novamente.');
+    }
+    
+    setIsSubmitting(false);
   };
 
   if (submitted) {
@@ -55,8 +64,9 @@ export function RSVPForm() {
               <input
                 id='rsvp-name'
                 required
+                disabled={isSubmitting}
                 type='text'
-                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 transition-colors'
+                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 transition-colors disabled:opacity-50'
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
@@ -66,8 +76,9 @@ export function RSVPForm() {
               <input
                 id='rsvp-email'
                 required
+                disabled={isSubmitting}
                 type='email'
-                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 transition-colors'
+                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 transition-colors disabled:opacity-50'
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
@@ -79,15 +90,17 @@ export function RSVPForm() {
             <div className='flex gap-4'>
               <button
                 type='button'
+                disabled={isSubmitting}
                 onClick={() => setFormData({ ...formData, attending: 'yes' })}
-                className={`flex-1 py-3 rounded-lg border transition-all ${formData.attending === 'yes' ? 'bg-primary text-white border-primary' : 'bg-transparent border-accent/20'}`}
+                className={`flex-1 py-3 rounded-lg border transition-all disabled:opacity-50 ${formData.attending === 'yes' ? 'bg-primary text-white border-primary' : 'bg-transparent border-accent/20'}`}
               >
                 Sim, com certeza!
               </button>
               <button
                 type='button'
+                disabled={isSubmitting}
                 onClick={() => setFormData({ ...formData, attending: 'no' })}
-                className={`flex-1 py-3 rounded-lg border transition-all ${formData.attending === 'no' ? 'bg-primary text-white border-primary' : 'bg-transparent border-accent/20'}`}
+                className={`flex-1 py-3 rounded-lg border transition-all disabled:opacity-50 ${formData.attending === 'no' ? 'bg-primary text-white border-primary' : 'bg-transparent border-accent/20'}`}
               >
                 Infelizmente não
               </button>
@@ -99,9 +112,10 @@ export function RSVPForm() {
               <label htmlFor='rsvp-adults' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>Adultos</label>
               <input
                 id='rsvp-adults'
+                disabled={isSubmitting}
                 type='number'
                 min='1'
-                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50'
+                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
                 value={formData.adults || ''}
                 onChange={(e) => setFormData({ ...formData, adults: e.target.value === '' ? 0 : parseInt(e.target.value) })}
               />
@@ -110,9 +124,10 @@ export function RSVPForm() {
               <label htmlFor='rsvp-kids' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>Crianças</label>
               <input
                 id='rsvp-kids'
+                disabled={isSubmitting}
                 type='number'
                 min='0'
-                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50'
+                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
                 value={formData.kids === 0 ? '0' : formData.kids}
                 onChange={(e) => setFormData({ ...formData, kids: e.target.value === '' ? 0 : parseInt(e.target.value) })}
               />
@@ -123,13 +138,18 @@ export function RSVPForm() {
             <label htmlFor='rsvp-notes' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>Mensagem ou Observações</label>
             <textarea
               id='rsvp-notes'
-              className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 min-h-[100px]'
+              disabled={isSubmitting}
+              className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 min-h-[100px] disabled:opacity-50'
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             />
           </div>
 
-          <Button type='submit' className='w-full py-4'>Enviar Confirmação</Button>
+          {error && <p className='text-red-500 text-sm'>{error}</p>}
+
+          <Button type='submit' className='w-full py-4' disabled={isSubmitting}>
+            {isSubmitting ? 'Enviando...' : 'Enviar Confirmação'}
+          </Button>
         </form>
       </Card>
     </Section>

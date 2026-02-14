@@ -1,10 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { RSVPForm } from '../RSVPForm';
 import { Guestbook } from '../Guestbook';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+
+// Mock server actions
+vi.mock('@/app/actions', () => ({
+  submitRSVP: vi.fn(() => Promise.resolve({ success: true })),
+}));
 
 describe('Forms', () => {
-  it('submits RSVP form', () => {
+  it('submits RSVP form', async () => {
     render(<RSVPForm />);
     const nameInput = screen.getByLabelText(/Nome/i);
     const emailInput = screen.getByLabelText(/E-mail/i);
@@ -14,7 +19,8 @@ describe('Forms', () => {
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.click(submitBtn);
 
-    expect(screen.getByText(/Obrigado/i)).toBeDefined();
+    const successMessage = await screen.findByText(/Obrigado/i);
+    expect(successMessage).toBeDefined();
   });
 
   it('renders Guestbook and allows message entry', () => {
