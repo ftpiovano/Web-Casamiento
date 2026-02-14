@@ -17,12 +17,12 @@
     - [x] Add region/language toggle to `Navbar`
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Localization & Region State' (Protocol in workflow.md) (c55888f)
 
-## Phase 3: Localized Payment UI
+## Phase 3: Localized Payment UI [checkpoint: ddf74a3]
 - [~] Task: Localized Checkout
     - [ ] Update `GiftGrid.tsx` to show Stripe/Pix for BR and Manual Transfer for AR
 - [ ] Task: Stripe Checkout Component
     - [ ] Create `CheckoutForm` component for secure card entry
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Localized Payment UI' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Localized Payment UI' (Protocol in workflow.md) (ddf74a3)
 
 ## Phase 4: Completion
 - [ ] Task: Finalize Flow
