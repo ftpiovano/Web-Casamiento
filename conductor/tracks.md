@@ -11,3 +11,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: RSVP Backend Integration and Admin Dashboard**
   *Link: [./tracks/rsvp_backend_20260214/](./tracks/rsvp_backend_20260214/)*
+
+---
+
+- [ ] **Track: Gift Registry Checkout Flow**
+  *Link: [./tracks/gift_checkout_20260214/](./tracks/gift_checkout_20260214/)*
