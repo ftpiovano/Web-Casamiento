@@ -40,3 +40,31 @@ export async function submitRSVP(data: RSVPData) {
 
   return { success: true };
 }
+
+/**
+ * Fetches all RSVPs from Supabase.
+ * @return {Promise<{success: boolean, data?: any[], error?: string}>} The fetched RSVPs.
+ */
+export async function getRSVPs() {
+  const { data, error } = await supabase
+    .from('rsvps')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching RSVPs:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true, data };
+}
+
+/**
+ * Validates the admin password.
+ * @param {string} password The password to check.
+ * @return {Promise<{success: boolean}>} Whether the password is correct.
+ */
+export async function validateAdminPassword(password: string) {
+  const correctPassword = process.env.ADMIN_PASSWORD;
+  return { success: password === correctPassword };
+}
