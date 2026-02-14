@@ -8,9 +8,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Backend Setup' (Protocol in workflow.md) (f3339fb)
 
 ## Phase 2: RSVP persistence
-- [ ] Task: Update RSVP Form
-    - [ ] Replace LocalStorage logic with a Server Action to save to the database
-    - [ ] Add loading states and error handling to the form
+- [x] Task: Update RSVP Form (ec0a7e3)
+    - [x] Replace LocalStorage logic with a Server Action to save to the database
+    - [x] Add loading states and error handling to the form
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: RSVP persistence' (Protocol in workflow.md)
 
 ## Phase 3: Admin Dashboard
