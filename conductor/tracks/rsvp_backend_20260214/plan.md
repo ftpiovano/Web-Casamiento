@@ -14,10 +14,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: RSVP persistence' (Protocol in workflow.md) (c0894d8)
 
 ## Phase 3: Admin Dashboard
-- [ ] Task: Admin Route
-    - [ ] Create /admin page structure with data fetching
-    - [ ] Build a summary card showing total guest counts
-    - [ ] Build a guest list table with comments
-- [ ] Task: Security
-    - [ ] Implement a simple access gate for the admin page
+- [x] Task: Admin Route (7247e56)
+    - [x] Create /admin page structure with data fetching
+    - [x] Build a summary card showing total guest counts
+    - [x] Build a guest list table with comments
+- [x] Task: Security (7247e56)
+    - [x] Implement a simple access gate for the admin page
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Admin Dashboard' (Protocol in workflow.md)
