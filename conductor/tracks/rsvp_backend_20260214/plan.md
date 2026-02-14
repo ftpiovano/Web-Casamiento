@@ -1,7 +1,7 @@
 # Implementation Plan: RSVP Backend Integration and Admin Dashboard
 
 ## Phase 1: Backend Setup
-- [x] Task: Supabase/Database Integration
+- [x] Task: Supabase/Database Integration (e569f11)
     - [x] Set up Supabase project and database schema
     - [x] Add environment variables to the project
     - [x] Install Supabase client library
