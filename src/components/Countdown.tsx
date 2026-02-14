@@ -1,9 +1,13 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { siteConfig } from "@/site.config";
-import { Typography } from "./Base";
+import { useState, useEffect } from 'react';
+import { siteConfig } from '@/site.config';
+import { Typography } from './Base';
 
+/**
+ * Countdown component that displays time remaining until the wedding event.
+ * @return {JSX.Element} The rendered countdown.
+ */
 export function Countdown() {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -36,22 +40,22 @@ export function Countdown() {
   }, []);
 
   const items = [
-    { label: "Dias", value: timeLeft.days },
-    { label: "Horas", value: timeLeft.hours },
-    { label: "Minutos", value: timeLeft.minutes },
-    { label: "Segundos", value: timeLeft.seconds },
+    { label: 'Dias', value: timeLeft.days },
+    { label: 'Horas', value: timeLeft.hours },
+    { label: 'Minutos', value: timeLeft.minutes },
+    { label: 'Segundos', value: timeLeft.seconds },
   ];
 
   return (
-    <section className="py-20 bg-accent/5 border-y border-accent/10">
-      <div className="container max-w-4xl mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <section className='py-20 bg-accent/5 border-y border-accent/10'>
+      <div className='container max-w-4xl mx-auto px-6'>
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-8'>
           {items.map((item) => (
-            <div key={item.label} className="flex flex-col items-center">
-              <span className="text-4xl md:text-6xl font-heading text-primary mb-2">
-                {String(item.value).padStart(2, "0")}
+            <div key={item.label} className='flex flex-col items-center'>
+              <span className='text-4xl md:text-6xl font-heading text-primary mb-2'>
+                {String(item.value).padStart(2, '0')}
               </span>
-              <span className="text-xs uppercase tracking-widest text-foreground/40 font-medium">
+              <span className='text-xs uppercase tracking-widest text-foreground/40 font-medium'>
                 {item.label}
               </span>
             </div>

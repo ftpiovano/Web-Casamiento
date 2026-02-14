@@ -1,9 +1,9 @@
-import { render, screen } from "@testing-library/react";
-import Navbar from "../Navbar";
-import { describe, it, expect, vi } from "vitest";
+import { render, screen } from '@testing-library/react';
+import { Navbar } from '../Navbar';
+import { describe, it, expect } from 'vitest';
 
-describe("Navbar", () => {
-  it("renders all navigation links", () => {
+describe('Navbar', () => {
+  it('renders all navigation links', () => {
     render(<Navbar />);
     expect(screen.getByText(/Home/i)).toBeDefined();
     expect(screen.getByText(/The Couple/i)).toBeDefined();

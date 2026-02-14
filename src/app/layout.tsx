@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
-import "./globals.css";
-import { siteConfig } from "@/site.config";
+import type { Metadata } from 'next';
+import { Playfair_Display, Inter } from 'next/font/google';
+import './globals.css';
+import { siteConfig } from '@/site.config';
 
 const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
+  variable: '--font-playfair',
+  subsets: ['latin'],
 });
 
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+  variable: '--font-inter',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
@@ -18,13 +18,18 @@ export const metadata: Metadata = {
   description: `Welcome to the wedding website of ${siteConfig.names.bride} and ${siteConfig.names.groom}`,
 };
 
+/**
+ * Root layout component for the entire application.
+ * @param {Object} props component properties.
+ * @return {JSX.Element} The rendered root layout.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
         className={`${playfair.variable} ${inter.variable} antialiased`}
       >

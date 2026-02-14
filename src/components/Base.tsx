@@ -1,5 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
+/**
+ * Props for the Section component.
+ */
 interface SectionProps {
   id?: string;
   children: ReactNode;
@@ -7,36 +10,49 @@ interface SectionProps {
   light?: boolean;
 }
 
-export function Section({ id, children, className = "", light = false }: SectionProps) {
+/**
+ * A standard layout section with vertical padding.
+ * @param {SectionProps} props component properties.
+ * @return {JSX.Element} The rendered section.
+ */
+export function Section({ id, children, className = '', light = false }: SectionProps) {
   return (
     <section
       id={id}
       className={`py-20 md:py-32 px-6 flex flex-col items-center ${
-        light ? "bg-background" : "bg-accent/5"
+        light ? 'bg-background' : 'bg-accent/5'
       } ${className}`}
     >
-      <div className="container max-w-5xl mx-auto w-full">
+      <div className='container max-w-5xl mx-auto w-full'>
         {children}
       </div>
     </section>
   );
 }
 
+/**
+ * Props for the Typography component.
+ */
 interface TypographyProps {
   children: ReactNode;
   className?: string;
-  as?: "h1" | "h2" | "h3" | "h4" | "p";
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p';
 }
 
-export function Typography({ children, className = "", as = "p" }: TypographyProps) {
+/**
+ * Typography component for consistent text styling.
+ * @param {TypographyProps} props component properties.
+ * @return {JSX.Element} The rendered typography element.
+ */
+export function Typography({ children, className = '', as = 'p' }: TypographyProps) {
   const Component = as;
   
   const styles = {
-    h1: "text-5xl md:text-7xl font-heading mb-6 text-center",
-    h2: "text-4xl md:text-5xl font-heading mb-8 text-center",
-    h3: "text-2xl md:text-3xl font-heading mb-4",
-    h4: "text-xl font-heading mb-2",
-    p: "text-base md:text-lg leading-relaxed text-foreground/80",
+    h1: 'text-5xl md:text-7xl font-heading mb-6 text-center',
+    h2: 'text-4xl md:text-5xl font-heading mb-8 text-center',
+    h3: 'text-2xl md:text-3xl font-heading mb-4',
+    h4: 'text-xl font-heading mb-2',
+    p: 'text-base md:text-lg leading-relaxed text-foreground/80',
   };
 
   return (
@@ -46,7 +62,12 @@ export function Typography({ children, className = "", as = "p" }: TypographyPro
   );
 }
 
-export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
+/**
+ * Card component for grouped content.
+ * @param {Object} props component properties.
+ * @return {JSX.Element} The rendered card.
+ */
+export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
     <div className={`bg-background rounded-2xl shadow-sm border border-accent/10 p-8 transition-shadow hover:shadow-md ${className}`}>
       {children}
@@ -54,21 +75,26 @@ export function Card({ children, className = "" }: { children: ReactNode; classN
   );
 }
 
+/**
+ * Button component for actions.
+ * @param {Object} props component properties.
+ * @return {JSX.Element} The rendered button.
+ */
 export function Button({ 
   children, 
   onClick, 
-  className = "", 
-  variant = "primary" 
+  className = '', 
+  variant = 'primary' 
 }: { 
   children: ReactNode; 
   onClick?: () => void; 
   className?: string;
-  variant?: "primary" | "secondary" | "outline";
+  variant?: 'primary' | 'secondary' | 'outline';
 }) {
   const variants = {
-    primary: "bg-primary text-white hover:bg-primary/90",
-    secondary: "bg-accent text-foreground hover:bg-accent/80",
-    outline: "border-2 border-primary text-primary hover:bg-primary/5",
+    primary: 'bg-primary text-white hover:bg-primary/90',
+    secondary: 'bg-accent text-foreground hover:bg-accent/80',
+    outline: 'border-2 border-primary text-primary hover:bg-primary/5',
   };
 
   return (
