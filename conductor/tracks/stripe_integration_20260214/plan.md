@@ -8,14 +8,14 @@
     - [x] Create createPaymentIntent server action in actions.ts
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Setup & Backend' (Protocol in workflow.md) (fc24967)
 
-## Phase 2: Localization & Region State
+## Phase 2: Localization & Region State [checkpoint: c55888f]
 - [~] Task: Site Configuration Update
     - [ ] Refactor `site.config.ts` to support PT/BRL and ES/ARS content
-- [ ] Task: Language Context
+- [x] Task: Language Context (c55888f)
     - [ ] Create `LanguageContext` to manage selected region (BR vs AR)
-- [ ] Task: Language Switcher
+- [x] Task: Language Switcher (c55888f)
     - [ ] Add region/language toggle to `Navbar`
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Localization & Region State' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Localization & Region State' (Protocol in workflow.md) (c55888f)
 
 ## Phase 3: Localized Payment UI
 - [ ] Task: Localized Checkout
