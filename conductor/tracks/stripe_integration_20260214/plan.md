@@ -1,9 +1,9 @@
 # Implementation Plan: Stripe Payment Integration
 
 ## Phase 1: Setup & Backend
-- [ ] Task: Environment & Libraries
-    - [ ] Install stripe and @stripe/stripe-js / @stripe/react-stripe-js
-    - [ ] Add Stripe API keys to .env.local
+- [x] Task: Environment & Libraries
+    - [x] Install stripe and @stripe/stripe-js / @stripe/react-stripe-js
+    - [x] Add Stripe API keys to .env.local
 - [ ] Task: Payment Intent Action
     - [ ] Create createPaymentIntent server action in ctions.ts
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Setup & Backend' (Protocol in workflow.md)

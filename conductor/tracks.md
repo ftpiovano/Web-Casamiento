@@ -19,5 +19,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Stripe Payment Integration**
+- [~] **Track: Stripe Payment Integration**
   *Link: [./tracks/stripe_integration_20260214/](./tracks/stripe_integration_20260214/)*
