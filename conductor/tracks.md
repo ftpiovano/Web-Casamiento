@@ -14,5 +14,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Gift Registry Checkout Flow**
+- [~] **Track: Gift Registry Checkout Flow**
   *Link: [./tracks/gift_checkout_20260214/](./tracks/gift_checkout_20260214/)*

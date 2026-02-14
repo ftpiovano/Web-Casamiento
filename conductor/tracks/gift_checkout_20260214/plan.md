@@ -1,9 +1,9 @@
 # Implementation Plan: Gift Registry Checkout Flow
 
 ## Phase 1: Cart & View Logic
-- [ ] Task: Cart State
-    - [ ] Implement cart management (add/remove/clear) in GiftGrid.tsx
-    - [ ] Create conditional views for "Grid" vs "Cart"
+- [x] Task: Cart State (d0b924c)
+    - [x] Implement cart management (add/remove/clear) in GiftGrid.tsx
+    - [x] Create conditional views for "Grid" vs "Cart"
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Cart & View Logic' (Protocol in workflow.md)
 
 ## Phase 2: Checkout Steps
