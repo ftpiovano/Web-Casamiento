@@ -1,6 +1,12 @@
 import { render, screen, fireEvent } from '../../test/test-utils';
 import { GiftGrid } from '../GiftGrid';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+
+// Mock server actions
+vi.mock('@/app/actions', () => ({
+  createPaymentIntent: vi.fn(() => Promise.resolve({ success: true, clientSecret: 'test_secret' })),
+  submitGiftMessage: vi.fn(() => Promise.resolve({ success: true })),
+}));
 
 describe('GiftGrid Checkout Flow', () => {
   it('adds items to cart and switches to cart view', () => {
@@ -56,7 +62,7 @@ describe('GiftGrid Checkout Flow', () => {
     expect(screen.getAllByText(/(Pix|Transferencia)/i).length).toBeGreaterThan(0);
   });
 
-  it('completes purchase and shows success screen', () => {
+  it('completes purchase and shows success screen', async () => {
     render(<GiftGrid />);
     const presentearBtns = screen.getAllByText(/Presentear/i);
     fireEvent.click(presentearBtns[0]);
@@ -71,7 +77,8 @@ describe('GiftGrid Checkout Flow', () => {
     const finishBtn = screen.getAllByText(/(Pix|realicé|realizei)/i)[0];
     fireEvent.click(finishBtn);
     
-    expect(screen.getByText(/Confirmado/i)).toBeDefined();
+    const successMsg = await screen.findByText(/Confirmado/i);
+    expect(successMsg).toBeDefined();
     expect(screen.getByText(/John Doe/i)).toBeDefined();
   });
 });

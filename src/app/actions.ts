@@ -109,3 +109,42 @@ export async function createPaymentIntent(amount: number) {
     return { success: false, error: error.message };
   }
 }
+
+/**
+ * Interface for gift message data.
+ */
+export interface GiftMessageData {
+  gifterName: string;
+  note: string;
+  amount: number;
+  items: string[];
+  paymentMethod: string;
+  region: string;
+}
+
+/**
+ * Saves a gift message to Supabase.
+ * @param {GiftMessageData} data The gift message and order info.
+ * @return {Promise<{success: boolean, error?: string}>} The result.
+ */
+export async function submitGiftMessage(data: GiftMessageData) {
+  const { error } = await supabase
+    .from('gift_messages')
+    .insert([
+      {
+        name: data.gifterName,
+        note: data.note,
+        amount: data.amount,
+        items: data.items.join(', '),
+        payment_method: data.paymentMethod,
+        region: data.region,
+      },
+    ]);
+
+  if (error) {
+    console.error('Error saving gift message:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}

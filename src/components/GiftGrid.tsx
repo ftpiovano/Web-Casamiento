@@ -8,7 +8,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { siteConfig } from '@/site.config';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { createPaymentIntent } from '@/app/actions';
+import { createPaymentIntent, submitGiftMessage } from '@/app/actions';
 import { CheckoutForm } from './CheckoutForm';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -67,6 +67,18 @@ export function GiftGrid() {
   };
 
   const totalPrice = cart.reduce((acc, curr) => acc + curr.price, 0);
+
+  const handlePaymentSuccess = async (method: string) => {
+    await submitGiftMessage({
+      gifterName: gifterInfo.name,
+      note: gifterInfo.note,
+      amount: totalPrice,
+      items: cart.map((item) => item.name),
+      paymentMethod: method,
+      region: config.region,
+    });
+    setStep('success');
+  };
 
   useEffect(() => {
     if (showStripe && totalPrice > 0) {
@@ -255,7 +267,7 @@ export function GiftGrid() {
             <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
               <CheckoutForm 
                 amount={totalPrice * 100} 
-                onSuccess={() => setStep('success')} 
+                onSuccess={() => handlePaymentSuccess('Stripe')} 
                 onCancel={() => setShowStripe(false)} 
               />
             </Elements>
@@ -285,7 +297,7 @@ export function GiftGrid() {
         <div className='space-y-4 mb-8'>
           {config.region === 'br' ? (
             <>
-              <button className='w-full' onClick={() => setStep('success')}>
+              <button className='w-full' onClick={() => handlePaymentSuccess('Pix')}>
                 <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors'>
                   <QrCode className='text-primary' size={32} />
                   <div className='text-left'>
@@ -354,7 +366,7 @@ export function GiftGrid() {
                 </div>
               </div>
 
-              <Button onClick={() => setStep('success')} className='w-full py-4'>
+              <Button onClick={() => handlePaymentSuccess('Transferencia AR')} className='w-full py-4'>
                 Ya realicé la transferencia
               </Button>
             </div>
