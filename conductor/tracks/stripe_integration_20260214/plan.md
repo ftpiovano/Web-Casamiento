@@ -4,7 +4,7 @@
 - [x] Task: Environment & Libraries
     - [x] Install stripe and @stripe/stripe-js / @stripe/react-stripe-js
     - [x] Add Stripe API keys to .env.local
-- [x] Task: Payment Intent Action (ec0a7e3)
+- [x] Task: Payment Intent Action (f8bd5f5)
     - [x] Create createPaymentIntent server action in actions.ts
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Setup & Backend' (Protocol in workflow.md)
 
