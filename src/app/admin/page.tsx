@@ -12,6 +12,7 @@ import { Users, UserCheck, MessageSquare } from 'lucide-react';
 export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
   const [rsvps, setRsvps] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,6 +21,7 @@ export default function AdminPage() {
     if (auth === 'true') {
       setIsAuthenticated(true);
     }
+    setIsChecking(false);
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -45,6 +47,10 @@ export default function AdminPage() {
       fetchData();
     }
   }, [isAuthenticated]);
+
+  if (isChecking) {
+    return <div className='min-h-screen bg-background' />;
+  }
 
   if (!isAuthenticated) {
     return (
