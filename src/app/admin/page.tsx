@@ -15,11 +15,19 @@ export default function AdminPage() {
   const [rsvps, setRsvps] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const auth = sessionStorage.getItem('admin_auth');
+    if (auth === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = await validateAdminPassword(password);
     if (result.success) {
       setIsAuthenticated(true);
+      sessionStorage.setItem('admin_auth', 'true');
     } else {
       alert('Senha incorreta');
     }
