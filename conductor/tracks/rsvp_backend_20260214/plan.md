@@ -7,11 +7,11 @@
     - [x] Install Supabase client library
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Backend Setup' (Protocol in workflow.md) (f3339fb)
 
-## Phase 2: RSVP persistence
+## Phase 2: RSVP persistence [checkpoint: c0894d8]
 - [x] Task: Update RSVP Form (ec0a7e3)
     - [x] Replace LocalStorage logic with a Server Action to save to the database
     - [x] Add loading states and error handling to the form
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: RSVP persistence' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: RSVP persistence' (Protocol in workflow.md) (c0894d8)
 
 ## Phase 3: Admin Dashboard
 - [ ] Task: Admin Route
