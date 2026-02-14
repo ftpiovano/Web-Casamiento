@@ -53,7 +53,7 @@ describe('GiftGrid Checkout Flow', () => {
     
     fireEvent.click(screen.getByText(/(pagamento|pago)/i));
     
-    expect(screen.getByText(/Pix/i)).toBeDefined();
+    expect(screen.getAllByText(/(Pix|Transferencia)/i).length).toBeGreaterThan(0);
   });
 
   it('completes purchase and shows success screen', () => {
@@ -68,8 +68,8 @@ describe('GiftGrid Checkout Flow', () => {
     
     fireEvent.click(screen.getByText(/(pagamento|pago)/i));
     
-    const pixBtn = screen.getByText(/Pix/i);
-    fireEvent.click(pixBtn);
+    const finishBtn = screen.getAllByText(/(Pix|realicé|realizei)/i)[0];
+    fireEvent.click(finishBtn);
     
     expect(screen.getByText(/Confirmado/i)).toBeDefined();
     expect(screen.getByText(/John Doe/i)).toBeDefined();

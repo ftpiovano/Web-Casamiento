@@ -1,10 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Section, Typography, Card, Button } from './Base';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, ArrowLeft, CreditCard, Landmark, QrCode, Trash2 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { siteConfig } from '@/site.config';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import { createPaymentIntent } from '@/app/actions';
+import { CheckoutForm } from './CheckoutForm';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
 /**
  * Interface for a gift item.
@@ -40,6 +47,8 @@ export function GiftGrid() {
   const [cart, setCart] = useState<GiftItem[]>([]);
   const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name'>('name');
   const [gifterInfo, setGifterInfo] = useState({ name: '', note: '' });
+  const [showStripe, setShowStripe] = useState(false);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
   const { config } = useLanguage();
 
   const sortedGifts = [...mockGifts].sort((a, b) => {
@@ -58,6 +67,20 @@ export function GiftGrid() {
   };
 
   const totalPrice = cart.reduce((acc, curr) => acc + curr.price, 0);
+
+  useEffect(() => {
+    if (showStripe && totalPrice > 0) {
+      const initStripe = async () => {
+        const result = await createPaymentIntent(totalPrice * 100);
+        if (result.success && result.clientSecret) {
+          setClientSecret(result.clientSecret);
+        }
+      };
+      initStripe();
+    } else if (!showStripe) {
+      setClientSecret(null);
+    }
+  }, [showStripe, totalPrice]);
 
   /**
    * Renders the grid of gifts.
@@ -105,7 +128,7 @@ export function GiftGrid() {
                     {config.currencySymbol} {gift.price.toLocaleString('pt-BR')}
                   </span>
                   <Button variant='outline' className='px-6 py-2 text-xs' onClick={() => addToCart(gift)}>
-                    Presentear
+                    {config.content.giftButton}
                   </Button>
                 </div>
               </Card>
@@ -125,7 +148,7 @@ export function GiftGrid() {
         <button onClick={() => setStep('grid')} className='text-primary hover:opacity-70 transition-opacity'>
           <ArrowLeft size={24} />
         </button>
-        <Typography as='h2' className='mb-0'>Meu Carrinho</Typography>
+        <Typography as='h2' className='mb-0'>{config.content.cartTitle}</Typography>
       </div>
 
       <Card className='mb-8'>
@@ -160,10 +183,10 @@ export function GiftGrid() {
       {cart.length > 0 && (
         <div className='flex flex-col gap-4'>
           <Button onClick={() => setStep('info')} className='w-full py-4'>
-            {config.region === 'br' ? 'Continuar com a compra' : 'Continuar con el regalo'}
+            {config.content.continueCheckout}
           </Button>
           <Button variant='outline' onClick={() => setStep('grid')} className='w-full'>
-            {config.region === 'br' ? 'Adicionar mais presentes' : 'Agregar más regalos'}
+            {config.content.addMoreGifts}
           </Button>
         </div>
       )}
@@ -179,13 +202,15 @@ export function GiftGrid() {
         <button onClick={() => setStep('cart')} className='text-primary hover:opacity-70 transition-opacity'>
           <ArrowLeft size={24} />
         </button>
-        <Typography as='h2' className='mb-0'>Sua Mensagem</Typography>
+        <Typography as='h2' className='mb-0'>{config.content.gifterInfoTitle}</Typography>
       </div>
 
       <Card className='mb-8'>
         <form className='space-y-6'>
           <div className='flex flex-col gap-2'>
-            <label htmlFor='gifter-name' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>Seu Nome</label>
+            <label htmlFor='gifter-name' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>
+              {config.region === 'br' ? 'Seu Nome' : 'Tu Nombre'}
+            </label>
             <input
               id='gifter-name'
               required
@@ -196,7 +221,9 @@ export function GiftGrid() {
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label htmlFor='gifter-note' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>Uma mensagem para o casal</label>
+            <label htmlFor='gifter-note' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>
+              {config.region === 'br' ? 'Uma mensagem para o casal' : 'Un mensaje para la pareja'}
+            </label>
             <textarea
               id='gifter-note'
               className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 min-h-[120px]'
@@ -212,7 +239,7 @@ export function GiftGrid() {
         disabled={!gifterInfo.name} 
         className='w-full py-4 disabled:opacity-50'
       >
-        Ir para o pagamento
+        {config.region === 'br' ? 'Ir para o pagamento' : 'Ir al pago'}
       </Button>
     </div>
   );
@@ -220,64 +247,140 @@ export function GiftGrid() {
   /**
    * Renders the payment selection step.
    */
-  const renderPayment = () => (
-    <div className='max-w-2xl mx-auto w-full'>
-      <div className='flex items-center gap-4 mb-8'>
-        <button onClick={() => setStep('info')} className='text-primary hover:opacity-70 transition-opacity'>
-          <ArrowLeft size={24} />
-        </button>
-        <Typography as='h2' className='mb-0'>Pagamento</Typography>
-      </div>
-
-      <div className='space-y-4 mb-8'>
-        <button className='w-full' onClick={() => setStep('success')}>
-          <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors'>
-            <QrCode className='text-primary' size={32} />
-            <div className='text-left'>
-              <Typography className='font-bold mb-0'>Pagar com Pix</Typography>
-              <Typography className='text-xs opacity-60'>Liberação instantânea</Typography>
+  const renderPayment = () => {
+    if (showStripe) {
+      return (
+        <div className='max-w-2xl mx-auto w-full'>
+          {clientSecret ? (
+            <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
+              <CheckoutForm 
+                amount={totalPrice * 100} 
+                onSuccess={() => setStep('success')} 
+                onCancel={() => setShowStripe(false)} 
+              />
+            </Elements>
+          ) : (
+            <div className='flex flex-col items-center justify-center py-12 gap-4'>
+              <div className='w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin' />
+              <Typography>
+                {config.region === 'br' ? 'Preparando ambiente seguro...' : 'Preparando entorno seguro...'}
+              </Typography>
             </div>
-          </Card>
-        </button>
-
-        <button className='w-full' onClick={() => setStep('success')}>
-          <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors'>
-            <Landmark className='text-primary' size={32} />
-            <div className='text-left'>
-              <Typography className='font-bold mb-0'>Transferência Bancária</Typography>
-              <Typography className='text-xs opacity-60'>DOC ou TED</Typography>
-            </div>
-          </Card>
-        </button>
-
-        <button className='w-full' onClick={() => setStep('success')}>
-          <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors'>
-            <CreditCard className='text-primary' size={32} />
-            <div className='text-left'>
-              <Typography className='font-bold mb-0'>Cartão de Crédito</Typography>
-              <Typography className='text-xs opacity-60'>Em até 12x</Typography>
-            </div>
-          </Card>
-        </button>
-      </div>
-
-      <div className='bg-primary/5 rounded-xl p-6 border border-primary/10'>
-        <Typography className='text-sm mb-4 opacity-60 uppercase tracking-widest font-bold'>Resumo do pedido:</Typography>
-        <div className='space-y-2 mb-6 border-b border-primary/10 pb-4'>
-          {cart.map((item, index) => (
-            <div key={`summary-${item.id}-${index}`} className='flex justify-between text-sm'>
-              <span className='opacity-80'>{item.name}</span>
-              <span className='font-medium'>{config.currencySymbol} {item.price.toLocaleString('pt-BR')}</span>
-            </div>
-          ))}
+          )}
         </div>
-        <div className='flex justify-between font-heading text-xl text-primary'>
-          <span>Total a pagar</span>
-          <span>{config.currencySymbol} {totalPrice.toLocaleString('pt-BR')}</span>
+      );
+    }
+
+    return (
+      <div className='max-w-2xl mx-auto w-full'>
+        <div className='flex items-center gap-4 mb-8'>
+          <button onClick={() => setStep('info')} className='text-primary hover:opacity-70 transition-opacity'>
+            <ArrowLeft size={24} />
+          </button>
+          <Typography as='h2' className='mb-0'>
+            {config.content.paymentTitle}
+          </Typography>
+        </div>
+
+        <div className='space-y-4 mb-8'>
+          {config.region === 'br' ? (
+            <>
+              <button className='w-full' onClick={() => setStep('success')}>
+                <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors'>
+                  <QrCode className='text-primary' size={32} />
+                  <div className='text-left'>
+                    <Typography className='font-bold mb-0'>Pagar com Pix</Typography>
+                    <Typography className='text-xs opacity-60'>Liberação instantânea</Typography>
+                  </div>
+                </Card>
+              </button>
+
+              <button className='w-full' onClick={() => setShowStripe(true)}>
+                <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors'>
+                  <CreditCard className='text-primary' size={32} />
+                  <div className='text-left'>
+                    <Typography className='font-bold mb-0'>Cartão de Crédito</Typography>
+                    <Typography className='text-xs opacity-60'>Seguro via Stripe</Typography>
+                  </div>
+                </Card>
+              </button>
+            </>
+          ) : (
+            <div className='space-y-6'>
+              <div className='bg-primary/5 rounded-2xl p-8 border border-primary/20'>
+                <div className='flex items-center gap-4 mb-6 text-primary'>
+                  <Landmark size={32} />
+                  <Typography as='h3' className='mb-0'>Transferencia Bancaria</Typography>
+                </div>
+                
+                <div className='grid md:grid-cols-2 gap-8'>
+                  {/* ARS Account */}
+                  <div className='space-y-4 text-left border-r border-accent/10 pr-4'>
+                    <Typography className='text-xs font-bold uppercase text-primary'>{siteConfig.bankDetails.ar.ars.label}</Typography>
+                    <div>
+                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>Banco</label>
+                      <Typography className='text-sm font-medium'>{siteConfig.bankDetails.ar.ars.bank}</Typography>
+                    </div>
+                    <div>
+                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>Alias</label>
+                      <Typography className='text-sm font-medium'>{siteConfig.bankDetails.ar.ars.alias}</Typography>
+                    </div>
+                    <div>
+                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>CBU</label>
+                      <Typography className='text-sm font-medium tabular-nums'>{siteConfig.bankDetails.ar.ars.cbu}</Typography>
+                    </div>
+                  </div>
+
+                  {/* USD Account */}
+                  <div className='space-y-4 text-left'>
+                    <Typography className='text-xs font-bold uppercase text-primary'>{siteConfig.bankDetails.ar.usd.label}</Typography>
+                    <div>
+                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>Banco</label>
+                      <Typography className='text-sm font-medium'>{siteConfig.bankDetails.ar.usd.bank}</Typography>
+                    </div>
+                    <div>
+                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>Alias</label>
+                      <Typography className='text-sm font-medium'>{siteConfig.bankDetails.ar.usd.alias}</Typography>
+                    </div>
+                    <div>
+                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>CBU</label>
+                      <Typography className='text-sm font-medium tabular-nums'>{siteConfig.bankDetails.ar.usd.cbu}</Typography>
+                    </div>
+                  </div>
+                </div>
+                <div className='mt-6 pt-6 border-t border-accent/10 text-left'>
+                  <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>Titular</label>
+                  <Typography className='font-medium'>{siteConfig.bankDetails.ar.ars.holder}</Typography>
+                </div>
+              </div>
+
+              <Button onClick={() => setStep('success')} className='w-full py-4'>
+                Ya realicé la transferencia
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <div className='bg-primary/5 rounded-xl p-6 border border-primary/10'>
+          <Typography className='text-sm mb-4 opacity-60 uppercase tracking-widest font-bold'>
+            {config.content.orderSummary}:
+          </Typography>
+          <div className='space-y-2 mb-6 border-b border-primary/10 pb-4'>
+            {cart.map((item, index) => (
+              <div key={`summary-${item.id}-${index}`} className='flex justify-between text-sm'>
+                <span className='opacity-80'>{item.name}</span>
+                <span className='font-medium'>{config.currencySymbol} {item.price.toLocaleString('pt-BR')}</span>
+              </div>
+            ))}
+          </div>
+          <div className='flex justify-between font-heading text-xl text-primary'>
+            <span>{config.content.totalLabel}</span>
+            <span>{config.currencySymbol} {totalPrice.toLocaleString('pt-BR')}</span>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   /**
    * Renders the success message.
@@ -289,7 +392,7 @@ export function GiftGrid() {
           <CreditCard className='text-white' size={40} />
         </div>
         <Typography as='h2' className='text-primary'>
-          {config.region === 'br' ? 'Pedido Confirmado!' : '¡Pedido Confirmado!'}
+          {config.content.successTitle}
         </Typography>
         <Typography>
           {config.region === 'br' 
@@ -301,8 +404,9 @@ export function GiftGrid() {
           setCart([]);
           setGifterInfo({ name: '', note: '' });
           setStep('grid');
+          setShowStripe(false);
         }} className='mt-8'>
-          {config.region === 'br' ? 'Voltar para o site' : 'Volver al sitio'}
+          {config.content.backToSite}
         </Button>
       </Card>
     </div>
@@ -312,7 +416,7 @@ export function GiftGrid() {
     <Section id='gifts' className='bg-accent/5 overflow-hidden'>
       <div className='container max-w-5xl mx-auto w-full min-h-[600px] flex flex-col justify-center'>
         <motion.div
-          key={step}
+          key={step + (showStripe ? '-stripe' : '') + config.region}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}

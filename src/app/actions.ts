@@ -3,9 +3,16 @@
 import { supabase } from '@/lib/supabase';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-12-18.ac',
-});
+let stripe: Stripe | null = null;
+
+function getStripe() {
+  if (!stripe && process.env.STRIPE_SECRET_KEY) {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2024-12-18.ac',
+    });
+  }
+  return stripe;
+}
 
 /**
  * Interface for RSVP form data.
@@ -81,7 +88,11 @@ export async function validateAdminPassword(password: string) {
  */
 export async function createPaymentIntent(amount: number) {
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
+    const stripeClient = getStripe();
+    if (!stripeClient) {
+      throw new Error('Stripe client not initialized. Check STRIPE_SECRET_KEY.');
+    }
+    const paymentIntent = await stripeClient.paymentIntents.create({
       amount,
       currency: 'brl',
       automatic_payment_methods: {

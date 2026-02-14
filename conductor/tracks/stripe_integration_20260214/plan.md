@@ -9,16 +9,16 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Setup & Backend' (Protocol in workflow.md) (fc24967)
 
 ## Phase 2: Localization & Region State [checkpoint: c55888f]
-- [~] Task: Site Configuration Update
-    - [ ] Refactor `site.config.ts` to support PT/BRL and ES/ARS content
+- [x] Task: Site Configuration Update (bec5627)
+    - [x] Refactor `site.config.ts` to support PT/BRL and ES/ARS content
 - [x] Task: Language Context (c55888f)
-    - [ ] Create `LanguageContext` to manage selected region (BR vs AR)
+    - [x] Create `LanguageContext` to manage selected region (BR vs AR)
 - [x] Task: Language Switcher (c55888f)
-    - [ ] Add region/language toggle to `Navbar`
+    - [x] Add region/language toggle to `Navbar`
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Localization & Region State' (Protocol in workflow.md) (c55888f)
 
 ## Phase 3: Localized Payment UI
-- [ ] Task: Localized Checkout
+- [~] Task: Localized Checkout
     - [ ] Update `GiftGrid.tsx` to show Stripe/Pix for BR and Manual Transfer for AR
 - [ ] Task: Stripe Checkout Component
     - [ ] Create `CheckoutForm` component for secure card entry

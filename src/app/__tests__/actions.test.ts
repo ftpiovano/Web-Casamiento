@@ -23,6 +23,9 @@ vi.mock('stripe', () => {
 });
 
 describe('Server Actions', () => {
+  beforeEach(() => {
+    process.env.STRIPE_SECRET_KEY = 'sk_test_mock';
+  });
   describe('submitRSVP', () => {
     it('should submit RSVP successfully', async () => {
       const data = {
