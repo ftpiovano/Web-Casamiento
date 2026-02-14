@@ -1,12 +1,12 @@
 # Implementation Plan: Stripe Payment Integration
 
-## Phase 1: Setup & Backend
+## Phase 1: Setup & Backend [checkpoint: fc24967]
 - [x] Task: Environment & Libraries
     - [x] Install stripe and @stripe/stripe-js / @stripe/react-stripe-js
     - [x] Add Stripe API keys to .env.local
 - [x] Task: Payment Intent Action (f8bd5f5)
     - [x] Create createPaymentIntent server action in actions.ts
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Setup & Backend' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Setup & Backend' (Protocol in workflow.md) (fc24967)
 
 ## Phase 2: Payment UI
 - [ ] Task: Checkout Component
