@@ -51,6 +51,6 @@ To create a clean, elegant, and airy single-page wedding website that serves as 
 - **Two-Event Structure:** Dedicated sections for the Argentinian (Civil) and Brazilian (Religious) celebrations.
 - **Interactive RSVP:** A multi-field form with real-time database persistence and an admin tracking dashboard.
 - **Dynamic Countdown:** A live timer counting down to the big day.
-- **Gift Registry Grid:** A sortable list of gift items with contribution calls-to-action.
+- **Interactive Gift Registry:** A multi-step checkout flow (Cart, Gifter Info, Payment selection) allowing guests to select multiple items, add personal messages, and choose from various payment methods (Pix, Bank Transfer, Credit Card).
 - **Sticky Navigation:** Smooth-scrolling anchor links for easy section access.
 - **Responsive Design:** A seamless experience across mobile and desktop.
