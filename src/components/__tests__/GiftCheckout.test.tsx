@@ -25,4 +25,19 @@ describe('GiftGrid Checkout Flow', () => {
     // Should show grid view title again
     expect(screen.getByText(/Lista de Presentes/i)).toBeDefined();
   });
+
+  it('transitions to Gifter Info step and accepts input', () => {
+    render(<GiftGrid />);
+    const presentearBtns = screen.getAllByText(/Presentear/i);
+    fireEvent.click(presentearBtns[0]);
+    
+    const continueBtn = screen.getByText(/Continuar com a compra/i);
+    fireEvent.click(continueBtn);
+    
+    expect(screen.getByText(/Sua Mensagem/i)).toBeDefined();
+    
+    const nameInput = screen.getByLabelText(/Seu Nome/i);
+    fireEvent.change(nameInput, { target: { value: 'John Doe' } });
+    expect(nameInput.getAttribute('value')).toBe('John Doe');
+  });
 });

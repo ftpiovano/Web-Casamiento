@@ -183,8 +183,9 @@ export function GiftGrid() {
       <Card className='mb-8'>
         <form className='space-y-6'>
           <div className='flex flex-col gap-2'>
-            <label className='text-xs uppercase tracking-widest font-bold text-foreground/40'>Seu Nome</label>
+            <label htmlFor='gifter-name' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>Seu Nome</label>
             <input
+              id='gifter-name'
               required
               type='text'
               className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50'
@@ -193,8 +194,9 @@ export function GiftGrid() {
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label className='text-xs uppercase tracking-widest font-bold text-foreground/40'>Uma mensagem para o casal</label>
+            <label htmlFor='gifter-note' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>Uma mensagem para o casal</label>
             <textarea
+              id='gifter-note'
               className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 min-h-[120px]'
               value={gifterInfo.note}
               onChange={(e) => setGifterInfo({ ...gifterInfo, note: e.target.value })}
