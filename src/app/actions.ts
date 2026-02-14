@@ -1,6 +1,11 @@
 'use server';
 
 import { supabase } from '@/lib/supabase';
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+  apiVersion: '2024-12-18.ac',
+});
 
 /**
  * Interface for RSVP form data.
@@ -67,4 +72,29 @@ export async function getRSVPs() {
 export async function validateAdminPassword(password: string) {
   const correctPassword = process.env.ADMIN_PASSWORD;
   return { success: password === correctPassword };
+}
+
+/**
+ * Creates a Stripe PaymentIntent.
+ * @param {number} amount The amount in cents.
+ * @return {Promise<{success: boolean, clientSecret?: string, error?: string}>} The result.
+ */
+export async function createPaymentIntent(amount: number) {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: 'brl',
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+
+    return {
+      success: true,
+      clientSecret: paymentIntent.client_secret as string,
+    };
+  } catch (error: any) {
+    console.error('Error creating payment intent:', error);
+    return { success: false, error: error.message };
+  }
 }
