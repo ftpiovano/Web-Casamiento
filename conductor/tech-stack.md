@@ -16,8 +16,9 @@
     - **Inter:** Sans-serif font for body text.
 
 ## State Management & Storage
-- **React Hooks (useState, useEffect):** For local component state.
-- **LocalStorage API:** For persisting RSVP entries and guestbook messages in the browser during the prototype phase.
+- **React Hooks (useState, useEffect):** For local component state and session management.
+- **Supabase:** Cloud database for persisting guest RSVPs.
+- **Next.js Server Actions:** For secure server-side data operations and authentication.
 
 ## Development Tools
 - **ESLint & Prettier:** For code quality and consistent formatting.
