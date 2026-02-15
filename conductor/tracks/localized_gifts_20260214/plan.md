@@ -8,12 +8,12 @@
     - [ ] Update LanguageContext to support the 'en' key
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Configuration Refactor' (Protocol in workflow.md) (6e62e91)
 
-## Phase 2: UI Localization
-- [ ] Task: Navbar Switcher
+## Phase 2: UI Localization [checkpoint: 2a0fe38]
+- [x] Task: Navbar Switcher (2a0fe38)
     - [ ] Add 'EN' option to the region switcher
-- [ ] Task: Component Localization
+- [x] Task: Component Localization (2a0fe38)
     - [ ] Update Hero, Welcome, EventDetails, and RSVP components to use fully localized strings from config
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: UI Localization' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: UI Localization' (Protocol in workflow.md) (2a0fe38)
 
 ## Phase 3: Dynamic Gift Registry
 - [ ] Task: GiftGrid Localization
