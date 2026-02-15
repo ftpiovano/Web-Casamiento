@@ -31,3 +31,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Advanced Localization and Dynamic Gift Registry**
   *Link: [./tracks/localized_gifts_20260214/](./tracks/localized_gifts_20260214/)*
+
+---
+
+- [ ] **Track: Enhanced Event Interaction (Maps & Calendar)**
+  *Link: [./tracks/event_interaction_20260215/](./tracks/event_interaction_20260215/)*
