@@ -10,8 +10,8 @@ import { useLanguage } from '@/context/LanguageContext';
  */
 interface EventProps {
   title: string;
-  time: string;
-  location: string;
+  dateTime: string;
+  locationName: string;
   address: string;
   mapLink: string;
   id: string;
@@ -22,18 +22,23 @@ interface EventProps {
  * @param {EventProps} props component properties.
  * @return {JSX.Element} The rendered event card.
  */
-function EventCard({ title, time, location, address, mapLink }: EventProps) {
+function EventCard({ title, dateTime, locationName, address, mapLink }: EventProps) {
   const { region } = useLanguage();
   
+  const time = new Date(dateTime).toLocaleTimeString(region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
   /**
    * Generates and downloads an .ics file for the event.
    */
   const handleAddToCalendar = () => {
     const event = {
       title: `${siteConfig.names.bride} & ${siteConfig.names.groom} Wedding - ${title}`,
-      start: siteConfig.eventDate,
+      start: dateTime,
       duration: '0400', // 4 hours
-      location: `${location}, ${address}`,
+      location: `${locationName}, ${address}`,
     };
 
     const icsContent = [
@@ -51,7 +56,7 @@ function EventCard({ title, time, location, address, mapLink }: EventProps) {
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.setAttribute('download', 'wedding-event.ics');
+    link.setAttribute('download', `wedding-${title.toLowerCase()}.ics`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -77,7 +82,7 @@ function EventCard({ title, time, location, address, mapLink }: EventProps) {
         
         <div className='flex flex-col items-center'>
           <MapPin className='text-primary/60 mb-2' size={20} />
-          <Typography className='font-medium'>{location}</Typography>
+          <Typography className='font-medium'>{locationName}</Typography>
           <Typography className='text-sm opacity-60'>{address}</Typography>
         </div>
       </div>
@@ -114,19 +119,19 @@ export function EventDetails() {
       <div className='grid md:grid-cols-2 gap-8 mt-12'>
         <EventCard
           id='argentina'
-          title='Argentina'
-          time='11:00'
-          location='Registro Civil'
-          address='Buenos Aires, Argentina'
-          mapLink={siteConfig.links.ceremony}
+          title={siteConfig.events.ar.title}
+          dateTime={siteConfig.events.ar.dateTime}
+          locationName={siteConfig.events.ar.locationName}
+          address={siteConfig.events.ar.address}
+          mapLink={siteConfig.events.ar.mapLink}
         />
         <EventCard
           id='brasil'
-          title='Brasil'
-          time='16:00'
-          location='Igreja Matriz'
-          address='Salvador, Brasil'
-          mapLink={siteConfig.links.reception}
+          title={siteConfig.events.br.title}
+          dateTime={siteConfig.events.br.dateTime}
+          locationName={siteConfig.events.br.locationName}
+          address={siteConfig.events.br.address}
+          mapLink={siteConfig.events.br.mapLink}
         />
       </div>
     </Section>
