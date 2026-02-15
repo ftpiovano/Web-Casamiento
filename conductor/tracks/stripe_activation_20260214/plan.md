@@ -14,7 +14,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Functional Testing' (Protocol in workflow.md) (3936448)
 
 ## Phase 3: Robustness
-- [ ] Task: Error Handling UI
-    - [ ] Add a visual error alert in GiftGrid if the createPaymentIntent action fails
-    - [ ] Handle "Empty Secret Key" gracefully without crashing the page
+- [x] Task: Error Handling UI (3936448)
+    - [x] Add a visual error alert in GiftGrid if the createPaymentIntent action fails
+    - [x] Handle "Empty Secret Key" gracefully without crashing the page
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Robustness' (Protocol in workflow.md)
