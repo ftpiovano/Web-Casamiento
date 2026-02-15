@@ -6,12 +6,12 @@
     - [x] Verify stripePromise loads correctly on the client
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Connectivity & Debugging' (Protocol in workflow.md) (82b191a)
 
-## Phase 2: Functional Testing
+## Phase 2: Functional Testing [checkpoint: 3936448]
 - [~] Task: End-to-End Payment Test
     - [ ] Start dev server and perform a payment with card 4242...
     - [ ] Confirm the success screen appears and cart is cleared
     - [ ] Verify the record appears in Supabase gift_messages
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Functional Testing' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Functional Testing' (Protocol in workflow.md) (3936448)
 
 ## Phase 3: Robustness
 - [ ] Task: Error Handling UI
