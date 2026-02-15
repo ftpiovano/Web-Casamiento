@@ -26,3 +26,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Stripe Payment Activation and Validation**
   *Link: [./tracks/stripe_activation_20260214/](./tracks/stripe_activation_20260214/)*
+
+---
+
+- [ ] **Track: Advanced Localization and Dynamic Gift Registry**
+  *Link: [./tracks/localized_gifts_20260214/](./tracks/localized_gifts_20260214/)*
