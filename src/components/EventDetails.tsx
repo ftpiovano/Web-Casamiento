@@ -3,6 +3,7 @@
 import { MapPin, Clock, Calendar } from 'lucide-react';
 import { siteConfig } from '@/site.config';
 import { Section, Typography, Card, Button } from './Base';
+import { useLanguage } from '@/context/LanguageContext';
 
 /**
  * Props for the EventCard component.
@@ -22,6 +23,8 @@ interface EventProps {
  * @return {JSX.Element} The rendered event card.
  */
 function EventCard({ title, time, location, address, mapLink }: EventProps) {
+  const { region } = useLanguage();
+  
   /**
    * Generates and downloads an .ics file for the event.
    */
@@ -54,6 +57,14 @@ function EventCard({ title, time, location, address, mapLink }: EventProps) {
     document.body.removeChild(link);
   };
 
+  const labels = {
+    br: { map: 'Abrir Mapa', cal: 'Calendário' },
+    ar: { map: 'Abrir Mapa', cal: 'Calendario' },
+    en: { map: 'Open Map', cal: 'Calendar' },
+  };
+
+  const currentLabels = labels[region] || labels.en;
+
   return (
     <Card className='flex flex-col items-center text-center'>
       <Typography as='h3'>{title}</Typography>
@@ -73,11 +84,11 @@ function EventCard({ title, time, location, address, mapLink }: EventProps) {
 
       <div className='flex flex-col gap-3 w-full'>
         <a href={mapLink} target='_blank' rel='noopener noreferrer' className='w-full'>
-          <Button variant='outline' className='w-full'>Abrir Mapa</Button>
+          <Button variant='outline' className='w-full'>{currentLabels.map}</Button>
         </a>
         <Button variant='secondary' onClick={handleAddToCalendar} className='w-full'>
           <Calendar size={16} className='mr-2 inline' />
-          Calendário
+          {currentLabels.cal}
         </Button>
       </div>
     </Card>
@@ -89,9 +100,17 @@ function EventCard({ title, time, location, address, mapLink }: EventProps) {
  * @return {JSX.Element} The rendered event details section.
  */
 export function EventDetails() {
+  const { region } = useLanguage();
+  
+  const sectionTitles = {
+    br: 'Onde & Quando',
+    ar: 'Dónde & Cuándo',
+    en: 'Where & When',
+  };
+
   return (
     <Section id='ceremony' className='bg-background'>
-      <Typography as='h2'>Onde & Quando</Typography>
+      <Typography as='h2'>{sectionTitles[region]}</Typography>
       <div className='grid md:grid-cols-2 gap-8 mt-12'>
         <EventCard
           id='argentina'

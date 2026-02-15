@@ -77,6 +77,13 @@ export function Navbar() {
             >
               AR
             </button>
+            <span className='opacity-20'>|</span>
+            <button 
+              onClick={() => setRegion('en')}
+              className={`text-[10px] uppercase tracking-tighter ${region === 'en' ? 'font-bold text-primary' : 'opacity-40'}`}
+            >
+              EN
+            </button>
           </div>
         </div>
 

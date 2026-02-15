@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/site.config';
 import { Button, Typography } from './Base';
+import { useLanguage } from '@/context/LanguageContext';
 
 /**
  * Hero section component displaying the couple's names, monogram, and wedding date.
@@ -10,7 +11,11 @@ import { Button, Typography } from './Base';
  */
 export function Hero() {
   const { names, eventDate } = siteConfig;
-  const date = new Date(eventDate).toLocaleDateString('pt-BR', {
+  const { region } = useLanguage();
+  
+  const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
+  
+  const date = new Date(eventDate).toLocaleDateString(locale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
