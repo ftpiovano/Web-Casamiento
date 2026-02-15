@@ -4,35 +4,4 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [x] **Track: Build the MVP Foundation and Core Single-Page Layout**
-  *Link: [./tracks/mvp_foundation_20260213/](./tracks/mvp_foundation_20260213/)*
-
----
-
-- [x] **Track: RSVP Backend Integration and Admin Dashboard**
-  *Link: [./tracks/rsvp_backend_20260214/](./tracks/rsvp_backend_20260214/)*
-
----
-
-- [x] **Track: Gift Registry Checkout Flow**
-  *Link: [./tracks/gift_checkout_20260214/](./tracks/gift_checkout_20260214/)*
-
----
-
-- [x] **Track: Stripe Payment Integration & Localization**
-  *Link: [./tracks/stripe_integration_20260214/](./tracks/stripe_integration_20260214/)*
-
----
-
-- [x] **Track: Stripe Payment Activation and Validation**
-  *Link: [./tracks/stripe_activation_20260214/](./tracks/stripe_activation_20260214/)*
-
----
-
-- [x] **Track: Advanced Localization and Dynamic Gift Registry**
-  *Link: [./tracks/localized_gifts_20260214/](./tracks/localized_gifts_20260214/)*
-
----
-
-- [x] **Track: Enhanced Event Interaction (Maps & Calendar)**
-  *Link: [./tracks/event_interaction_20260215/](./tracks/event_interaction_20260215/)*
+*(No active tracks)*
