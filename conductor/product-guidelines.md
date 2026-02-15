@@ -26,4 +26,4 @@
 
 ## Content Guidelines
 - **Placeholders:** Use descriptive placeholders (e.g., [Bride Name], [Groom Name], [Ceremony Address]) to make it obvious where the user needs to add their own content.
-- **Bilingual UX:** Present language options clearly, ensuring that switching languages is seamless and doesn't disrupt the scroll position.
+- **Multi-region UX:** Present language options clearly (BR, AR, EN), ensuring that switching regions is seamless, updates currency and pricing, and doesn't disrupt the scroll position.

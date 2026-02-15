@@ -47,7 +47,7 @@ To create a clean, elegant, and airy single-page wedding website that serves as 
 - **Storytelling:** Share the couple's journey through text and images in an engaging way.
 
 ## Key Features
-- **Bilingual Support:** UX designed for two languages (Portuguese and Spanish).
+- **Multi-Region Support:** UX designed for three regions (Brazil/Portuguese, Argentina/Spanish, and International/English).
 - **Two-Event Structure:** Dedicated sections for the Argentinian (Civil) and Brazilian (Religious) celebrations.
 - **Interactive RSVP:** A multi-field form with real-time database persistence and an admin tracking dashboard.
 - **Dynamic Countdown:** A live timer counting down to the big day.
