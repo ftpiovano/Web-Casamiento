@@ -8,9 +8,7 @@ let stripe: Stripe | null = null;
 function getStripe() {
   if (!stripe && process.env.STRIPE_SECRET_KEY) {
     console.log('Initializing Stripe with secret key:', process.env.STRIPE_SECRET_KEY.substring(0, 7) + '...');
-    stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2024-12-18.ac',
-    });
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   } else if (!stripe && !process.env.STRIPE_SECRET_KEY) {
     console.warn('STRIPE_SECRET_KEY is missing!');
   }

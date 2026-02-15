@@ -62,7 +62,7 @@ describe('GiftGrid Checkout Flow', () => {
     expect(screen.getAllByText(/(Pix|Transferencia)/i).length).toBeGreaterThan(0);
   });
 
-  it('completes purchase and shows success screen', async () => {
+  it('completes purchase via Pix and shows success screen', async () => {
     render(<GiftGrid />);
     const presentearBtns = screen.getAllByText(/Presentear/i);
     fireEvent.click(presentearBtns[0]);
@@ -74,7 +74,14 @@ describe('GiftGrid Checkout Flow', () => {
     
     fireEvent.click(screen.getByText(/(pagamento|pago)/i));
     
-    const finishBtn = screen.getAllByText(/(Pix|realicé|realizei)/i)[0];
+    // Click Pix option
+    const pixOption = screen.getAllByText(/Pix/i)[0];
+    fireEvent.click(pixOption);
+
+    // Verify detailed Pix UI
+    expect(screen.getByText(/Escaneie o QR Code/i)).toBeDefined();
+    
+    const finishBtn = screen.getByText(/Já realizei/i);
     fireEvent.click(finishBtn);
     
     const successMsg = await screen.findByText(/Confirmado/i);

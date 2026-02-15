@@ -7,7 +7,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Connectivity & Debugging' (Protocol in workflow.md) (82b191a)
 
 ## Phase 2: Functional Testing
-- [ ] Task: End-to-End Payment Test
+- [~] Task: End-to-End Payment Test
     - [ ] Start dev server and perform a payment with card 4242...
     - [ ] Confirm the success screen appears and cart is cleared
     - [ ] Verify the record appears in Supabase gift_messages

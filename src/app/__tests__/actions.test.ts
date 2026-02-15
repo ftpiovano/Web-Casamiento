@@ -15,6 +15,7 @@ vi.mock('@/lib/supabase', () => ({
 vi.mock('stripe', () => {
   return {
     default: class {
+      constructor() {}
       paymentIntents = {
         create: vi.fn(() => Promise.resolve({ client_secret: 'test_secret' })),
       };

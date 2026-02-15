@@ -29,7 +29,7 @@ interface GiftItem {
  */
 const mockGifts: GiftItem[] = [
   { id: 1, name: 'Jantar Romântico em Buenos Aires', description: 'Um jantar especial para o casal.', price: 500, category: 'Experiência' },
-  { id: 2, name: 'Passagens Aéreas', description: 'Ajude-nos a chegar ao nosso destino.', price: 2000, category: 'Viagem' },
+  { id: 2, name: 'Passagens Aéreas', description: 'Ajude-nos a chegar ao nuestro destino.', price: 2000, category: 'Viagem' },
   { id: 3, name: 'Hospedagem em Resort', description: 'Uma noite de descanso e luxo.', price: 800, category: 'Viagem' },
   { id: 4, name: 'Passeio de Barco', description: 'Explorando as águas cristalinas.', price: 300, category: 'Experiência' },
   { id: 5, name: 'Jogo de Pratos', description: 'Para nossa nova casa.', price: 250, category: 'Casa' },
@@ -48,7 +48,10 @@ export function GiftGrid() {
   const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name'>('name');
   const [gifterInfo, setGifterInfo] = useState({ name: '', note: '' });
   const [showStripe, setShowStripe] = useState(false);
+  const [showPix, setShowPix] = useState(false);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [stripeError, setStripeError] = useState<string | null>(null);
+  const [lastPaymentMethod, setLastPaymentMethod] = useState<string | null>(null);
   const { config } = useLanguage();
 
   const sortedGifts = [...mockGifts].sort((a, b) => {
@@ -69,6 +72,7 @@ export function GiftGrid() {
   const totalPrice = cart.reduce((acc, curr) => acc + curr.price, 0);
 
   const handlePaymentSuccess = async (method: string) => {
+    setLastPaymentMethod(method);
     await submitGiftMessage({
       gifterName: gifterInfo.name,
       note: gifterInfo.note,
@@ -82,15 +86,22 @@ export function GiftGrid() {
 
   useEffect(() => {
     if (showStripe && totalPrice > 0) {
+      setStripeError(null);
       const initStripe = async () => {
+        console.log('Requesting PaymentIntent for amount:', totalPrice * 100);
         const result = await createPaymentIntent(totalPrice * 100);
         if (result.success && result.clientSecret) {
+          console.log('PaymentIntent created successfully');
           setClientSecret(result.clientSecret);
+        } else {
+          console.error('Stripe Init Error:', result.error);
+          setStripeError(result.error || 'Failed to initialize Stripe');
         }
       };
       initStripe();
     } else if (!showStripe) {
       setClientSecret(null);
+      setStripeError(null);
     }
   }, [showStripe, totalPrice]);
 
@@ -263,7 +274,20 @@ export function GiftGrid() {
     if (showStripe) {
       return (
         <div className='max-w-2xl mx-auto w-full'>
-          {clientSecret ? (
+          <div className='flex items-center gap-4 mb-8'>
+            <button onClick={() => setShowStripe(false)} className='text-primary hover:opacity-70 transition-opacity'>
+              <ArrowLeft size={24} />
+            </button>
+            <Typography as='h2' className='mb-0'>Cartão de Crédito</Typography>
+          </div>
+          
+          {stripeError ? (
+            <Card className='border-red-200 bg-red-50 text-center py-12'>
+              <Typography className='text-red-600 font-bold mb-4 italic uppercase tracking-tighter'>Erro de Conexão</Typography>
+              <Typography className='text-sm mb-8'>{stripeError}</Typography>
+              <Button variant='outline' onClick={() => setShowStripe(false)}>Tentar outro método</Button>
+            </Card>
+          ) : clientSecret ? (
             <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
               <CheckoutForm 
                 amount={totalPrice * 100} 
@@ -283,6 +307,44 @@ export function GiftGrid() {
       );
     }
 
+    if (showPix) {
+      return (
+        <div className='max-w-2xl mx-auto w-full text-center'>
+          <div className='flex items-center gap-4 mb-8'>
+            <button onClick={() => setShowPix(false)} className='text-primary hover:opacity-70 transition-opacity'>
+              <ArrowLeft size={24} />
+            </button>
+            <Typography as='h2' className='mb-0'>Pagar com Pix</Typography>
+          </div>
+
+          <Card className='mb-8 flex flex-col items-center'>
+            <div className='w-48 h-48 bg-accent/10 rounded-xl mb-6 flex items-center justify-center border-2 border-dashed border-accent/30'>
+              <QrCode size={120} className='text-primary opacity-40' />
+            </div>
+            <Typography className='text-sm opacity-60 mb-6'>
+              Escaneie o QR Code acima ou copie a chave abaixo para pagar via Pix.
+            </Typography>
+            
+            <div className='w-full bg-accent/5 rounded-lg p-4 flex items-center justify-between border border-accent/10 mb-8'>
+              <code className='text-xs font-mono break-all text-left truncate mr-4'>
+                00020126580014br.gov.bcb.pix0136sua-chave-pix-aqui-placeholder
+              </code>
+              <button 
+                onClick={() => navigator.clipboard.writeText('sua-chave-pix-aqui-placeholder')}
+                className='text-primary text-[10px] uppercase font-bold hover:underline shrink-0'
+              >
+                Copiar
+              </button>
+            </div>
+
+            <Button onClick={() => handlePaymentSuccess('Pix')} className='w-full py-4'>
+              Já realizei o Pix
+            </Button>
+          </Card>
+        </div>
+      );
+    }
+
     return (
       <div className='max-w-2xl mx-auto w-full'>
         <div className='flex items-center gap-4 mb-8'>
@@ -297,10 +359,10 @@ export function GiftGrid() {
         <div className='space-y-4 mb-8'>
           {config.region === 'br' ? (
             <>
-              <button className='w-full' onClick={() => handlePaymentSuccess('Pix')}>
-                <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors'>
+              <button className='w-full' onClick={() => setShowPix(true)}>
+                <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors text-left'>
                   <QrCode className='text-primary' size={32} />
-                  <div className='text-left'>
+                  <div>
                     <Typography className='font-bold mb-0'>Pagar com Pix</Typography>
                     <Typography className='text-xs opacity-60'>Liberação instantânea</Typography>
                   </div>
@@ -308,9 +370,9 @@ export function GiftGrid() {
               </button>
 
               <button className='w-full' onClick={() => setShowStripe(true)}>
-                <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors'>
+                <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors text-left'>
                   <CreditCard className='text-primary' size={32} />
-                  <div className='text-left'>
+                  <div>
                     <Typography className='font-bold mb-0'>Cartão de Crédito</Typography>
                     <Typography className='text-xs opacity-60'>Seguro via Stripe</Typography>
                   </div>
@@ -408,8 +470,8 @@ export function GiftGrid() {
         </Typography>
         <Typography>
           {config.region === 'br' 
-            ? <>Obrigado pelo seu presente, <strong>{gifterInfo.name}</strong>! Suas instruções de pagamento foram enviadas por e-mail (simulação).</>
-            : <>¡Gracias por tu regalo, <strong>{gifterInfo.name}</strong>! Las instrucciones de pago han sido enviadas por e-mail (simulación).</>
+            ? <>Obrigado pelo seu presente, <strong>{gifterInfo.name}</strong>! {lastPaymentMethod === 'Stripe' ? 'Seu pagamento foi processado com sucesso.' : 'Suas instruções de pagamento foram enviadas por e-mail (simulação).'}</>
+            : <>¡Gracias por tu regalo, <strong>{gifterInfo.name}</strong>! {lastPaymentMethod === 'Stripe' ? 'Tu pago ha sido procesado con éxito.' : 'Las instrucciones de pago han sido enviadas por e-mail (simulación).'}</>
           }
         </Typography>
         <Button onClick={() => {
@@ -417,6 +479,9 @@ export function GiftGrid() {
           setGifterInfo({ name: '', note: '' });
           setStep('grid');
           setShowStripe(false);
+          setShowPix(false);
+          setStripeError(null);
+          setLastPaymentMethod(null);
         }} className='mt-8'>
           {config.content.backToSite}
         </Button>
