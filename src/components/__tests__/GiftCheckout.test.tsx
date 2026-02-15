@@ -84,8 +84,8 @@ describe('GiftGrid Checkout Flow', () => {
     const finishBtn = screen.getByText(/Já realizei/i);
     fireEvent.click(finishBtn);
     
-    const successMsg = await screen.findByText(/Confirmado/i);
-    expect(successMsg).toBeDefined();
+    const successMsgs = await screen.findAllByText(/Confirmado/i);
+    expect(successMsgs.length).toBeGreaterThan(0);
     expect(screen.getByText(/John Doe/i)).toBeDefined();
   });
 });
