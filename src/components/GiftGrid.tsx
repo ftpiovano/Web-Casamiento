@@ -470,7 +470,7 @@ export function GiftGrid() {
         </Typography>
         <Typography>
           {config.region === 'br' 
-            ? <>Obrigado pelo seu presente, <strong>{gifterInfo.name}</strong>! {lastPaymentMethod === 'Stripe' ? 'Seu pagamento foi processado com sucesso.' : 'Suas instruções de pagamento foram enviadas por e-mail (simulação).'}</>
+            ? <>Obrigado pelo seu presente, <strong>{gifterInfo.name}</strong>! {lastPaymentMethod === 'Stripe' ? 'Seu pagamento foi processado com sucesso.' : lastPaymentMethod === 'Pix' ? 'Seu Pix foi confirmado. Mal podemos esperar para te ver!' : 'Suas instruções de pagamento foram enviadas por e-mail (simulação).'}</>
             : <>¡Gracias por tu regalo, <strong>{gifterInfo.name}</strong>! {lastPaymentMethod === 'Stripe' ? 'Tu pago ha sido procesado con éxito.' : 'Las instrucciones de pago han sido enviadas por e-mail (simulación).'}</>
           }
         </Typography>
