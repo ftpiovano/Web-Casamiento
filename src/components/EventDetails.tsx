@@ -56,7 +56,7 @@ function EventCard({ title, dateTime, locationName, address, mapLink }: EventPro
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.setAttribute('download', `wedding-${title.toLowerCase()}.ics`);
+    link.setAttribute('download', `${event.title}.ics`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
