@@ -15,7 +15,7 @@
     - [ ] Update Hero, Welcome, EventDetails, and RSVP components to use fully localized strings from config
 - [x] Task: Conductor - User Manual Verification 'Phase 2: UI Localization' (Protocol in workflow.md) (2a0fe38)
 
-## Phase 3: Dynamic Gift Registry
-- [ ] Task: GiftGrid Localization
+## Phase 3: Dynamic Gift Registry [checkpoint: 3f09b13]
+- [x] Task: GiftGrid Localization (3f09b13)
     - [ ] Update GiftGrid to render the centralized gifts based on the selected region's pricing and text
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Dynamic Gift Registry' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Dynamic Gift Registry' (Protocol in workflow.md) (3f09b13)
