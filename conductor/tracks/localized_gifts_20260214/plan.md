@@ -1,12 +1,12 @@
 # Implementation Plan: Advanced Localization and Dynamic Gift Registry
 
-## Phase 1: Configuration Refactor
-- [ ] Task: Enhanced Site Config
+## Phase 1: Configuration Refactor [checkpoint: 6e62e91]
+- [~] Task: Enhanced Site Config
     - [ ] Add 'en' region to site.config.ts
     - [ ] Refactor gifts structure to support per-region name, description, and price
-- [ ] Task: Language Context Update
+- [x] Task: Language Context Update (6e62e91)
     - [ ] Update LanguageContext to support the 'en' key
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Configuration Refactor' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Configuration Refactor' (Protocol in workflow.md) (6e62e91)
 
 ## Phase 2: UI Localization
 - [ ] Task: Navbar Switcher
