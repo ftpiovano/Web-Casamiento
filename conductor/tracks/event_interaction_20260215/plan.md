@@ -1,10 +1,10 @@
 # Implementation Plan: Enhanced Event Interaction (Maps & Calendar)
 
-## Phase 1: Configuration & Data
-- [ ] Task: Update site.config.ts
+## Phase 1: Configuration & Data [checkpoint: d9f9c5d]
+- [~] Task: Update site.config.ts
     - [ ] Replace placeholders with real addresses and Google Maps links.
     - [ ] Add specific dateTime fields for each event (Argentina vs Brazil).
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Configuration & Data' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Configuration & Data' (Protocol in workflow.md) (d9f9c5d)
 
 ## Phase 2: Functional UI
 - [ ] Task: Refactor EventDetails
