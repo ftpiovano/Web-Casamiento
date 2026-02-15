@@ -3,7 +3,7 @@ export const siteConfig = {
     groom: 'Chico',
     bride: 'Alexita',
   },
-  eventDate: '2027-03-06T17:00:00',
+  eventDate: '2027-03-06T17:00:00', // Reference date for general countdown
   theme: {
     colors: {
       background: '#faf8f5', // Warm off-white
@@ -16,9 +16,24 @@ export const siteConfig = {
       body: 'var(--font-inter)',
     },
   },
-  links: {
-    ceremony: 'https://maps.app.goo.gl/example',
-    reception: 'https://maps.app.goo.gl/example',
+  // Detailed Event Information
+  events: {
+    ar: {
+      id: 'argentina',
+      title: 'Argentina',
+      dateTime: '2027-02-20T11:00:00',
+      locationName: 'Club de Campo San Diego',
+      address: 'Au Acceso Oeste Km 42, B1744 Moreno, Provincia de Buenos Aires, Argentina',
+      mapLink: 'https://www.google.com/maps/place/Club+de+Campo+San+Diego/@-34.6147323,-58.8543517,17z/data=!3m1!4b1!4m6!3m5!1s0x95bc9437abeabf2b:0xd3205ac9847354cf!8m2!3d-34.6147323!4d-58.8517768!16s%2Fg%2F11tk8ps8f?entry=ttu',
+    },
+    br: {
+      id: 'brasil',
+      title: 'Brasil',
+      dateTime: '2027-03-06T16:00:00',
+      locationName: 'Hotel Boutique & Spa Ponta de Inhambupe',
+      address: 'Loteamento Ponta de Inhambupe, 189 - Baixio, Esplanada - BA, 48370-000, Brasil',
+      mapLink: 'https://www.google.com/maps/place/Hotel+Boutique+%26+Spa+Ponta+de+Inhambupe+by+Slaviero+Hot%C3%A9is/@-12.1023221,-37.6930429,17z/data=!3m1!4b1!4m9!3m8!1s0x717376dd6887931:0x6d4526a6d0ab8dea!5m2!4m1!1i2!8m2!3d-12.1023221!4d-37.690468!16s%2Fg%2F11pdxwrbyd?entry=ttu',
+    },
   },
   // Centralized Gift Registry
   gifts: [
@@ -71,8 +86,8 @@ export const siteConfig = {
       id: 6,
       category: { br: 'Casa', ar: 'Casa', en: 'Home' },
       localized: {
-        br: { name: 'Cafeteira Espresso', description: 'Para começar o dia bem.', price: 600 },
-        ar: { name: 'Cafetera Espresso', description: 'Para empezar bien el día.', price: 20000 },
+        br: { name: 'Cafeteira Espresso', description: 'Para começar o dia bem.', price: 100 },
+        ar: { name: 'Cafetera Espresso', description: 'Para empezar bien el día.', price: 50000 },
         en: { name: 'Espresso Machine', description: 'To start the day right.', price: 120 },
       },
     },
