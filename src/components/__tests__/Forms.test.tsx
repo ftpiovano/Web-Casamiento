@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '../../test/test-utils';
 import { RSVPForm } from '../RSVPForm';
 import { Guestbook } from '../Guestbook';
 import { describe, it, expect, vi } from 'vitest';

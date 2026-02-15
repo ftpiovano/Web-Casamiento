@@ -13,29 +13,6 @@ import { CheckoutForm } from './CheckoutForm';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
-/**
- * Interface for a gift item.
- */
-interface GiftItem {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-}
-
-/**
- * Mock data for the gift registry.
- */
-const mockGifts: GiftItem[] = [
-  { id: 1, name: 'Jantar Romântico em Buenos Aires', description: 'Um jantar especial para o casal.', price: 500, category: 'Experiência' },
-  { id: 2, name: 'Passagens Aéreas', description: 'Ajude-nos a chegar ao nuestro destino.', price: 2000, category: 'Viagem' },
-  { id: 3, name: 'Hospedagem em Resort', description: 'Uma noite de descanso e luxo.', price: 800, category: 'Viagem' },
-  { id: 4, name: 'Passeio de Barco', description: 'Explorando as águas cristalinas.', price: 300, category: 'Experiência' },
-  { id: 5, name: 'Jogo de Pratos', description: 'Para nossa nova casa.', price: 250, category: 'Casa' },
-  { id: 6, name: 'Cafeteira Espresso', description: 'Para começar o dia bem.', price: 600, category: 'Casa' },
-];
-
 type CheckoutStep = 'grid' | 'cart' | 'info' | 'payment' | 'success';
 
 /**
@@ -43,8 +20,9 @@ type CheckoutStep = 'grid' | 'cart' | 'info' | 'payment' | 'success';
  * @return {JSX.Element} The rendered gift grid or checkout step.
  */
 export function GiftGrid() {
+  const { config, region } = useLanguage();
   const [step, setStep] = useState<CheckoutStep>('grid');
-  const [cart, setCart] = useState<GiftItem[]>([]);
+  const [cart, setCart] = useState<any[]>([]);
   const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name'>('name');
   const [gifterInfo, setGifterInfo] = useState({ name: '', note: '' });
   const [showStripe, setShowStripe] = useState(false);
@@ -52,15 +30,23 @@ export function GiftGrid() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [stripeError, setStripeError] = useState<string | null>(null);
   const [lastPaymentMethod, setLastPaymentMethod] = useState<string | null>(null);
-  const { config } = useLanguage();
 
-  const sortedGifts = [...mockGifts].sort((a, b) => {
+  // Map the centralized gifts to the current region's format
+  const localizedGifts = siteConfig.gifts.map((gift) => ({
+    id: gift.id,
+    category: (gift.category as any)[region] || gift.category.en,
+    name: (gift.localized as any)[region].name,
+    description: (gift.localized as any)[region].description,
+    price: (gift.localized as any)[region].price,
+  }));
+
+  const sortedGifts = [...localizedGifts].sort((a, b) => {
     if (sortBy === 'price-asc') return a.price - b.price;
     if (sortBy === 'price-desc') return b.price - a.price;
     return a.name.localeCompare(b.name);
   });
 
-  const addToCart = (item: GiftItem) => {
+  const addToCart = (item: any) => {
     setCart((prev) => [...prev, item]);
     setStep('cart');
   };
@@ -79,7 +65,7 @@ export function GiftGrid() {
       amount: totalPrice,
       items: cart.map((item) => item.name),
       paymentMethod: method,
-      region: config.region,
+      region: region,
     });
     setStep('success');
   };
@@ -88,13 +74,10 @@ export function GiftGrid() {
     if (showStripe && totalPrice > 0) {
       setStripeError(null);
       const initStripe = async () => {
-        console.log('Requesting PaymentIntent for amount:', totalPrice * 100);
         const result = await createPaymentIntent(totalPrice * 100);
         if (result.success && result.clientSecret) {
-          console.log('PaymentIntent created successfully');
           setClientSecret(result.clientSecret);
         } else {
-          console.error('Stripe Init Error:', result.error);
           setStripeError(result.error || 'Failed to initialize Stripe');
         }
       };
@@ -114,15 +97,17 @@ export function GiftGrid() {
         <Typography as='h2' className='mb-0'>{config.content.giftListTitle}</Typography>
         
         <div className='flex items-center gap-4'>
-          <span className='text-sm uppercase tracking-widest text-foreground/40 font-medium'>Ordenar por:</span>
+          <span className='text-sm uppercase tracking-widest text-foreground/40 font-medium'>
+            {region === 'br' ? 'Ordenar por:' : region === 'ar' ? 'Ordenar por:' : 'Sort by:'}
+          </span>
           <select 
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'price-asc' | 'price-desc' | 'name')}
             className='bg-background border border-accent/20 rounded-full px-4 py-2 text-sm outline-none focus:border-primary/50 transition-colors'
           >
-            <option value='name'>Nome</option>
-            <option value='price-asc'>Menor Preço</option>
-            <option value='price-desc'>Maior Preço</option>
+            <option value='name'>{region === 'br' ? 'Nome' : region === 'ar' ? 'Nombre' : 'Name'}</option>
+            <option value='price-asc'>{region === 'br' ? 'Menor Preço' : region === 'ar' ? 'Menor Precio' : 'Lowest Price'}</option>
+            <option value='price-desc'>{region === 'br' ? 'Maior Preço' : region === 'ar' ? 'Mayor Precio' : 'Highest Price'}</option>
           </select>
         </div>
       </div>
@@ -148,7 +133,7 @@ export function GiftGrid() {
                 <Typography className='text-sm mb-6 flex-grow'>{gift.description}</Typography>
                 <div className='flex justify-between items-center mt-auto border-t border-accent/10 pt-6'>
                   <span className='text-xl font-heading text-primary'>
-                    {config.currencySymbol} {gift.price.toLocaleString('pt-BR')}
+                    {config.currencySymbol} {gift.price.toLocaleString(region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US')}
                   </span>
                   <Button variant='outline' className='px-6 py-2 text-xs' onClick={() => addToCart(gift)}>
                     {config.content.giftButton}
@@ -177,9 +162,11 @@ export function GiftGrid() {
       <Card className='mb-8'>
         {cart.length === 0 ? (
           <div className='text-center py-12'>
-            <Typography>Seu carrinho está vazio.</Typography>
+            <Typography>
+              {region === 'br' ? 'Seu carrinho está vazio.' : region === 'ar' ? 'Tu carrito está vacío.' : 'Your cart is empty.'}
+            </Typography>
             <Button variant='outline' onClick={() => setStep('grid')} className='mt-4'>
-              Ver lista de presentes
+              {config.content.backToSite}
             </Button>
           </div>
         ) : (
@@ -188,7 +175,9 @@ export function GiftGrid() {
               <div key={`${item.id}-${index}`} className='flex justify-between items-center border-b border-accent/10 pb-4 last:border-0 last:pb-0'>
                 <div>
                   <Typography className='font-medium mb-0'>{item.name}</Typography>
-                  <Typography className='text-xs text-primary'>{config.currencySymbol} {item.price.toLocaleString('pt-BR')}</Typography>
+                  <Typography className='text-xs text-primary'>
+                    {config.currencySymbol} {item.price.toLocaleString(region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US')}
+                  </Typography>
                 </div>
                 <button onClick={() => removeFromCart(index)} className='text-red-400 hover:text-red-600 transition-colors p-2'>
                   <Trash2 size={18} />
@@ -196,8 +185,8 @@ export function GiftGrid() {
               </div>
             ))}
             <div className='pt-6 flex justify-between items-center font-heading text-2xl text-primary border-t border-accent/20'>
-              <span>Total</span>
-              <span>{config.currencySymbol} {totalPrice.toLocaleString('pt-BR')}</span>
+              <span>{region === 'br' ? 'Total' : region === 'ar' ? 'Total' : 'Total'}</span>
+              <span>{config.currencySymbol} {totalPrice.toLocaleString(region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US')}</span>
             </div>
           </div>
         )}
@@ -232,7 +221,7 @@ export function GiftGrid() {
         <form className='space-y-6'>
           <div className='flex flex-col gap-2'>
             <label htmlFor='gifter-name' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>
-              {config.region === 'br' ? 'Seu Nome' : 'Tu Nombre'}
+              {region === 'br' ? 'Seu Nome' : region === 'ar' ? 'Tu Nombre' : 'Your Name'}
             </label>
             <input
               id='gifter-name'
@@ -245,7 +234,7 @@ export function GiftGrid() {
           </div>
           <div className='flex flex-col gap-2'>
             <label htmlFor='gifter-note' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>
-              {config.region === 'br' ? 'Uma mensagem para o casal' : 'Un mensaje para la pareja'}
+              {region === 'br' ? 'Uma mensagem para o casal' : region === 'ar' ? 'Un mensaje para la pareja' : 'A message for the couple'}
             </label>
             <textarea
               id='gifter-note'
@@ -262,7 +251,7 @@ export function GiftGrid() {
         disabled={!gifterInfo.name} 
         className='w-full py-4 disabled:opacity-50'
       >
-        {config.region === 'br' ? 'Ir para o pagamento' : 'Ir al pago'}
+        {region === 'br' ? 'Ir para o pagamento' : region === 'ar' ? 'Ir al pago' : 'Proceed to payment'}
       </Button>
     </div>
   );
@@ -278,14 +267,20 @@ export function GiftGrid() {
             <button onClick={() => setShowStripe(false)} className='text-primary hover:opacity-70 transition-opacity'>
               <ArrowLeft size={24} />
             </button>
-            <Typography as='h2' className='mb-0'>Cartão de Crédito</Typography>
+            <Typography as='h2' className='mb-0'>
+              {region === 'br' ? 'Cartão de Crédito' : region === 'ar' ? 'Tarjeta de Crédito' : 'Credit Card'}
+            </Typography>
           </div>
           
           {stripeError ? (
             <Card className='border-red-200 bg-red-50 text-center py-12'>
-              <Typography className='text-red-600 font-bold mb-4 italic uppercase tracking-tighter'>Erro de Conexão</Typography>
+              <Typography className='text-red-600 font-bold mb-4 italic uppercase tracking-tighter'>
+                {region === 'br' ? 'Erro de Conexão' : region === 'ar' ? 'Error de Conexión' : 'Connection Error'}
+              </Typography>
               <Typography className='text-sm mb-8'>{stripeError}</Typography>
-              <Button variant='outline' onClick={() => setShowStripe(false)}>Tentar outro método</Button>
+              <Button variant='outline' onClick={() => setShowStripe(false)}>
+                {region === 'br' ? 'Tentar outro método' : region === 'ar' ? 'Intentar otro método' : 'Try another method'}
+              </Button>
             </Card>
           ) : clientSecret ? (
             <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
@@ -299,7 +294,7 @@ export function GiftGrid() {
             <div className='flex flex-col items-center justify-center py-12 gap-4'>
               <div className='w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin' />
               <Typography>
-                {config.region === 'br' ? 'Preparando ambiente seguro...' : 'Preparando entorno seguro...'}
+                {region === 'br' ? 'Preparando ambiente seguro...' : region === 'ar' ? 'Preparando entorno seguro...' : 'Preparing secure environment...'}
               </Typography>
             </div>
           )}
@@ -357,7 +352,7 @@ export function GiftGrid() {
         </div>
 
         <div className='space-y-4 mb-8'>
-          {config.region === 'br' ? (
+          {region === 'br' ? (
             <>
               <button className='w-full' onClick={() => setShowPix(true)}>
                 <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors text-left'>
@@ -379,7 +374,7 @@ export function GiftGrid() {
                 </Card>
               </button>
             </>
-          ) : (
+          ) : region === 'ar' ? (
             <div className='space-y-6'>
               <div className='bg-primary/5 rounded-2xl p-8 border border-primary/20'>
                 <div className='flex items-center gap-4 mb-6 text-primary'>
@@ -432,6 +427,18 @@ export function GiftGrid() {
                 Ya realicé la transferencia
               </Button>
             </div>
+          ) : (
+            <>
+              <button className='w-full' onClick={() => setShowStripe(true)}>
+                <Card className='flex items-center gap-6 py-6 hover:border-primary/50 transition-colors text-left'>
+                  <CreditCard className='text-primary' size={32} />
+                  <div>
+                    <Typography className='font-bold mb-0'>Credit Card</Typography>
+                    <Typography className='text-xs opacity-60'>Secure via Stripe</Typography>
+                  </div>
+                </Card>
+              </button>
+            </>
           )}
         </div>
 
@@ -443,13 +450,15 @@ export function GiftGrid() {
             {cart.map((item, index) => (
               <div key={`summary-${item.id}-${index}`} className='flex justify-between text-sm'>
                 <span className='opacity-80'>{item.name}</span>
-                <span className='font-medium'>{config.currencySymbol} {item.price.toLocaleString('pt-BR')}</span>
+                <span className='font-medium'>
+                  {config.currencySymbol} {item.price.toLocaleString(region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US')}
+                </span>
               </div>
             ))}
           </div>
           <div className='flex justify-between font-heading text-xl text-primary'>
             <span>{config.content.totalLabel}</span>
-            <span>{config.currencySymbol} {totalPrice.toLocaleString('pt-BR')}</span>
+            <span>{config.currencySymbol} {totalPrice.toLocaleString(region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US')}</span>
           </div>
         </div>
       </div>
@@ -469,9 +478,11 @@ export function GiftGrid() {
           {config.content.successTitle}
         </Typography>
         <Typography>
-          {config.region === 'br' 
+          {region === 'br' 
             ? <>Obrigado pelo seu presente, <strong>{gifterInfo.name}</strong>! {lastPaymentMethod === 'Stripe' ? 'Seu pagamento foi processado com sucesso.' : lastPaymentMethod === 'Pix' ? 'Seu Pix foi confirmado. Mal podemos esperar para te ver!' : 'Suas instruções de pagamento foram enviadas por e-mail (simulação).'}</>
-            : <>¡Gracias por tu regalo, <strong>{gifterInfo.name}</strong>! {lastPaymentMethod === 'Stripe' ? 'Tu pago ha sido procesado con éxito.' : 'Las instrucciones de pago han sido enviadas por e-mail (simulación).'}</>
+            : region === 'ar' 
+            ? <>¡Gracias por tu regalo, <strong>{gifterInfo.name}</strong>! {lastPaymentMethod === 'Stripe' ? 'Tu pago ha sido procesado con éxito.' : 'Las instrucciones de pago han sido enviadas por e-mail (simulación).'}</>
+            : <>Thank you for your gift, <strong>{gifterInfo.name}</strong>! {lastPaymentMethod === 'Stripe' ? 'Your payment was processed successfully.' : 'Payment instructions have been sent by email (simulation).'}</>
           }
         </Typography>
         <Button onClick={() => {
@@ -493,7 +504,7 @@ export function GiftGrid() {
     <Section id='gifts' className='bg-accent/5 overflow-hidden'>
       <div className='container max-w-5xl mx-auto w-full min-h-[600px] flex flex-col justify-center'>
         <motion.div
-          key={step + (showStripe ? '-stripe' : '') + config.region}
+          key={step + (showStripe ? '-stripe' : '') + region}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}

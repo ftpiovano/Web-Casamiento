@@ -29,5 +29,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Advanced Localization and Dynamic Gift Registry**
+- [~] **Track: Advanced Localization and Dynamic Gift Registry**
   *Link: [./tracks/localized_gifts_20260214/](./tracks/localized_gifts_20260214/)*
