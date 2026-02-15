@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { siteConfig } from '@/site.config';
 
-type RegionKey = 'br' | 'ar';
+type RegionKey = 'br' | 'ar' | 'en';
 
 interface LanguageContextType {
   region: RegionKey;
@@ -23,7 +23,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const savedRegion = localStorage.getItem('wedding_region') as RegionKey;
-    if (savedRegion && (savedRegion === 'br' || savedRegion === 'ar')) {
+    if (savedRegion && (savedRegion === 'br' || savedRegion === 'ar' || savedRegion === 'en')) {
       setRegionState(savedRegion);
     }
   }, []);
@@ -53,4 +53,3 @@ export function useLanguage() {
   }
   return context;
 }
-
