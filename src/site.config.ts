@@ -97,7 +97,7 @@ export const siteConfig = {
   travelTips: [
     {
       id: 'praia-do-forte',
-      image: '',
+      reelUrl: 'https://www.instagram.com/reel/CZmlopxFhbT/',
       mapLink: 'https://www.google.com/maps/place/Praia+do+Forte,+Mata+de+S%C3%A3o+Jo%C3%A3o+-+State+of+Bahia',
       localized: {
         br: {
@@ -119,7 +119,7 @@ export const siteConfig = {
     },
     {
       id: 'morro-de-sao-paulo',
-      image: '',
+      reelUrl: 'https://www.instagram.com/reel/DTX3zCVD3fH/',
       mapLink: 'https://www.google.com/maps/place/Morro+de+S%C3%A3o+Paulo,+Cair%C3%BA+-+State+of+Bahia',
       localized: {
         br: {
@@ -141,7 +141,7 @@ export const siteConfig = {
     },
     {
       id: 'chapada-diamantina',
-      image: '',
+      reelUrl: 'https://www.instagram.com/reel/CZX5CeoFDCD/',
       mapLink: 'https://www.google.com/maps/place/Chapada+Diamantina+National+Park',
       localized: {
         br: {
@@ -163,7 +163,7 @@ export const siteConfig = {
     },
     {
       id: 'trancoso',
-      image: '',
+      reelUrl: 'https://www.instagram.com/reel/DQFNMuOD2z-/',
       mapLink: 'https://www.google.com/maps/place/Trancoso,+Porto+Seguro+-+State+of+Bahia',
       localized: {
         br: {
@@ -185,7 +185,7 @@ export const siteConfig = {
     },
     {
       id: 'maragogi',
-      image: '',
+      reelUrl: 'https://www.instagram.com/reel/DPquUfXjf87/',
       mapLink: 'https://www.google.com/maps/place/Maragogi,+State+of+Alagoas',
       localized: {
         br: {

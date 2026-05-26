@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Compass, ImageIcon } from 'lucide-react';
+import { MapPin, Compass } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Section, Typography, Button } from './Base';
 import { siteConfig } from '@/site.config';
@@ -8,6 +8,7 @@ import { useLanguage } from '@/context/LanguageContext';
 
 /**
  * Travel Tips section — curated destinations across northeast Brazil.
+ * Each card embeds an Instagram Reel showcasing the destination.
  * @return {JSX.Element} The rendered travel tips section.
  */
 export function TravelTips() {
@@ -17,7 +18,7 @@ export function TravelTips() {
   const tips = siteConfig.travelTips.map((tip) => ({
     id: tip.id,
     mapLink: tip.mapLink,
-    image: tip.image,
+    reelUrl: tip.reelUrl,
     ...tip.localized[region],
   }));
 
@@ -38,24 +39,18 @@ export function TravelTips() {
             className='h-full'
           >
             <div className='h-full flex flex-col bg-background rounded-2xl shadow-sm border border-accent/10 overflow-hidden transition-shadow hover:shadow-md'>
-              <div className='relative aspect-[4/3] bg-gradient-to-br from-accent/30 via-primary/10 to-accent/40 overflow-hidden'>
-                {tip.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={tip.image}
-                    alt={tip.name}
-                    className='w-full h-full object-cover'
-                    loading='lazy'
-                  />
-                ) : (
-                  <div className='absolute inset-0 flex flex-col items-center justify-center text-primary/40'>
-                    <ImageIcon size={28} strokeWidth={1.25} />
-                    <span className='mt-2 text-[10px] uppercase tracking-[0.2em]'>
-                      {tip.name}
-                    </span>
-                  </div>
-                )}
-                <span className='absolute top-3 left-4 font-heading text-background text-xs tracking-[0.2em] mix-blend-difference'>
+              <div className='relative aspect-[9/16] bg-accent/10 overflow-hidden'>
+                <iframe
+                  src={`${tip.reelUrl}embed/`}
+                  title={tip.name}
+                  className='absolute inset-0 w-full h-full border-0'
+                  scrolling='no'
+                  allow='autoplay; encrypted-media; picture-in-picture'
+                  allowFullScreen
+                  loading='lazy'
+                  referrerPolicy='no-referrer-when-downgrade'
+                />
+                <span className='absolute top-3 left-4 font-heading text-background text-xs tracking-[0.2em] mix-blend-difference pointer-events-none z-10'>
                   {String(i + 1).padStart(2, '0')}
                 </span>
               </div>
