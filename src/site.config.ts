@@ -136,7 +136,7 @@ export const siteConfig = {
           blurb: 'Capital de Sergipe com praias urbanas tranquilas, a Orla de Atalaia e a charmosa Praia da Caueira.',
           distance: '≈ 2h30 de carro',
           highlights: 'Orla de Atalaia (4,6 km de calçadão), Mercado Central, bate-volta aos Cânions do Xingó e a calma Praia da Caueira.',
-          stay: 'Radisson Aracaju (moderno, na Orla) ou Quinta do Sobrado Boutique para algo mais íntimo.',
+          stay: 'Radisson Aracaju (5★ moderno, na Orla de Atalaia) ou Real Praia Hotel (clássico, mesma orla).',
           budget: 'R$ 350–600',
         },
         ar: {
@@ -144,7 +144,7 @@ export const siteConfig = {
           blurb: 'Capital de Sergipe con playas urbanas tranquilas, la Orla de Atalaia y la encantadora Praia da Caueira.',
           distance: '≈ 2h30 en auto',
           highlights: 'Orla de Atalaia (4,6 km de rambla), Mercado Central, excursión a los Cañones de Xingó y la tranquila Praia da Caueira.',
-          stay: 'Radisson Aracaju (moderno, sobre la Orla) o Quinta do Sobrado Boutique para algo más íntimo.',
+          stay: 'Radisson Aracaju (5★ moderno, sobre la Orla de Atalaia) o Real Praia Hotel (clásico, sobre la misma rambla).',
           budget: 'R$ 350–600',
         },
         en: {
@@ -152,7 +152,7 @@ export const siteConfig = {
           blurb: 'Sergipe’s capital — calm urban beaches, the Atalaia boardwalk, and the lovely Caueira beach.',
           distance: '≈ 2h30 drive',
           highlights: 'The 4.6 km Atalaia boardwalk, Central Market, a day-trip to the Xingó canyons, and quiet Caueira beach.',
-          stay: 'Radisson Aracaju (modern, on the seafront) or Quinta do Sobrado Boutique for something more intimate.',
+          stay: 'Radisson Aracaju (5★ modern, on the Atalaia seafront) or Real Praia Hotel (a classic just up the same boardwalk).',
           budget: 'R$ 350–600',
         },
       },
@@ -167,7 +167,7 @@ export const siteConfig = {
           blurb: 'Ilha sem carros com praias numeradas paradisíacas, vida noturna e barcos saindo de Salvador.',
           distance: '≈ 4h (carro + barco)',
           highlights: 'As Quatro Praias numeradas (Segunda é a mais animada, Quarta é paradisíaca), tirolesa sobre a Primeira, pôr do sol na Toca do Morcego e snorkel nas piscinas naturais de Garapuá.',
-          stay: 'Anima Hotel Boutique (Segunda Praia, adults-only) ou Vila dos Orixás (Quinta Praia, luxo isolado).',
+          stay: 'Anima Hotel Boutique (Segunda Praia, adults-only) ou Pousada Natureza (charme pé-na-areia, também na Segunda Praia).',
           budget: 'R$ 600–1.100',
         },
         ar: {
@@ -175,7 +175,7 @@ export const siteConfig = {
           blurb: 'Isla sin autos, con playas paradisíacas numeradas, vida nocturna y catamaranes desde Salvador.',
           distance: '≈ 4h (auto + lancha)',
           highlights: 'Las Cuatro Playas numeradas (Segunda es la más movida, Cuarta es paradisíaca), tirolesa sobre la Primeira, atardecer en Toca do Morcego y snorkel en las piscinas naturales de Garapuá.',
-          stay: 'Anima Hotel Boutique (Segunda Praia, solo adultos) o Vila dos Orixás (Quinta Praia, lujo aislado).',
+          stay: 'Anima Hotel Boutique (Segunda Praia, solo adultos) o Pousada Natureza (encanto pie-en-la-arena, también en Segunda Praia).',
           budget: 'R$ 600–1.100',
         },
         en: {
@@ -183,7 +183,7 @@ export const siteConfig = {
           blurb: 'Car-free island with numbered paradise beaches, lively nights, and boats from Salvador.',
           distance: '≈ 4h (drive + ferry)',
           highlights: 'The numbered beaches (Segunda is the social hub, Quarta is the paradise one), the Primeira-Praia zipline, sunset at Toca do Morcego, and snorkeling Garapuá’s natural pools.',
-          stay: 'Anima Hotel Boutique (Segunda Praia, adults-only) or Vila dos Orixás (Quinta Praia, secluded luxury).',
+          stay: 'Anima Hotel Boutique (Segunda Praia, adults-only) or Pousada Natureza (a charming beachfront spot, also on Segunda Praia).',
           budget: 'R$ 600–1,100',
         },
       },
