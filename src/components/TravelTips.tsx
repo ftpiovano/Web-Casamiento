@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Compass } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Section, Typography, Button } from './Base';
 import { siteConfig } from '@/site.config';
@@ -8,7 +8,7 @@ import { useLanguage } from '@/context/LanguageContext';
 
 /**
  * Travel Tips section — curated destinations across northeast Brazil.
- * Each card embeds an Instagram Reel showcasing the destination.
+ * Each card embeds an Instagram Reel and a fact-sheet of trip details.
  * @return {JSX.Element} The rendered travel tips section.
  */
 export function TravelTips() {
@@ -60,14 +60,16 @@ export function TravelTips() {
                   {tip.name}
                 </Typography>
 
-                <p className='text-foreground/75 leading-relaxed mb-5 flex-grow'>
+                <p className='text-foreground/75 leading-relaxed mb-5'>
                   {tip.blurb}
                 </p>
 
-                <div className='flex items-center gap-2 text-xs uppercase tracking-widest text-foreground/55 mb-4'>
-                  <Compass size={14} className='text-primary/60' />
-                  <span>{tip.distance}</span>
-                </div>
+                <dl className='space-y-3.5 border-t border-accent/15 pt-5 mb-6 flex-grow'>
+                  <FactRow label={content.travelLabelDistance} value={tip.distance} />
+                  <FactRow label={content.travelLabelHighlights} value={tip.highlights} />
+                  <FactRow label={content.travelLabelStay} value={tip.stay} />
+                  <FactRow label={content.travelLabelBudget} value={tip.budget} />
+                </dl>
 
                 <a
                   href={tip.mapLink}
@@ -86,5 +88,16 @@ export function TravelTips() {
         ))}
       </div>
     </Section>
+  );
+}
+
+function FactRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className='text-[10px] uppercase tracking-[0.18em] font-medium text-primary/70 mb-1'>
+        {label}
+      </dt>
+      <dd className='text-sm leading-snug text-foreground/80'>{value}</dd>
+    </div>
   );
 }
