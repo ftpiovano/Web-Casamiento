@@ -57,12 +57,12 @@ export function Navbar() {
           className='flex items-center'
         >
           <Image
-            src='/branding/wedding-logo.svg'
+            src='/branding/wedding-logo.png'
             alt={`${siteConfig.names.bride} & ${siteConfig.names.groom}`}
-            width={120}
-            height={120}
+            width={969}
+            height={1279}
             priority
-            className='h-10 w-auto select-none transition-opacity hover:opacity-80'
+            className='h-11 w-auto select-none transition-opacity hover:opacity-80'
           />
         </button>
 

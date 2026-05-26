@@ -43,10 +43,10 @@ export function Hero() {
           className='mx-auto mb-6 w-48 sm:w-56 md:w-72'
         >
           <Image
-            src='/branding/wedding-logo.svg'
+            src='/branding/wedding-logo.png'
             alt={`${names.bride} & ${names.groom} monogram`}
-            width={720}
-            height={720}
+            width={969}
+            height={1279}
             priority
             className='w-full h-auto select-none'
           />

@@ -18,13 +18,13 @@ export const metadata: Metadata = {
   title: `${siteConfig.names.bride} & ${siteConfig.names.groom} | Wedding`,
   description: `Welcome to the wedding website of ${siteConfig.names.bride} and ${siteConfig.names.groom}`,
   icons: {
-    icon: '/branding/wedding-logo.svg',
-    apple: '/branding/wedding-logo.svg',
+    icon: '/branding/wedding-logo.png',
+    apple: '/branding/wedding-logo.png',
   },
   openGraph: {
     title: `${siteConfig.names.bride} & ${siteConfig.names.groom}`,
     description: `Welcome to the wedding of ${siteConfig.names.bride} and ${siteConfig.names.groom}`,
-    images: ['/branding/wedding-logo.svg'],
+    images: ['/branding/wedding-logo.png'],
     type: 'website',
   },
 };
