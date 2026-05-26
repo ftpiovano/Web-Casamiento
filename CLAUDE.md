@@ -99,8 +99,10 @@ All skills live under `.agents/skills/` and are committed to the repo. Read the 
 - `supabase` — Auth, RLS, MCP, client libs. Critical trap: never use `user_metadata` for authorization (it's user-editable; use `app_metadata`).
 - `supabase-postgres-best-practices` — Postgres patterns: indexing, RLS performance, connection pooling, locking.
 
-**Design** (from `anthropics/skills`):
+**Design & Testing** (from `anthropics/skills`):
 - `frontend-design` — Production-grade frontend with high design quality. Use whenever building or restyling web components, pages, or visual layouts. Pushes toward a clear, bold aesthetic direction rather than generic "AI slop". Read before any UI work.
+- `theme-factory` — 10 preset themes (colors + fonts) for styling artifacts, plus on-the-fly theme generation. Useful for prototyping section variants or generating one-off visual artifacts (save-the-dates, RSVP cards).
+- `webapp-testing` — Playwright-based browser automation. Use to verify UI behavior end-to-end, capture screenshots, and inspect console logs of the running app (`npm run dev` must be running first).
 
 **Frontend / Next.js / Vercel** (from `vercel-labs/agent-skills`):
 - `vercel-react-best-practices` — React + Next.js performance patterns. Read before writing or refactoring components.
@@ -111,4 +113,4 @@ All skills live under `.agents/skills/` and are committed to the repo. Read the 
 - `vercel-cli-with-tokens` — Token-based Vercel CLI usage (env vars, deploys from sessions).
 - `vercel-optimize` — Cost/performance tuning for deployed Vercel projects (Function Invocations, Build Minutes, Core Web Vitals).
 
-Install or update via `npx skills add <repo>` (e.g., `npx skills add anthropics/skills --skill frontend-design`, `npx skills add vercel-labs/agent-skills --all`). The `skills-lock.json` at the repo root tracks what's installed. The full Anthropic skills marketplace is at https://github.com/anthropics/skills — other potentially useful skills there include `theme-factory`, `brand-guidelines`, `webapp-testing`, and `web-artifacts-builder`.
+Install or update via `npx skills add <repo>` (e.g., `npx skills add anthropics/skills --skill frontend-design`, `npx skills add vercel-labs/agent-skills --all`). The `skills-lock.json` at the repo root tracks what's installed. The full Anthropic skills marketplace is at https://github.com/anthropics/skills.
