@@ -1,11 +1,14 @@
 import React, { ReactElement } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { LanguageProvider } from '@/context/LanguageContext';
+import { SectionProvider } from '@/context/SectionContext';
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <LanguageProvider>
-      {children}
+      <SectionProvider>
+        {children}
+      </SectionProvider>
     </LanguageProvider>
   );
 };

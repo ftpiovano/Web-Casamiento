@@ -4,38 +4,39 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSection, SectionKey } from '@/context/SectionContext';
 
-/**
- * Navigation items configuration.
- */
-const navItems = [
-  { name: 'Home', href: '#home' },
-  { name: 'The Couple', href: '#couple' },
-  { name: 'Ceremony', href: '#ceremony' },
-  { name: 'Gift List', href: '#gifts' },
-  { name: 'RSVP', href: '#rsvp' },
-  { name: 'Messages', href: '#messages' },
+const navItems: { name: string; key: SectionKey }[] = [
+  { name: 'Home', key: 'home' },
+  { name: 'The Couple', key: 'couple' },
+  { name: 'Ceremony', key: 'ceremony' },
+  { name: 'Gift List', key: 'gifts' },
+  { name: 'RSVP', key: 'rsvp' },
+  { name: 'Messages', key: 'messages' },
 ];
 
 /**
- * Navbar component providing sticky navigation and mobile-responsive menu.
+ * Navbar component providing sticky tab-style navigation between sections.
  * @return {JSX.Element} The rendered navbar.
  */
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { region, setRegion } = useLanguage();
+  const { activeSection, setActiveSection } = useSection();
 
   useEffect(() => {
-    /**
-     * Updates scrolled state based on window position.
-     */
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const go = (key: SectionKey) => {
+    setActiveSection(key);
+    setIsOpen(false);
+  };
 
   return (
     <nav
@@ -46,39 +47,55 @@ export function Navbar() {
       }`}
     >
       <div className='container mx-auto px-6 flex justify-between items-center max-w-5xl'>
-        <a href='#home' className='text-2xl font-heading text-primary'>
+        <button
+          onClick={() => go('home')}
+          className='text-2xl font-heading text-primary'
+        >
           A & C
-        </a>
+        </button>
 
         {/* Desktop Nav */}
         <div className='hidden md:flex items-center space-x-8'>
-          {navItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className='text-xs uppercase tracking-widest hover:text-primary transition-colors duration-200'
-            >
-              {item.name}
-            </a>
-          ))}
-          
+          {navItems.map((item) => {
+            const isActive = activeSection === item.key;
+            return (
+              <button
+                key={item.key}
+                onClick={() => go(item.key)}
+                aria-current={isActive ? 'page' : undefined}
+                className={`relative text-xs uppercase tracking-widest transition-colors duration-200 ${
+                  isActive ? 'text-primary' : 'hover:text-primary'
+                }`}
+              >
+                {item.name}
+                {isActive && (
+                  <motion.span
+                    layoutId='nav-underline'
+                    className='absolute left-0 right-0 -bottom-2 h-px bg-primary'
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+              </button>
+            );
+          })}
+
           {/* Region Switcher */}
           <div className='flex items-center gap-2 border-l border-accent/20 pl-6 ml-2'>
-            <button 
+            <button
               onClick={() => setRegion('br')}
               className={`text-[10px] uppercase tracking-tighter ${region === 'br' ? 'font-bold text-primary' : 'opacity-40'}`}
             >
               BR
             </button>
             <span className='opacity-20'>|</span>
-            <button 
+            <button
               onClick={() => setRegion('ar')}
               className={`text-[10px] uppercase tracking-tighter ${region === 'ar' ? 'font-bold text-primary' : 'opacity-40'}`}
             >
               AR
             </button>
             <span className='opacity-20'>|</span>
-            <button 
+            <button
               onClick={() => setRegion('en')}
               className={`text-[10px] uppercase tracking-tighter ${region === 'en' ? 'font-bold text-primary' : 'opacity-40'}`}
             >
@@ -89,7 +106,7 @@ export function Navbar() {
 
         {/* Mobile Menu Toggle */}
         <div className='flex items-center gap-4 md:hidden'>
-          <button 
+          <button
             onClick={() => setRegion(region === 'br' ? 'ar' : 'br')}
             className='p-2 text-primary/60'
           >
@@ -98,6 +115,7 @@ export function Navbar() {
           <button
             className='text-foreground'
             onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -114,16 +132,21 @@ export function Navbar() {
             className='md:hidden bg-background border-b border-accent/20 overflow-hidden'
           >
             <div className='flex flex-col space-y-4 p-6 text-center'>
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className='text-sm uppercase tracking-widest hover:text-primary transition-colors'
-                >
-                  {item.name}
-                </a>
-              ))}
+              {navItems.map((item) => {
+                const isActive = activeSection === item.key;
+                return (
+                  <button
+                    key={item.key}
+                    onClick={() => go(item.key)}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`text-sm uppercase tracking-widest transition-colors ${
+                      isActive ? 'text-primary font-semibold' : 'hover:text-primary'
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                );
+              })}
             </div>
           </motion.div>
         )}
