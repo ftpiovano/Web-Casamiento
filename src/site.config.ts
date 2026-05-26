@@ -96,28 +96,8 @@ export const siteConfig = {
   // Distances are relative to the BR venue (Hotel Ponta de Inhambupe, Esplanada-BA).
   travelTips: [
     {
-      id: 'salvador',
-      mapLink: 'https://www.google.com/maps/place/Salvador,+State+of+Bahia,+Brazil',
-      localized: {
-        br: {
-          name: 'Salvador',
-          blurb: 'Capital histórica da Bahia: Pelourinho colonial, samba e a melhor culinária baiana.',
-          distance: '≈ 2h de carro',
-        },
-        ar: {
-          name: 'Salvador',
-          blurb: 'Capital histórica de Bahía: Pelourinho colonial, samba y la mejor gastronomía bahiana.',
-          distance: '≈ 2h en auto',
-        },
-        en: {
-          name: 'Salvador',
-          blurb: 'Bahia’s historic capital — colonial Pelourinho, samba rhythms, and the best regional cuisine.',
-          distance: '≈ 2h drive',
-        },
-      },
-    },
-    {
       id: 'praia-do-forte',
+      image: '',
       mapLink: 'https://www.google.com/maps/place/Praia+do+Forte,+Mata+de+S%C3%A3o+Jo%C3%A3o+-+State+of+Bahia',
       localized: {
         br: {
@@ -139,6 +119,7 @@ export const siteConfig = {
     },
     {
       id: 'morro-de-sao-paulo',
+      image: '',
       mapLink: 'https://www.google.com/maps/place/Morro+de+S%C3%A3o+Paulo,+Cair%C3%BA+-+State+of+Bahia',
       localized: {
         br: {
@@ -160,6 +141,7 @@ export const siteConfig = {
     },
     {
       id: 'chapada-diamantina',
+      image: '',
       mapLink: 'https://www.google.com/maps/place/Chapada+Diamantina+National+Park',
       localized: {
         br: {
@@ -181,6 +163,7 @@ export const siteConfig = {
     },
     {
       id: 'trancoso',
+      image: '',
       mapLink: 'https://www.google.com/maps/place/Trancoso,+Porto+Seguro+-+State+of+Bahia',
       localized: {
         br: {
@@ -202,6 +185,7 @@ export const siteConfig = {
     },
     {
       id: 'maragogi',
+      image: '',
       mapLink: 'https://www.google.com/maps/place/Maragogi,+State+of+Alagoas',
       localized: {
         br: {
