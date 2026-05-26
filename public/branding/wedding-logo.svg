@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 880" fill="none" role="img" aria-label="A & F monogram">
+  <!-- Top crown ornament -->
+  <g transform="translate(360,70)" stroke="#c9a679" stroke-width="1.4" fill="none" stroke-linecap="round">
+    <path d="M0 -28 q-3 -8 -10 -10 q-4 -1 -6 2 q-2 4 2 7 q5 4 14 1 z" fill="#c9a679" opacity="0.85"/>
+    <path d="M0 -28 q3 -8 10 -10 q4 -1 6 2 q2 4 -2 7 q-5 4 -14 1 z" fill="#c9a679" opacity="0.85"/>
+    <path d="M-30 -2 q-4 -14 -2 -22 q1 -3 3 -3 q3 1 3 4 q-1 7 -3 21 z"/>
+    <path d="M30 -2 q4 -14 2 -22 q-1 -3 -3 -3 q-3 1 -3 4 q1 7 3 21 z"/>
+    <path d="M-46 0 q-26 -4 -36 4 q-2 2 0 4 q12 6 36 -2 z"/>
+    <path d="M46 0 q26 -4 36 4 q2 2 0 4 q-12 6 -36 -2 z"/>
+    <path d="M-60 6 c-12 -1 -22 2 -24 8"/>
+    <path d="M60 6 c12 -1 22 2 24 8"/>
+  </g>
+
+  <!-- Oval cartouche frames (double line for elegance) -->
+  <ellipse cx="360" cy="440" rx="248" ry="320" stroke="#c9a679" stroke-width="2.2"/>
+  <ellipse cx="360" cy="440" rx="236" ry="308" stroke="#c9a679" stroke-width="0.8" opacity="0.55"/>
+
+  <!-- Monogram: interlocking serif A and F in deep navy -->
+  <g fill="#13234d">
+    <text x="290" y="540"
+          font-family="'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+          font-size="360"
+          font-weight="500"
+          text-anchor="middle"
+          font-style="normal"
+          letter-spacing="-12">A</text>
+    <text x="430" y="540"
+          font-family="'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+          font-size="360"
+          font-weight="500"
+          text-anchor="middle"
+          font-style="normal"
+          letter-spacing="-12">F</text>
+  </g>
+
+  <!-- Bottom floral scroll -->
+  <g transform="translate(360,780)" stroke="#c9a679" stroke-width="1.6" fill="none" stroke-linecap="round">
+    <path d="M-150 0 q-30 -22 -70 -8 q-14 4 -10 14 q6 10 24 4 q22 -8 22 -22"/>
+    <path d="M150 0 q30 -22 70 -8 q14 4 10 14 q-6 10 -24 4 q-22 -8 -22 -22"/>
+    <path d="M-150 0 q40 -14 80 -2 q12 4 12 12 q0 8 -8 8 q-12 0 -12 -10 q0 -8 8 -10"/>
+    <path d="M150 0 q-40 -14 -80 -2 q-12 4 -12 12 q0 8 8 8 q12 0 12 -10 q0 -8 -8 -10"/>
+    <path d="M-40 0 q20 -6 40 0 q20 6 40 0"/>
+    <circle cx="-80" cy="-2" r="2" fill="#c9a679"/>
+    <circle cx="80" cy="-2" r="2" fill="#c9a679"/>
+    <circle cx="0" cy="-6" r="3" fill="#c9a679"/>
+  </g>
+</svg>

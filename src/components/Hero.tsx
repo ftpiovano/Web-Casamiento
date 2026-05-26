@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/site.config';
 import { Button, Typography } from './Base';
@@ -35,20 +36,21 @@ export function Hero() {
         transition={{ duration: 0.8 }}
         className='relative z-10'
       >
-        {/* Monogram */}
-        <div className='mb-8 flex items-center justify-center space-x-4 text-primary'>
-          <span className='text-3xl font-heading'>{names.bride[0]}</span>
-          <svg
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='currentColor'
-            className='text-primary/40'
-          >
-            <path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' />
-          </svg>
-          <span className='text-3xl font-heading'>{names.groom[0]}</span>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          className='mx-auto mb-6 w-48 sm:w-56 md:w-72'
+        >
+          <Image
+            src='/branding/wedding-logo.svg'
+            alt={`${names.bride} & ${names.groom} monogram`}
+            width={720}
+            height={720}
+            priority
+            className='w-full h-auto select-none'
+          />
+        </motion.div>
 
         <Typography as='h1' className='mb-4'>
           {names.bride} & {names.groom}

@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { useSection, SectionKey } from '@/context/SectionContext';
+import { siteConfig } from '@/site.config';
 
 const navOrder: SectionKey[] = [
   'home',
@@ -51,9 +53,17 @@ export function Navbar() {
       <div className='container mx-auto px-6 flex justify-between items-center max-w-5xl'>
         <button
           onClick={() => go('home')}
-          className='text-2xl font-heading text-primary'
+          aria-label={config.content.nav.home}
+          className='flex items-center'
         >
-          A & C
+          <Image
+            src='/branding/wedding-logo.svg'
+            alt={`${siteConfig.names.bride} & ${siteConfig.names.groom}`}
+            width={120}
+            height={120}
+            priority
+            className='h-10 w-auto select-none transition-opacity hover:opacity-80'
+          />
         </button>
 
         {/* Desktop Nav */}
