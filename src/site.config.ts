@@ -167,7 +167,7 @@ export const siteConfig = {
           blurb: 'Ilha sem carros com praias numeradas paradisíacas, vida noturna e barcos saindo de Salvador.',
           distance: '≈ 4h (carro + barco)',
           highlights: 'As Quatro Praias numeradas (Segunda é a mais animada, Quarta é paradisíaca), tirolesa sobre a Primeira, pôr do sol na Toca do Morcego e snorkel nas piscinas naturais de Garapuá.',
-          stay: 'Pousada Minha Louca Paixão (Segunda Praia, charmosa e bem localizada) ou Pousada Natureza (charme pé-na-areia, também na Segunda Praia).',
+          stay: 'Pousada Minha Louca Paixão (Segunda Praia, charmosa e bem localizada) ou Pousada Dona Moça (charme pé-na-areia, também na Segunda Praia).',
           budget: 'R$ 600–1.100',
         },
         ar: {
@@ -175,7 +175,7 @@ export const siteConfig = {
           blurb: 'Isla sin autos, con playas paradisíacas numeradas, vida nocturna y catamaranes desde Salvador.',
           distance: '≈ 4h (auto + lancha)',
           highlights: 'Las Cuatro Playas numeradas (Segunda es la más movida, Cuarta es paradisíaca), tirolesa sobre la Primeira, atardecer en Toca do Morcego y snorkel en las piscinas naturales de Garapuá.',
-          stay: 'Pousada Minha Louca Paixão (Segunda Praia, encantadora y bien ubicada) o Pousada Natureza (encanto pie-en-la-arena, también en Segunda Praia).',
+          stay: 'Pousada Minha Louca Paixão (Segunda Praia, encantadora y bien ubicada) o Pousada Dona Moça (encanto pie-en-la-arena, también en Segunda Praia).',
           budget: 'R$ 600–1.100',
         },
         en: {
@@ -183,7 +183,7 @@ export const siteConfig = {
           blurb: 'Car-free island with numbered paradise beaches, lively nights, and boats from Salvador.',
           distance: '≈ 4h (drive + ferry)',
           highlights: 'The numbered beaches (Segunda is the social hub, Quarta is the paradise one), the Primeira-Praia zipline, sunset at Toca do Morcego, and snorkeling Garapuá’s natural pools.',
-          stay: 'Pousada Minha Louca Paixão (Segunda Praia, charming and well located) or Pousada Natureza (a charming beachfront spot, also on Segunda Praia).',
+          stay: 'Pousada Minha Louca Paixão (Segunda Praia, charming and well located) or Pousada Dona Moça (a charming beachfront spot, also on Segunda Praia).',
           budget: 'R$ 600–1,100',
         },
       },
