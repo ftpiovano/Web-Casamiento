@@ -7,6 +7,7 @@ import { Hero } from '@/components/Hero';
 import { Welcome } from '@/components/Welcome';
 import { Countdown } from '@/components/Countdown';
 import { EventDetails } from '@/components/EventDetails';
+import { TravelTips } from '@/components/TravelTips';
 import { GiftGrid } from '@/components/GiftGrid';
 import { RSVPForm } from '@/components/RSVPForm';
 import { Guestbook } from '@/components/Guestbook';
@@ -35,6 +36,8 @@ function ActiveSection() {
       </section>
     ) : activeSection === 'ceremony' ? (
       <EventDetails />
+    ) : activeSection === 'travel' ? (
+      <TravelTips />
     ) : activeSection === 'gifts' ? (
       <GiftGrid />
     ) : activeSection === 'rsvp' ? (

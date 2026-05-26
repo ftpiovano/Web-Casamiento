@@ -92,6 +92,136 @@ export const siteConfig = {
       },
     },
   ],
+  // Travel tips — destinations to suggest to guests visiting northeast Brazil.
+  // Distances are relative to the BR venue (Hotel Ponta de Inhambupe, Esplanada-BA).
+  travelTips: [
+    {
+      id: 'salvador',
+      mapLink: 'https://www.google.com/maps/place/Salvador,+State+of+Bahia,+Brazil',
+      localized: {
+        br: {
+          name: 'Salvador',
+          blurb: 'Capital histórica da Bahia: Pelourinho colonial, samba e a melhor culinária baiana.',
+          distance: '≈ 2h de carro',
+        },
+        ar: {
+          name: 'Salvador',
+          blurb: 'Capital histórica de Bahía: Pelourinho colonial, samba y la mejor gastronomía bahiana.',
+          distance: '≈ 2h en auto',
+        },
+        en: {
+          name: 'Salvador',
+          blurb: 'Bahia’s historic capital — colonial Pelourinho, samba rhythms, and the best regional cuisine.',
+          distance: '≈ 2h drive',
+        },
+      },
+    },
+    {
+      id: 'praia-do-forte',
+      mapLink: 'https://www.google.com/maps/place/Praia+do+Forte,+Mata+de+S%C3%A3o+Jo%C3%A3o+-+State+of+Bahia',
+      localized: {
+        br: {
+          name: 'Praia do Forte',
+          blurb: 'Vila litorânea charmosa, sede do Projeto Tamar e com praias tranquilas de água quente.',
+          distance: '≈ 1h de carro',
+        },
+        ar: {
+          name: 'Praia do Forte',
+          blurb: 'Pueblito costero con encanto, sede del Projeto Tamar (tortugas marinas) y playas tranquilas.',
+          distance: '≈ 1h en auto',
+        },
+        en: {
+          name: 'Praia do Forte',
+          blurb: 'Charming coastal village with the Tamar sea-turtle sanctuary and warm, quiet beaches.',
+          distance: '≈ 1h drive',
+        },
+      },
+    },
+    {
+      id: 'morro-de-sao-paulo',
+      mapLink: 'https://www.google.com/maps/place/Morro+de+S%C3%A3o+Paulo,+Cair%C3%BA+-+State+of+Bahia',
+      localized: {
+        br: {
+          name: 'Morro de São Paulo',
+          blurb: 'Ilha sem carros com praias numeradas paradisíacas, vida noturna e barcos saindo de Salvador.',
+          distance: '≈ 4h (carro + barco)',
+        },
+        ar: {
+          name: 'Morro de São Paulo',
+          blurb: 'Isla sin autos, con playas paradisíacas numeradas, vida nocturna y catamaranes desde Salvador.',
+          distance: '≈ 4h (auto + lancha)',
+        },
+        en: {
+          name: 'Morro de São Paulo',
+          blurb: 'Car-free island with numbered paradise beaches, lively nights, and boats from Salvador.',
+          distance: '≈ 4h (drive + ferry)',
+        },
+      },
+    },
+    {
+      id: 'chapada-diamantina',
+      mapLink: 'https://www.google.com/maps/place/Chapada+Diamantina+National+Park',
+      localized: {
+        br: {
+          name: 'Chapada Diamantina',
+          blurb: 'Parque nacional no interior baiano: cachoeiras, grutas, trilhas e paisagens de tirar o fôlego.',
+          distance: '≈ 6h de carro',
+        },
+        ar: {
+          name: 'Chapada Diamantina',
+          blurb: 'Parque nacional en el interior bahiano: cascadas, grutas, senderos y paisajes asombrosos.',
+          distance: '≈ 6h en auto',
+        },
+        en: {
+          name: 'Chapada Diamantina',
+          blurb: 'Inland national park: waterfalls, caves, hiking trails, and breathtaking rock formations.',
+          distance: '≈ 6h drive',
+        },
+      },
+    },
+    {
+      id: 'trancoso',
+      mapLink: 'https://www.google.com/maps/place/Trancoso,+Porto+Seguro+-+State+of+Bahia',
+      localized: {
+        br: {
+          name: 'Trancoso',
+          blurb: 'Vilarejo colonial famoso pelo Quadrado e pelas praias mais elegantes do sul da Bahia.',
+          distance: '≈ 1h de avião + 1h de carro',
+        },
+        ar: {
+          name: 'Trancoso',
+          blurb: 'Pueblo colonial famoso por su Quadrado y las playas más elegantes del sur de Bahía.',
+          distance: '≈ 1h en avión + 1h en auto',
+        },
+        en: {
+          name: 'Trancoso',
+          blurb: 'Colonial village famed for its Quadrado square and the upscale beaches of southern Bahia.',
+          distance: '≈ 1h flight + 1h drive',
+        },
+      },
+    },
+    {
+      id: 'maragogi',
+      mapLink: 'https://www.google.com/maps/place/Maragogi,+State+of+Alagoas',
+      localized: {
+        br: {
+          name: 'Maragogi',
+          blurb: 'Conhecida como o Caribe brasileiro: piscinas naturais, recifes e águas cristalinas em Alagoas.',
+          distance: '≈ 5h de carro',
+        },
+        ar: {
+          name: 'Maragogi',
+          blurb: 'Conocida como el Caribe brasileño: piscinas naturales, arrecifes y aguas cristalinas en Alagoas.',
+          distance: '≈ 5h en auto',
+        },
+        en: {
+          name: 'Maragogi',
+          blurb: 'Known as Brazil’s Caribbean — natural pools, reefs, and crystal-clear waters in Alagoas.',
+          distance: '≈ 5h drive',
+        },
+      },
+    },
+  ],
   // Region-specific configurations
   regions: {
     br: {
@@ -114,6 +244,9 @@ export const siteConfig = {
         totalLabel: 'Total a pagar',
         successTitle: 'Pedido Confirmado!',
         backToSite: 'Voltar para o site',
+        travelTipsTitle: 'Dicas de Viagem',
+        travelTipsIntro: 'Sugestões para conhecer o Nordeste brasileiro durante a sua viagem.',
+        travelMapButton: 'Ver no Mapa',
       },
     },
     ar: {
@@ -136,6 +269,9 @@ export const siteConfig = {
         totalLabel: 'Total a pagar',
         successTitle: '¡Pedido Confirmado!',
         backToSite: 'Volver al sitio',
+        travelTipsTitle: 'Tips de Viaje',
+        travelTipsIntro: 'Sugerencias para descubrir el Nordeste brasileño durante el viaje.',
+        travelMapButton: 'Ver en Mapa',
       },
     },
     en: {
@@ -158,6 +294,9 @@ export const siteConfig = {
         totalLabel: 'Total to pay',
         successTitle: 'Order Confirmed!',
         backToSite: 'Back to site',
+        travelTipsTitle: 'Travel Tips',
+        travelTipsIntro: 'Recommendations for exploring northeast Brazil while you’re here.',
+        travelMapButton: 'View on Map',
       },
     },
   },

@@ -6,6 +6,7 @@ export type SectionKey =
   | 'home'
   | 'couple'
   | 'ceremony'
+  | 'travel'
   | 'gifts'
   | 'rsvp'
   | 'messages';

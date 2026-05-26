@@ -10,6 +10,7 @@ const navItems: { name: string; key: SectionKey }[] = [
   { name: 'Home', key: 'home' },
   { name: 'The Couple', key: 'couple' },
   { name: 'Ceremony', key: 'ceremony' },
+  { name: 'Travel', key: 'travel' },
   { name: 'Gift List', key: 'gifts' },
   { name: 'RSVP', key: 'rsvp' },
   { name: 'Messages', key: 'messages' },
