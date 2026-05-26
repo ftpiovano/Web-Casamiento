@@ -6,14 +6,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { useSection, SectionKey } from '@/context/SectionContext';
 
-const navItems: { name: string; key: SectionKey }[] = [
-  { name: 'Home', key: 'home' },
-  { name: 'The Couple', key: 'couple' },
-  { name: 'Ceremony', key: 'ceremony' },
-  { name: 'Travel', key: 'travel' },
-  { name: 'Gift List', key: 'gifts' },
-  { name: 'RSVP', key: 'rsvp' },
-  { name: 'Messages', key: 'messages' },
+const navOrder: SectionKey[] = [
+  'home',
+  'couple',
+  'ceremony',
+  'travel',
+  'gifts',
+  'rsvp',
+  'messages',
 ];
 
 /**
@@ -23,8 +23,9 @@ const navItems: { name: string; key: SectionKey }[] = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { region, setRegion } = useLanguage();
+  const { region, setRegion, config } = useLanguage();
   const { activeSection, setActiveSection } = useSection();
+  const navItems = navOrder.map((key) => ({ key, name: config.content.nav[key] }));
 
   useEffect(() => {
     const handleScroll = () => {

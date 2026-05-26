@@ -291,6 +291,15 @@ export const siteConfig = {
       currency: 'BRL',
       currencySymbol: 'R$',
       content: {
+        nav: {
+          home: 'Início',
+          couple: 'O Casal',
+          ceremony: 'Cerimônia',
+          travel: 'Viagem',
+          gifts: 'Lista de Presentes',
+          rsvp: 'Confirmação',
+          messages: 'Mensagens',
+        },
         welcomeTitle: 'Bem-vindos',
         welcomeText: 'Estamos muito felizes em compartilhar este momento tão especial com vocês.',
         giftListTitle: 'Lista de Presentes',
@@ -320,6 +329,15 @@ export const siteConfig = {
       currency: 'ARS',
       currencySymbol: '$',
       content: {
+        nav: {
+          home: 'Inicio',
+          couple: 'La Pareja',
+          ceremony: 'Ceremonia',
+          travel: 'Viaje',
+          gifts: 'Lista de Regalos',
+          rsvp: 'Confirmación',
+          messages: 'Mensajes',
+        },
         welcomeTitle: 'Bienvenidos',
         welcomeText: 'Estamos muy felices de compartir este momento tan especial con ustedes.',
         giftListTitle: 'Lista de Regalos',
@@ -349,6 +367,15 @@ export const siteConfig = {
       currency: 'USD',
       currencySymbol: 'US$',
       content: {
+        nav: {
+          home: 'Home',
+          couple: 'The Couple',
+          ceremony: 'Ceremony',
+          travel: 'Travel',
+          gifts: 'Gift List',
+          rsvp: 'RSVP',
+          messages: 'Messages',
+        },
         welcomeTitle: 'Welcome',
         welcomeText: 'We are very happy to share this special moment with you.',
         giftListTitle: 'Gift List',
