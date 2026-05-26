@@ -93,4 +93,19 @@ Tailwind CSS v4 (via `@tailwindcss/postcss`). Theme tokens live in `siteConfig.t
 
 ## Useful skills installed
 
-`.agents/skills/supabase/` and `.agents/skills/supabase-postgres-best-practices/` are installed (via `npx skills add supabase/agent-skills`). When working on Supabase auth, RLS, schema, or Postgres patterns, read the relevant `SKILL.md` and `references/*.md` first — they contain Supabase-specific traps (e.g., never use `user_metadata` for authorization).
+All skills live under `.agents/skills/` and are committed to the repo. Read the matching `SKILL.md` (plus `references/*.md` if it has them) **before** doing related work — they encode framework-specific traps and best practices.
+
+**Supabase** (from `supabase/agent-skills`):
+- `supabase` — Auth, RLS, MCP, client libs. Critical trap: never use `user_metadata` for authorization (it's user-editable; use `app_metadata`).
+- `supabase-postgres-best-practices` — Postgres patterns: indexing, RLS performance, connection pooling, locking.
+
+**Frontend / Next.js / Vercel** (from `vercel-labs/agent-skills`):
+- `vercel-react-best-practices` — React + Next.js performance patterns. Read before writing or refactoring components.
+- `vercel-composition-patterns` — Compound components, render props, React 19 API patterns. Read before designing reusable component APIs.
+- `web-design-guidelines` — UI/accessibility audit checklist. Read before reviewing UI or addressing layout/a11y issues.
+- `vercel-react-view-transitions` — `<ViewTransition>` API for smooth section/route animations. Read before adding page transitions.
+- `deploy-to-vercel` — Vercel deployment patterns and gotchas.
+- `vercel-cli-with-tokens` — Token-based Vercel CLI usage (env vars, deploys from sessions).
+- `vercel-optimize` — Cost/performance tuning for deployed Vercel projects (Function Invocations, Build Minutes, Core Web Vitals).
+
+Install or update via `npx skills add <repo>` (e.g., `npx skills add vercel-labs/agent-skills --all`). The `skills-lock.json` at the repo root tracks what's installed.

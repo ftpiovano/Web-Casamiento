@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# claude code (skills symlinks are machine-local; hooks and settings are committed)
+.claude/skills/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
