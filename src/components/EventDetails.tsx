@@ -86,7 +86,7 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
       {backgroundImage && (
         <div className='absolute inset-0 pointer-events-none' aria-hidden>
           <div
-            className='absolute inset-0 bg-cover bg-center opacity-25'
+            className='absolute inset-0 bg-cover bg-center opacity-50'
             style={{ backgroundImage: `url(${backgroundImage})` }}
           />
           <div className='absolute inset-0 bg-gradient-to-b from-background/65 via-background/35 to-background/70' />
