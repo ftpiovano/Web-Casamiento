@@ -13,6 +13,7 @@ import { useLanguage } from '@/context/LanguageContext';
 export function Hero() {
   const { names, eventDate } = siteConfig;
   const { region } = useLanguage();
+  const groom = names.groom[region];
   
   const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
   
@@ -44,7 +45,7 @@ export function Hero() {
         >
           <Image
             src='/branding/wedding-logo.png'
-            alt={`${names.bride} & ${names.groom} monogram`}
+            alt={`${names.bride} & ${groom} monogram`}
             width={969}
             height={1279}
             priority
@@ -53,7 +54,7 @@ export function Hero() {
         </motion.div>
 
         <Typography as='h1' className='mb-4'>
-          {names.bride} & {names.groom}
+          {names.bride} & {groom}
         </Typography>
 
         <p className='text-lg md:text-xl tracking-[0.2em] uppercase text-foreground/60 mb-12'>

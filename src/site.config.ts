@@ -1,6 +1,6 @@
 export const siteConfig = {
   names: {
-    groom: 'Chico',
+    groom: { ar: 'Tomi', br: 'Chico', en: 'Chico' },
     bride: 'Alexita',
   },
   eventDate: '2027-03-06T17:00:00', // Reference date for general countdown

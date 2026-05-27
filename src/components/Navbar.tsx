@@ -58,7 +58,7 @@ export function Navbar() {
         >
           <Image
             src='/branding/wedding-logo.png'
-            alt={`${siteConfig.names.bride} & ${siteConfig.names.groom}`}
+            alt={`${siteConfig.names.bride} & ${siteConfig.names.groom[region]}`}
             width={969}
             height={1279}
             priority

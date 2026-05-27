@@ -14,16 +14,18 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
+const canonicalGroom = siteConfig.names.groom.br;
+
 export const metadata: Metadata = {
-  title: `${siteConfig.names.bride} & ${siteConfig.names.groom} | Wedding`,
-  description: `Welcome to the wedding website of ${siteConfig.names.bride} and ${siteConfig.names.groom}`,
+  title: `${siteConfig.names.bride} & ${canonicalGroom} | Wedding`,
+  description: `Welcome to the wedding website of ${siteConfig.names.bride} and ${canonicalGroom}`,
   icons: {
     icon: '/branding/wedding-logo.png',
     apple: '/branding/wedding-logo.png',
   },
   openGraph: {
-    title: `${siteConfig.names.bride} & ${siteConfig.names.groom}`,
-    description: `Welcome to the wedding of ${siteConfig.names.bride} and ${siteConfig.names.groom}`,
+    title: `${siteConfig.names.bride} & ${canonicalGroom}`,
+    description: `Welcome to the wedding of ${siteConfig.names.bride} and ${canonicalGroom}`,
     images: ['/branding/wedding-logo.png'],
     type: 'website',
   },

@@ -5,7 +5,7 @@ import { ArrowLeft, Phone, ExternalLink, Plane, Bus, Check } from 'lucide-react'
 import { siteConfig } from '@/site.config';
 
 export const metadata: Metadata = {
-  title: `Paquetes de Vuelo · Brasil 2027 | ${siteConfig.names.bride} & ${siteConfig.names.groom}`,
+  title: `Paquetes de Vuelo · Brasil 2027 | ${siteConfig.names.bride} & ${siteConfig.names.groom.ar}`,
   description:
     'Opciones de vuelo grupal Buenos Aires ↔ Salvador de Bahía para nuestra boda — marzo 2027.',
 };
@@ -103,7 +103,7 @@ export default function VuelosBrasilPage() {
         <header className='text-center mb-14 md:mb-20'>
           <Image
             src='/branding/wedding-logo.png'
-            alt={`${siteConfig.names.bride} & ${siteConfig.names.groom}`}
+            alt={`${siteConfig.names.bride} & ${siteConfig.names.groom.ar}`}
             width={969}
             height={1279}
             priority

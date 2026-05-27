@@ -36,7 +36,7 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
    */
   const handleAddToCalendar = () => {
     const event = {
-      title: `${siteConfig.names.bride} & ${siteConfig.names.groom} Wedding - ${title}`,
+      title: `${siteConfig.names.bride} & ${siteConfig.names.groom[region]} Wedding - ${title}`,
       start: dateTime,
       duration: '0400', // 4 hours
       location: `${locationName}, ${address}`,
