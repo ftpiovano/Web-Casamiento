@@ -47,7 +47,7 @@ export function Countdown() {
   ];
 
   return (
-    <section className='py-20 bg-accent/5 border-y border-accent/10'>
+    <section className='pt-20 pb-10 bg-accent/5 border-y border-accent/10'>
       <div className='container max-w-4xl mx-auto px-6'>
         <div className='grid grid-cols-2 md:grid-cols-4 gap-8'>
           {items.map((item) => (

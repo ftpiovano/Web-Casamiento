@@ -11,7 +11,7 @@ export function Welcome() {
   const { config } = useLanguage();
 
   return (
-    <Section id='welcome' className='bg-background'>
+    <Section id='welcome' className='bg-background !pt-10 md:!pt-16'>
       <div className='max-w-2xl mx-auto text-center space-y-6'>
         <Typography as='h2'>
           {config.content.welcomeTitle}
