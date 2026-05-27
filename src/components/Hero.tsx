@@ -17,11 +17,14 @@ export function Hero() {
   
   const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
   
-  const date = new Date(eventDate).toLocaleDateString(locale, {
+  const parts = new Intl.DateTimeFormat(locale, {
     day: '2-digit',
-    month: '2-digit',
+    month: 'short',
     year: 'numeric',
-  }).replace(/\//g, ' | ');
+  }).formatToParts(new Date(eventDate));
+  const part = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((p) => p.type === type)?.value ?? '';
+  const date = `${part('day')} | ${part('month').replace(/\.$/, '')} | ${part('year')}`;
 
   return (
     <section
