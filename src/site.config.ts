@@ -34,7 +34,7 @@ export const siteConfig = {
       locationName: 'Hotel Boutique & Spa Ponta de Inhambupe',
       address: 'Loteamento Ponta de Inhambupe, 189 - Baixio, Esplanada - BA, 48370-000, Brasil',
       mapLink: 'https://www.google.com/maps/place/Hotel+Boutique+%26+Spa+Ponta+de+Inhambupe+by+Slaviero+Hot%C3%A9is/@-12.1023221,-37.6930429,17z/data=!3m1!4b1!4m9!3m8!1s0x717376dd6887931:0x6d4526a6d0ab8dea!5m2!4m1!1i2!8m2!3d-12.1023221!4d-37.690468!16s%2Fg%2F11pdxwrbyd?entry=ttu',
-      flightPackagesUrl: '#',
+      flightPackagesUrl: '/vuelos-brasil',
     },
   },
   // Centralized Gift Registry

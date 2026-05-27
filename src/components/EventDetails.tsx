@@ -99,7 +99,13 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
           <Calendar size={16} className='mr-2 inline' />
           {currentLabels.cal}
         </Button>
-        <a href={flightPackagesUrl} target='_blank' rel='noopener noreferrer' className='w-full'>
+        <a
+          href={flightPackagesUrl}
+          {...(flightPackagesUrl.startsWith('http')
+            ? { target: '_blank', rel: 'noopener noreferrer' }
+            : {})}
+          className='w-full'
+        >
           <Button variant='outline' className='w-full'>
             <Plane size={16} className='mr-2 inline' />
             {currentLabels.flights}
