@@ -15,6 +15,7 @@ interface EventProps {
   address: string;
   mapLink: string;
   flightPackagesUrl: string;
+  backgroundImage?: string;
   id: string;
 }
 
@@ -23,7 +24,7 @@ interface EventProps {
  * @param {EventProps} props component properties.
  * @return {JSX.Element} The rendered event card.
  */
-function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl }: EventProps) {
+function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl, backgroundImage }: EventProps) {
   const { region } = useLanguage();
   
   const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
@@ -81,9 +82,19 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
   const currentLabels = labels[region] || labels.en;
 
   return (
-    <Card className='flex flex-col items-center text-center'>
+    <Card className='relative flex flex-col items-center text-center overflow-hidden'>
+      {backgroundImage && (
+        <div className='absolute inset-0 pointer-events-none' aria-hidden>
+          <div
+            className='absolute inset-0 bg-cover bg-center opacity-25'
+            style={{ backgroundImage: `url(${backgroundImage})` }}
+          />
+          <div className='absolute inset-0 bg-gradient-to-b from-background/65 via-background/35 to-background/70' />
+        </div>
+      )}
+      <div className='relative w-full flex flex-col items-center'>
       <Typography as='h3'>{title}</Typography>
-      
+
       <div className='space-y-4 mb-8'>
         <div className='flex flex-col items-center'>
           <Calendar className='text-primary/60 mb-2' size={20} />
@@ -126,6 +137,7 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
           </Button>
         </a>
       </div>
+      </div>
     </Card>
   );
 }
@@ -164,6 +176,7 @@ export function EventDetails() {
           address={siteConfig.events.br.address}
           mapLink={siteConfig.events.br.mapLink}
           flightPackagesUrl={siteConfig.events.br.flightPackagesUrl}
+          backgroundImage={siteConfig.events.br.backgroundImage}
         />
       </div>
     </Section>
