@@ -14,7 +14,8 @@ export const metadata: Metadata = {
 const TOURISM_AGENCY_NAME = 'Agencia de viajes';
 const TOURISM_PHONE = '+54 11 0000-0000';
 const TOURISM_PHONE_TEL = '+541100000000';
-const DESPEGAR_URL = 'https://www.despegar.com.ar/';
+const DESPEGAR_URL =
+  'https://www.despegar.com.ar/shop/flights/results/roundtrip/BUE/SSA/2027-03-04/2027-03-14/1/0/0?from=SB&di=1&currency=USD';
 
 const outbound = {
   dayLabel: 'Jueves 4 mar 2027',
