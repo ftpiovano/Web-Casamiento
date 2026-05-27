@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Phone, ExternalLink, Plane, Bus } from 'lucide-react';
+import { ArrowLeft, Phone, ExternalLink, Plane, Bus, Check } from 'lucide-react';
 import { siteConfig } from '@/site.config';
 
 export const metadata: Metadata = {
@@ -10,8 +10,7 @@ export const metadata: Metadata = {
     'Opciones de vuelo grupal Buenos Aires ↔ Salvador de Bahía para nuestra boda — marzo 2027.',
 };
 
-// TODO(alexita): replace these placeholders with the agency's real details.
-const TOURISM_AGENCY_NAME = 'Agencia de viajes';
+// TODO(alexita): replace these phone placeholders with the agency's real details.
 const TOURISM_PHONE = '+54 11 0000-0000';
 const TOURISM_PHONE_TEL = '+541100000000';
 const DESPEGAR_URL =
@@ -123,12 +122,86 @@ export default function VuelosBrasilPage() {
           </div>
         </header>
 
-        <section className='max-w-2xl mx-auto mb-16 text-center'>
+        <section className='max-w-2xl mx-auto mb-12 text-center'>
           <p className='text-base md:text-lg leading-relaxed text-foreground/80'>
             ¡Hola! 😊 Estamos organizando el viaje a Brasil 2027 con motivo de
             nuestra boda y como no queremos que faltes, te sugerimos las
             opciones del viaje grupal.
           </p>
+        </section>
+
+        <section className='mb-20'>
+          <div
+            className='rounded-3xl overflow-hidden border-2 shadow-sm'
+            style={{ borderColor: NAVY }}
+          >
+            <div
+              className='p-7 md:p-10'
+              style={{ backgroundColor: NAVY }}
+            >
+              <p className='text-[10px] uppercase tracking-[0.35em] text-background/70 mb-3'>
+                Te recomendamos
+              </p>
+              <h2 className='font-heading text-2xl md:text-3xl text-background mb-4 leading-tight'>
+                Reservar con la agencia
+              </h2>
+              <p className='text-background/85 leading-relaxed mb-7 max-w-2xl'>
+                La empresa organizadora del viaje grupal tiene{' '}
+                <strong className='text-background'>financiación propia</strong>
+                : pagás un anticipo en junio y 6 cuotas hasta diciembre,{' '}
+                <strong className='text-background'>
+                  sin usar tu tarjeta de crédito
+                </strong>{' '}
+                ni consumir tu límite.
+              </p>
+              <ul className='space-y-2.5 mb-8'>
+                {[
+                  'Anticipo en junio + 6 cuotas (julio a diciembre)',
+                  'Sin tarjeta de crédito ni límite consumido',
+                  'La agencia coordina todo el viaje grupal',
+                ].map((item) => (
+                  <li
+                    key={item}
+                    className='flex items-start gap-3 text-background/85'
+                  >
+                    <Check
+                      size={16}
+                      className='mt-1 shrink-0 text-background/60'
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={`tel:${TOURISM_PHONE_TEL}`}
+                className='inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-background text-foreground text-sm uppercase tracking-[0.2em] hover:opacity-90 transition-opacity'
+              >
+                <Phone size={15} />
+                Llamar a la agencia
+              </a>
+            </div>
+
+            <div
+              className='px-7 md:px-10 py-6 bg-background'
+              style={{ borderTop: `1px solid ${NAVY}1f` }}
+            >
+              <p className='text-sm md:text-base text-foreground/75 leading-relaxed mb-3'>
+                ¿Preferís pagar con tu tarjeta de crédito? Podés comprar los
+                vuelos directamente en Despegar — te dejamos la búsqueda con
+                todas las fechas ya configuradas.
+              </p>
+              <a
+                href={DESPEGAR_URL}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='inline-flex items-center gap-2 text-sm uppercase tracking-[0.2em] font-medium hover:opacity-80 transition-opacity'
+                style={{ color: NAVY }}
+              >
+                Ver en Despegar
+                <ExternalLink size={14} />
+              </a>
+            </div>
+          </div>
         </section>
 
         <section className='mb-20'>
@@ -270,44 +343,22 @@ export default function VuelosBrasilPage() {
           </div>
 
           <p className='text-xs md:text-sm text-foreground/60 italic mt-5 md:mt-6 max-w-3xl'>
-            Financiación propia de la empresa organizadora — no es necesario
-            abonar con tarjeta de crédito. El anticipo se abona en junio; las
-            cuotas se distribuyen de julio a diciembre. Los precios son grupales
-            y están sujetos a confirmación según disponibilidad.
+            Precios grupales sujetos a disponibilidad y confirmación.
           </p>
         </section>
 
-        <section className='mb-16 rounded-2xl bg-accent/15 p-8 md:p-12 text-center'>
-          <p className='text-[11px] uppercase tracking-[0.3em] text-primary mb-3'>
-            Reservas & consultas
+        <section className='mb-12 text-center'>
+          <p className='text-sm text-foreground/65 mb-3'>
+            ¿Dudas? Reservá o consultá con la agencia organizadora del viaje:
           </p>
-          <h2 className='font-heading text-2xl md:text-3xl mb-4'>
-            {TOURISM_AGENCY_NAME}
-          </h2>
-          <p className='text-foreground/70 max-w-md mx-auto mb-7'>
-            La agencia coordina todo el viaje grupal — comunicate por teléfono
-            o consultá los vuelos directamente en Despegar.
-          </p>
-          <div className='flex flex-col sm:flex-row gap-3 justify-center items-stretch max-w-md mx-auto'>
-            <a
-              href={`tel:${TOURISM_PHONE_TEL}`}
-              className='inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm uppercase tracking-[0.2em] transition-opacity hover:opacity-90 text-background'
-              style={{ backgroundColor: NAVY }}
-            >
-              <Phone size={15} />
-              {TOURISM_PHONE}
-            </a>
-            <a
-              href={DESPEGAR_URL}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm uppercase tracking-[0.2em] border transition-opacity hover:opacity-80'
-              style={{ borderColor: NAVY, color: NAVY }}
-            >
-              Ver en Despegar
-              <ExternalLink size={14} />
-            </a>
-          </div>
+          <a
+            href={`tel:${TOURISM_PHONE_TEL}`}
+            className='inline-flex items-center gap-2 text-base md:text-lg font-heading hover:opacity-80 transition-opacity'
+            style={{ color: NAVY }}
+          >
+            <Phone size={16} />
+            {TOURISM_PHONE}
+          </a>
         </section>
 
         <div className='text-center'>
