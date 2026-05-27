@@ -26,10 +26,19 @@ interface EventProps {
 function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl }: EventProps) {
   const { region } = useLanguage();
   
-  const time = new Date(dateTime).toLocaleTimeString(region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US', {
+  const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
+  const time = new Date(dateTime).toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit',
   });
+  const dParts = new Intl.DateTimeFormat(locale, {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).formatToParts(new Date(dateTime));
+  const dPart = (type: Intl.DateTimeFormatPartTypes) =>
+    dParts.find((p) => p.type === type)?.value ?? '';
+  const date = `${dPart('day')}/${dPart('month').replace(/\.$/, '')}/${dPart('year')}`;
 
   /**
    * Generates and downloads an .ics file for the event.
@@ -77,10 +86,15 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
       
       <div className='space-y-4 mb-8'>
         <div className='flex flex-col items-center'>
+          <Calendar className='text-primary/60 mb-2' size={20} />
+          <Typography className='text-sm uppercase tracking-wider'>{date}</Typography>
+        </div>
+
+        <div className='flex flex-col items-center'>
           <Clock className='text-primary/60 mb-2' size={20} />
           <Typography className='text-sm uppercase tracking-wider'>{time}</Typography>
         </div>
-        
+
         <div className='flex flex-col items-center'>
           <MapPin className='text-primary/60 mb-2' size={20} />
           <Typography className='font-medium'>{locationName}</Typography>
