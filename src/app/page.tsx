@@ -24,8 +24,8 @@ function ActiveSection() {
     activeSection === 'home' ? (
       <>
         <Hero />
-        <Welcome />
         <Countdown />
+        <Welcome />
       </>
     ) : activeSection === 'couple' ? (
       <section
