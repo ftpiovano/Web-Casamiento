@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Clock, Calendar } from 'lucide-react';
+import { MapPin, Clock, Calendar, Plane } from 'lucide-react';
 import { siteConfig } from '@/site.config';
 import { Section, Typography, Card, Button } from './Base';
 import { useLanguage } from '@/context/LanguageContext';
@@ -14,6 +14,7 @@ interface EventProps {
   locationName: string;
   address: string;
   mapLink: string;
+  flightPackagesUrl: string;
   id: string;
 }
 
@@ -22,7 +23,7 @@ interface EventProps {
  * @param {EventProps} props component properties.
  * @return {JSX.Element} The rendered event card.
  */
-function EventCard({ title, dateTime, locationName, address, mapLink }: EventProps) {
+function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl }: EventProps) {
   const { region } = useLanguage();
   
   const time = new Date(dateTime).toLocaleTimeString(region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US', {
@@ -63,9 +64,9 @@ function EventCard({ title, dateTime, locationName, address, mapLink }: EventPro
   };
 
   const labels = {
-    br: { map: 'Abrir Mapa', cal: 'Calendário' },
-    ar: { map: 'Abrir Mapa', cal: 'Calendario' },
-    en: { map: 'Open Map', cal: 'Calendar' },
+    br: { map: 'Abrir Mapa', cal: 'Calendário', flights: 'Pacotes de Voo' },
+    ar: { map: 'Abrir Mapa', cal: 'Calendario', flights: 'Paquetes de Vuelo' },
+    en: { map: 'Open Map', cal: 'Calendar', flights: 'Flight Packages' },
   };
 
   const currentLabels = labels[region] || labels.en;
@@ -89,12 +90,21 @@ function EventCard({ title, dateTime, locationName, address, mapLink }: EventPro
 
       <div className='flex flex-col gap-3 w-full'>
         <a href={mapLink} target='_blank' rel='noopener noreferrer' className='w-full'>
-          <Button variant='outline' className='w-full'>{currentLabels.map}</Button>
+          <Button variant='outline' className='w-full'>
+            <MapPin size={16} className='mr-2 inline' />
+            {currentLabels.map}
+          </Button>
         </a>
         <Button variant='secondary' onClick={handleAddToCalendar} className='w-full'>
           <Calendar size={16} className='mr-2 inline' />
           {currentLabels.cal}
         </Button>
+        <a href={flightPackagesUrl} target='_blank' rel='noopener noreferrer' className='w-full'>
+          <Button variant='outline' className='w-full'>
+            <Plane size={16} className='mr-2 inline' />
+            {currentLabels.flights}
+          </Button>
+        </a>
       </div>
     </Card>
   );
@@ -124,6 +134,7 @@ export function EventDetails() {
           locationName={siteConfig.events.ar.locationName}
           address={siteConfig.events.ar.address}
           mapLink={siteConfig.events.ar.mapLink}
+          flightPackagesUrl={siteConfig.events.ar.flightPackagesUrl}
         />
         <EventCard
           id='brasil'
@@ -132,6 +143,7 @@ export function EventDetails() {
           locationName={siteConfig.events.br.locationName}
           address={siteConfig.events.br.address}
           mapLink={siteConfig.events.br.mapLink}
+          flightPackagesUrl={siteConfig.events.br.flightPackagesUrl}
         />
       </div>
     </Section>
