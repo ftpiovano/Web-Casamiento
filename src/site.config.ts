@@ -6,8 +6,8 @@ export const siteConfig = {
   // Photos for "The Couple" section. Leave as empty string to show a
   // placeholder; drop the file in /public/branding/ and set the path here.
   couplePhotos: {
-    bride: '',
-    groom: '',
+    bride: '/branding/couple-alexita.jpg',
+    groom: '/branding/couple-chico.jpg',
   },
   eventDate: '2027-03-06T17:00:00', // Reference date for general countdown
   theme: {
