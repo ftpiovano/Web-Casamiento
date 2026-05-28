@@ -74,9 +74,9 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
   };
 
   const labels = {
-    br: { map: 'Abrir Mapa', cal: 'Calendário', flights: 'Pacotes de Voo' },
-    ar: { map: 'Abrir Mapa', cal: 'Calendario', flights: 'Paquetes de Vuelo' },
-    en: { map: 'Open Map', cal: 'Calendar', flights: 'Flight Packages' },
+    br: { map: 'Abrir Mapa', cal: 'Adicionar ao Calendário', flights: 'Pacotes de Voo' },
+    ar: { map: 'Abrir Mapa', cal: 'Agregar al Calendario', flights: 'Paquetes de Vuelo' },
+    en: { map: 'Open Map', cal: 'Add to Calendar', flights: 'Flight Packages' },
   };
 
   const currentLabels = labels[region] || labels.en;
