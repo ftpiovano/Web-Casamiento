@@ -128,27 +128,24 @@ export const siteConfig = {
     },
     {
       id: 4,
-      emoji: '✂️',
+      emoji: '💈',
       image: '',
       category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
         br: {
-          name: 'Cabeleireiro para o noivo',
-          description:
-            'Uma ajudinha capilar para o grande dia — ou um corte de prejuízo, vai saber.',
-          price: 100,
+          name: '6 meses de corte de cabelo para o noivo',
+          description: 'Plano semestral — para quem é tão otimista quanto generoso.',
+          price: 130,
         },
         ar: {
-          name: 'Peluquero para el novio',
-          description:
-            'Una manito capilar para el gran día — o un corte de pérdidas, vaya uno a saber.',
-          price: 4000,
+          name: '6 meses de corte de pelo para el novio',
+          description: 'Plan semestral — para quien es tan optimista como generoso.',
+          price: 5500,
         },
         en: {
-          name: 'Hairdresser for the groom',
-          description:
-            'A little hair help for the big day — or a haircut of losses, who knows.',
-          price: 15,
+          name: '6 months of haircuts for the groom',
+          description: 'A six-month plan — for those as optimistic as they are generous.',
+          price: 20,
         },
       },
     },
@@ -345,29 +342,6 @@ export const siteConfig = {
           name: 'Special underwear for the groom on the wedding night',
           description: 'Limited-edition model — worn just once, but the story stays.',
           price: 12,
-        },
-      },
-    },
-    {
-      id: 13,
-      emoji: '💈',
-      image: '',
-      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
-      localized: {
-        br: {
-          name: '6 meses de corte de cabelo para o noivo',
-          description: 'Plano semestral — para quem é tão otimista quanto generoso.',
-          price: 130,
-        },
-        ar: {
-          name: '6 meses de corte de pelo para el novio',
-          description: 'Plan semestral — para quien es tan optimista como generoso.',
-          price: 5500,
-        },
-        en: {
-          name: '6 months of haircuts for the groom',
-          description: 'A six-month plan — for those as optimistic as they are generous.',
-          price: 20,
         },
       },
     },
