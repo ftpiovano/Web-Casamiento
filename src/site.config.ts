@@ -478,7 +478,7 @@ export const siteConfig = {
           price: 100,
         },
         ar: {
-          name: 'Una boludez para los noivos',
+          name: 'Una boludez para los novios',
           description: 'Pagás esto y aun así contás a todos que no regalaste nada. Doble victoria.',
           price: 10000,
         },
