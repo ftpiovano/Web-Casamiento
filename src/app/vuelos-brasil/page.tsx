@@ -16,14 +16,38 @@ const TOURISM_PHONE_TEL = '+541100000000';
 const DESPEGAR_URL =
   'https://www.despegar.com.ar/shop/flights/results/roundtrip/BUE/SSA/2027-03-04/2027-03-14/1/0/0?from=SB&di=1&currency=USD';
 
-const outbound = {
-  dayLabel: 'Jueves 4 mar 2027',
+type OutboundLeg = {
+  from: string;
+  to: string;
+  flightNumber: string;
+  dateLabel: string;
+  fromTime: string;
+  toTime: string;
+};
+
+const outboundLegs: OutboundLeg[] = [
+  {
+    from: 'Aeroparque · AEP',
+    to: 'São Paulo · GRU',
+    flightNumber: 'G37685',
+    dateLabel: '4 mar 2027',
+    fromTime: '18:05',
+    toTime: '21:00',
+  },
+  {
+    from: 'São Paulo · GRU',
+    to: 'Salvador · SSA',
+    flightNumber: 'G31696',
+    dateLabel: '4 / 5 mar 2027',
+    fromTime: '23:50',
+    toTime: '02:15',
+  },
+];
+
+const outboundMeta = {
   airline: 'Gol',
-  origin: 'Aeroparque · AEP',
-  departure: '18:05',
-  stop: 'Escala en São Paulo',
-  arrivalLabel: '07:00 hs',
-  destination: 'Hotel Ponta de Inhambupe · Baixio',
+  totalUsd: 353,
+  baggage: 'Carry on + mochila',
 };
 
 type ReturnOption = {
@@ -208,27 +232,93 @@ export default function VuelosBrasilPage() {
           <div className='flex items-baseline justify-between mb-5'>
             <h2 className='font-heading text-2xl md:text-3xl'>Viaje de ida</h2>
             <span className='text-[11px] uppercase tracking-[0.25em] text-foreground/50'>
-              Una sola opción
+              {outboundMeta.airline} · con escala
             </span>
           </div>
-          <article
-            className='rounded-2xl bg-background border shadow-sm p-6 md:p-8'
+
+          <div className='md:hidden space-y-4 mb-5'>
+            {outboundLegs.map((leg, i) => (
+              <article
+                key={leg.flightNumber}
+                className='rounded-2xl border p-5 bg-background'
+                style={{ borderColor: `${NAVY}1f` }}
+              >
+                <div className='flex items-baseline justify-between mb-2'>
+                  <p className='text-[11px] uppercase tracking-[0.25em] text-primary'>
+                    Tramo {i + 1}
+                  </p>
+                  <p className='text-xs text-foreground/55'>{leg.flightNumber}</p>
+                </div>
+                <p className='font-heading text-lg leading-tight mb-1'>
+                  {leg.from} → {leg.to}
+                </p>
+                <p className='text-sm text-foreground/70'>
+                  {leg.dateLabel} · {leg.fromTime} → {leg.toTime}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <div
+            className='hidden md:block overflow-hidden rounded-2xl border mb-6'
             style={{ borderColor: `${NAVY}1f` }}
           >
-            <div className='grid sm:grid-cols-3 gap-6'>
-              <Field label='Salida' value='18:05' sub={`${outbound.dayLabel} · ${outbound.origin}`} />
-              <Field label='Aerolínea' value={outbound.airline} sub={outbound.stop} />
-              <Field
-                label='Llegada al hotel'
-                value={outbound.arrivalLabel}
-                sub={outbound.destination}
-              />
+            <table className='w-full text-left'>
+              <thead style={{ backgroundColor: NAVY }} className='text-background'>
+                <tr>
+                  <Th>Tramo</Th>
+                  <Th>Vuelo</Th>
+                  <Th>Fecha</Th>
+                  <Th>Horario</Th>
+                </tr>
+              </thead>
+              <tbody>
+                {outboundLegs.map((leg, i) => (
+                  <tr
+                    key={leg.flightNumber}
+                    className={
+                      i < outboundLegs.length - 1
+                        ? 'border-b border-accent/40'
+                        : ''
+                    }
+                  >
+                    <Td>
+                      <span className='font-medium'>
+                        {leg.from} → {leg.to}
+                      </span>
+                    </Td>
+                    <Td>{leg.flightNumber}</Td>
+                    <Td>{leg.dateLabel}</Td>
+                    <Td>
+                      {leg.fromTime} → {leg.toTime}
+                    </Td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className='flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 pb-5 border-b border-accent/30'>
+            <div className='flex items-baseline gap-2'>
+              <span className='text-[11px] uppercase tracking-[0.25em] text-foreground/55'>
+                Precio
+              </span>
+              <span className='font-heading text-2xl' style={{ color: NAVY }}>
+                US$ {outboundMeta.totalUsd}
+              </span>
+              <span className='text-foreground/55 text-xs'>
+                (adultos y menores)
+              </span>
             </div>
-            <div className='mt-6 pt-6 border-t border-accent/40 flex items-center gap-2 text-sm text-foreground/70'>
-              <Bus size={16} className='text-primary' />
-              <span>Transfer incluido desde el aeropuerto al hotel de la boda.</span>
+            <div className='text-xs uppercase tracking-[0.2em] text-foreground/65'>
+              Equipaje · {outboundMeta.baggage}
             </div>
-          </article>
+          </div>
+
+          <div className='mt-5 flex items-center gap-2 text-sm text-foreground/70'>
+            <Bus size={16} className='text-primary' />
+            <span>Transfer incluido desde el aeropuerto al hotel de la boda.</span>
+          </div>
         </section>
 
         <section className='mb-12'>
@@ -375,17 +465,6 @@ export default function VuelosBrasilPage() {
   );
 }
 
-function Field({ label, value, sub }: { label: string; value: string; sub?: string }) {
-  return (
-    <div>
-      <p className='text-[10px] uppercase tracking-[0.25em] text-primary mb-1.5'>
-        {label}
-      </p>
-      <p className='text-lg font-medium leading-tight'>{value}</p>
-      {sub && <p className='text-sm text-foreground/60 mt-1'>{sub}</p>}
-    </div>
-  );
-}
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
