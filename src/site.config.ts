@@ -61,19 +61,19 @@ export const siteConfig = {
           name: 'Taxa para a noiva não jogar o buquê na sua namorada',
           description:
             'Para o buquê voar em outra direção e o destino não apressar o seu compromisso.',
-          price: 80,
+          price: 400,
         },
         ar: {
           name: 'Tasa para que la novia no le tire el ramo a tu novia',
           description:
             'Para que el ramo vuele en otra dirección y el destino no te apure el compromiso.',
-          price: 3000,
+          price: 100000,
         },
         en: {
           name: 'Fee for the bride not to throw the bouquet at your girlfriend',
           description:
             'So the bouquet flies the other way and destiny doesn’t rush your engagement.',
-          price: 12,
+          price: 60,
         },
       },
     },
@@ -87,19 +87,19 @@ export const siteConfig = {
           name: 'Rolo de macarrão caso o noivo não se comporte',
           description:
             'Recurso pedagógico clássico para manter a vida a dois em harmonia.',
-          price: 50,
+          price: 250,
         },
         ar: {
           name: 'Palo de amasar por si el novio no se porta bien',
           description:
             'Recurso pedagógico clásico para mantener la vida en pareja en armonía.',
-          price: 2000,
+          price: 30000,
         },
         en: {
           name: 'Rolling pin in case the groom misbehaves',
           description:
             'A classic pedagogical resource to keep married life in harmony.',
-          price: 8,
+          price: 20,
         },
       },
     },
@@ -113,19 +113,19 @@ export const siteConfig = {
           name: 'Capacete para proteger o noivo do rolo de macarrão',
           description:
             'Combo prevenção: melhor evitar o problema do que sofrer com ele.',
-          price: 60,
+          price: 300,
         },
         ar: {
           name: 'Casco para proteger al novio del palo de amasar',
           description:
             'Combo prevención: mejor evitar el problema que sufrirlo.',
-          price: 2500,
+          price: 60000,
         },
         en: {
           name: 'Helmet to protect the groom from the rolling pin',
           description:
             'Prevention combo: better to dodge the problem than endure it.',
-          price: 10,
+          price: 30,
         },
       },
     },
@@ -138,17 +138,17 @@ export const siteConfig = {
         br: {
           name: '6 meses de corte de cabelo para o noivo',
           description: 'Plano semestral — para quem é tão otimista quanto generoso.',
-          price: 130,
+          price: 150,
         },
         ar: {
           name: '6 meses de corte de pelo para el novio',
           description: 'Plan semestral — para quien es tan optimista como generoso.',
-          price: 5500,
+          price: 40000,
         },
         en: {
           name: '6 months of haircuts for the groom',
           description: 'A six-month plan — for those as optimistic as they are generous.',
-          price: 20,
+          price: 70,
         },
       },
     },
@@ -162,19 +162,19 @@ export const siteConfig = {
           name: 'Salto alto para a noiva caber no vestido',
           description:
             'Para a altura combinar com o vestido e o noivo continuar sendo o mais alto.',
-          price: 120,
+          price: 350,
         },
         ar: {
           name: 'Tacos altos para que la novia entre en el vestido',
           description:
             'Para que la altura combine con el vestido y el novio siga siendo el más alto.',
-          price: 5000,
+          price: 150000,
         },
         en: {
           name: 'High heels so the bride fits her dress',
           description:
             'So the height matches the dress and the groom keeps being the tallest.',
-          price: 18,
+          price: 100,
         },
       },
     },
@@ -188,19 +188,19 @@ export const siteConfig = {
           name: 'Cobertor para a noiva, que sempre está coberta de razão',
           description:
             'Para os dias em que ela ganha a discussão antes mesmo de começar.',
-          price: 90,
+          price: 100,
         },
         ar: {
           name: 'Manta para la novia, que siempre está cubierta de razón',
           description:
             'Para los días en que ella gana la discusión antes incluso de empezar.',
-          price: 3500,
+          price: 200000,
         },
         en: {
           name: 'Blanket for the bride — she’s always covered in being right',
           description:
             'For the days when she wins the argument before it even starts.',
-          price: 14,
+          price: 40,
         },
       },
     },
@@ -213,17 +213,17 @@ export const siteConfig = {
         br: {
           name: 'Primeiro lugar na fila do buffet',
           description: 'Sem espera. Direto à comida. Sem julgamentos.',
-          price: 200,
+          price: 360,
         },
         ar: {
           name: 'Primer puesto en la fila del buffet',
           description: 'Sin esperar. Directo a la comida. Sin juicios.',
-          price: 8000,
+          price: 180000,
         },
         en: {
           name: 'First in line at the buffet',
           description: 'No waiting. Straight to the food. No judgment.',
-          price: 30,
+          price: 150,
         },
       },
     },
@@ -237,19 +237,19 @@ export const siteConfig = {
           name: 'Ir junto com os noivos para a lua de mel',
           description:
             'Toalha de praia incluída. Apartamento separado, prometemos.',
-          price: 5000,
+          price: 2000,
         },
         ar: {
           name: 'Acompañar a los novios en la luna de miel',
           description:
             'Toalla de playa incluida. Departamento aparte, lo prometemos.',
-          price: 200000,
+          price: 1000000,
         },
         en: {
           name: 'Join the couple on their honeymoon',
           description:
             'Beach towel included. Separate apartment, we promise.',
-          price: 800,
+          price: 500,
         },
       },
     },
@@ -263,19 +263,19 @@ export const siteConfig = {
           name: 'Prioridade no quarto de hóspedes dos noivos na Inglaterra',
           description:
             'Pernoites garantidos, chá das cinco incluído e fila zero.',
-          price: 400,
+          price: 700,
         },
         ar: {
           name: 'Prioridad en el cuarto de huéspedes de los novios en Inglaterra',
           description:
             'Estadías garantizadas, té de las cinco incluido y sin filas.',
-          price: 16000,
+          price: 250000,
         },
         en: {
           name: 'Priority access to the couple’s guest room in England',
           description:
             'Stays guaranteed, five-o’clock tea included, no queue.',
-          price: 60,
+          price: 230,
         },
       },
     },
@@ -288,17 +288,17 @@ export const siteConfig = {
         br: {
           name: 'Dose de paciência para a noiva',
           description: 'Pequena dose diária para sobreviver aos detalhes da vida real.',
-          price: 70,
+          price: 180,
         },
         ar: {
           name: 'Dosis de paciencia para la novia',
           description: 'Pequeña dosis diaria para sobrevivir a los detalles de la vida real.',
-          price: 2800,
+          price: 300000,
         },
         en: {
           name: 'A dose of patience for the bride',
           description: 'A tiny daily dose to survive the small things of real life.',
-          price: 10,
+          price: 80,
         },
       },
     },
@@ -311,17 +311,17 @@ export const siteConfig = {
         br: {
           name: 'Pedir suas músicas para o DJ',
           description: 'Crédito direto na cabine: três pedidos garantidos durante a festa.',
-          price: 250,
+          price: 330,
         },
         ar: {
           name: 'Pedir tus canciones al DJ',
           description: 'Crédito directo en la cabina: tres pedidos garantizados durante la fiesta.',
-          price: 10000,
+          price: 450000,
         },
         en: {
           name: 'Request your songs from the DJ',
           description: 'Direct credit at the booth: three guaranteed requests during the party.',
-          price: 40,
+          price: 300,
         },
       },
     },
@@ -334,17 +334,43 @@ export const siteConfig = {
         br: {
           name: 'Cueca especial para o noivo na noite de núpcias',
           description: 'Modelo edição limitada — usada uma única vez, mas a história fica.',
-          price: 80,
+          price: 90,
         },
         ar: {
           name: 'Calzoncillo especial para el novio en la noche de bodas',
           description: 'Modelo edición limitada — usado una sola vez, pero la historia queda.',
-          price: 3000,
+          price: 90000,
         },
         en: {
           name: 'Special underwear for the groom on the wedding night',
           description: 'Limited-edition model — worn just once, but the story stays.',
-          price: 12,
+          price: 35,
+        },
+      },
+    },
+    {
+      id: 13,
+      emoji: '🇹🇷',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Implante capilar na Turquia para o noivo',
+          description:
+            'Procedimento estético internacional para resolver de uma vez por todas — passagem para Istambul incluída na imaginação.',
+          price: 2500,
+        },
+        ar: {
+          name: 'Implante capilar en Turquía para el novio',
+          description:
+            'Procedimiento estético internacional para resolverlo de una vez por todas — pasaje a Estambul incluido en la imaginación.',
+          price: 1000000,
+        },
+        en: {
+          name: 'Hair transplant in Turkey for the groom',
+          description:
+            'An international cosmetic procedure to settle it once and for all — flight to Istanbul included in spirit.',
+          price: 1500,
         },
       },
     },
@@ -357,17 +383,17 @@ export const siteConfig = {
         br: {
           name: 'Curso de culinária para a Alexita',
           description: 'Investimento no futuro gastronômico do casal — agradecimentos antecipados, Chico.',
-          price: 250,
+          price: 500,
         },
         ar: {
           name: 'Curso de cocina para Alexita',
           description: 'Inversión en el futuro gastronómico de la pareja — gracias por adelantado, Tomi.',
-          price: 10000,
+          price: 500000,
         },
         en: {
           name: 'Cooking course for Alexita',
           description: 'An investment in the couple’s culinary future — thanks in advance, Chico.',
-          price: 40,
+          price: 160,
         },
       },
     },
@@ -380,17 +406,17 @@ export const siteConfig = {
         br: {
           name: 'Tampão de ouvido para não escutar os roncos do Chico',
           description: 'Tecnologia de ponta para preservar a saúde mental da noiva.',
-          price: 60,
+          price: 50,
         },
         ar: {
           name: 'Tapones para no escuchar los ronquidos de Tomi',
           description: 'Tecnología de punta para preservar la salud mental de la novia.',
-          price: 2500,
+          price: 15000,
         },
         en: {
           name: 'Earplugs to block out Chico’s snoring',
           description: 'Cutting-edge technology to preserve the bride’s sanity.',
-          price: 10,
+          price: 15,
         },
       },
     },
@@ -403,17 +429,17 @@ export const siteConfig = {
         br: {
           name: 'Ajude a Alexita a comer para não ficar mal-humorada',
           description: 'Vale-lanche permanente. Investimento certeiro na paz doméstica.',
-          price: 100,
+          price: 170,
         },
         ar: {
           name: 'Ayudá a Alexita a comer para que no se ponga de mal humor',
           description: 'Vale-merienda permanente. Inversión certera en la paz doméstica.',
-          price: 4000,
+          price: 35000,
         },
         en: {
           name: 'Help Alexita eat — so she doesn’t get hangry',
           description: 'A permanent snack voucher. A sure-fire investment in domestic peace.',
-          price: 15,
+          price: 45,
         },
       },
     },
@@ -426,17 +452,17 @@ export const siteConfig = {
         br: {
           name: '1 ano de bife para o noivo na Inglaterra',
           description: 'Porque saudade de churrasco se cura com proteína de qualidade.',
-          price: 1000,
+          price: 550,
         },
         ar: {
           name: '1 año de bife para el novio en Inglaterra',
           description: 'Porque la nostalgia del asado se cura con proteína de calidad.',
-          price: 35000,
+          price: 350000,
         },
         en: {
           name: '1 year of steaks for the groom in England',
           description: 'Because longing for proper grilled meat is cured with quality protein.',
-          price: 150,
+          price: 120,
         },
       },
     },
@@ -449,17 +475,17 @@ export const siteConfig = {
         br: {
           name: 'Só para dizer que não dei nada',
           description: 'Você paga isto e ainda conta para todos que não deu nada. Vitória dupla.',
-          price: 1,
+          price: 100,
         },
         ar: {
           name: 'Solo para decir que no regalé nada',
           description: 'Pagás esto y aun así contás a todos que no regalaste nada. Doble victoria.',
-          price: 50,
+          price: 10000,
         },
         en: {
           name: 'Just to say I didn’t give anything',
           description: 'You pay for this and still tell everyone you gave nothing. Double win.',
-          price: 1,
+          price: 10,
         },
       },
     },
@@ -472,17 +498,17 @@ export const siteConfig = {
         br: {
           name: 'Camisa do Brasil para o noivo curtir a Copa do Mundo',
           description: 'Estratégia diplomática para os jogos que dividem o casal.',
-          price: 150,
+          price: 1500,
         },
         ar: {
           name: 'Camiseta de Brasil para que el novio disfrute el Mundial',
           description: 'Estrategia diplomática para los partidos que dividen a la pareja.',
-          price: 6000,
+          price: 2500000,
         },
         en: {
           name: 'Brazil jersey for the groom to enjoy the World Cup',
           description: 'Diplomatic strategy for the matches that divide the couple.',
-          price: 25,
+          price: 350,
         },
       },
     },
@@ -495,17 +521,17 @@ export const siteConfig = {
         br: {
           name: 'Camisa da Argentina para a noiva curtir a Copa do Mundo',
           description: 'Para empatar o placar antes mesmo da bola rolar.',
-          price: 150,
+          price: 2500,
         },
         ar: {
           name: 'Camiseta de Argentina para que la novia disfrute el Mundial',
           description: 'Para empatar el marcador antes incluso de que ruede la pelota.',
-          price: 6000,
+          price: 1000,
         },
         en: {
           name: 'Argentina jersey for the bride to enjoy the World Cup',
           description: 'To even the score before the ball even starts rolling.',
-          price: 25,
+          price: 90,
         },
       },
     },
