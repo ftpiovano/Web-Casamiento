@@ -6,6 +6,7 @@ import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { Welcome } from '@/components/Welcome';
 import { Countdown } from '@/components/Countdown';
+import { Couple } from '@/components/Couple';
 import { EventDetails } from '@/components/EventDetails';
 import { TravelTips } from '@/components/TravelTips';
 import { GiftGrid } from '@/components/GiftGrid';
@@ -28,12 +29,7 @@ function ActiveSection() {
         <Welcome />
       </>
     ) : activeSection === 'couple' ? (
-      <section
-        id='couple'
-        className='min-h-screen flex items-center justify-center bg-background pt-32 pb-20'
-      >
-        <h2 className='text-4xl font-heading'>The Couple</h2>
-      </section>
+      <Couple />
     ) : activeSection === 'ceremony' ? (
       <EventDetails />
     ) : activeSection === 'travel' ? (
