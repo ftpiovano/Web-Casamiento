@@ -85,7 +85,7 @@ export function Navbar() {
         </button>
 
         {/* Desktop Nav */}
-        <div className='hidden md:flex items-center space-x-8'>
+        <div className={`hidden md:flex items-center ${region === 'ar' ? 'space-x-6' : 'space-x-8'}`}>
           {navItems.map((item) => {
             if (item.kind === 'route') {
               return (
