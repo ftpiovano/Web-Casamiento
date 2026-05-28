@@ -9,7 +9,7 @@ export const siteConfig = {
   // photo's aspect (no letterbox bars).
   couplePhotos: {
     bride: { src: '/branding/couple-alexita.jpg', width: 862, height: 1062 },
-    groom: { src: '/branding/couple-chico.jpg', width: 943, height: 1055 },
+    groom: { src: '/branding/couple-chico.jpg', width: 856, height: 1055 },
   },
   eventDate: '2027-03-06T17:00:00', // Reference date for general countdown
   theme: {
