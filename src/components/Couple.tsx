@@ -45,14 +45,14 @@ export function Couple() {
 function Portrait({ src, alt, name }: { src: string; alt: string; name: string }) {
   return (
     <figure className='flex flex-col items-center'>
-      <div className='relative w-44 h-44 sm:w-52 sm:h-52 md:w-64 md:h-64 rounded-full overflow-hidden border border-accent/40 bg-accent/15 shadow-sm'>
+      <div className='relative w-52 sm:w-60 md:w-72 aspect-[4/5] rounded-[2.25rem] overflow-hidden bg-accent/15 ring-1 ring-accent/40 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)]'>
         {src ? (
           <Image
             src={src}
             alt={alt}
             fill
-            sizes='(min-width: 768px) 256px, 208px'
-            className='object-cover'
+            sizes='(min-width: 768px) 288px, 240px'
+            className='object-contain'
           />
         ) : (
           <div className='absolute inset-0 flex items-center justify-center text-primary/35'>
