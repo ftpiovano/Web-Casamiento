@@ -52,7 +52,7 @@ export const siteConfig = {
       localized: {
         br: { name: 'Jantar Romântico em Buenos Aires', description: 'Um jantar especial para o casal.', price: 500 },
         ar: { name: 'Cena Romántica en Buenos Aires', description: 'Una cena especial para la pareja.', price: 15000 },
-        en: { name: 'Romantic Dinner in Buenos Aires', description: 'A special dinner for the couple.', price: 100 },
+        en: { name: 'Romantic Dinner in Buenos Aires', description: 'A special dinner for the couple.', price: 80 },
       },
     },
     {
@@ -61,7 +61,7 @@ export const siteConfig = {
       localized: {
         br: { name: 'Passagens Aéreas', description: 'Ajude-nos a chegar ao nuestro destino.', price: 2000 },
         ar: { name: 'Pasajes Aéreos', description: 'Ayúdanos a llegar a nuestro destino.', price: 60000 },
-        en: { name: 'Flight Tickets', description: 'Help us reach our destination.', price: 400 },
+        en: { name: 'Flight Tickets', description: 'Help us reach our destination.', price: 320 },
       },
     },
     {
@@ -70,7 +70,7 @@ export const siteConfig = {
       localized: {
         br: { name: 'Hospedagem em Resort', description: 'Uma noite de descanso e luxo.', price: 800 },
         ar: { name: 'Estadía en Resort', description: 'Una noche de descanso y lujo.', price: 25000 },
-        en: { name: 'Resort Stay', description: 'A night of rest and luxury.', price: 150 },
+        en: { name: 'Resort Stay', description: 'A night of rest and luxury.', price: 120 },
       },
     },
     {
@@ -79,7 +79,7 @@ export const siteConfig = {
       localized: {
         br: { name: 'Passeio de Barco', description: 'Explorando as águas cristalinas.', price: 300 },
         ar: { name: 'Paseo en Barco', description: 'Explorando las aguas cristalinas.', price: 10000 },
-        en: { name: 'Boat Trip', description: 'Exploring crystalline waters.', price: 60 },
+        en: { name: 'Boat Trip', description: 'Exploring crystalline waters.', price: 50 },
       },
     },
     {
@@ -88,7 +88,7 @@ export const siteConfig = {
       localized: {
         br: { name: 'Jogo de Pratos', description: 'Para nossa nova casa.', price: 250 },
         ar: { name: 'Juego de Platos', description: 'Para nuestra nueva casa.', price: 8000 },
-        en: { name: 'Dinnerware Set', description: 'For our new home.', price: 50 },
+        en: { name: 'Dinnerware Set', description: 'For our new home.', price: 40 },
       },
     },
     {
@@ -97,7 +97,7 @@ export const siteConfig = {
       localized: {
         br: { name: 'Cafeteira Espresso', description: 'Para começar o dia bem.', price: 100 },
         ar: { name: 'Cafetera Espresso', description: 'Para empezar bien el día.', price: 50000 },
-        en: { name: 'Espresso Machine', description: 'To start the day right.', price: 120 },
+        en: { name: 'Espresso Machine', description: 'To start the day right.', price: 95 },
       },
     },
   ],
@@ -381,8 +381,8 @@ export const siteConfig = {
       region: 'en',
       label: 'International',
       language: 'en',
-      currency: 'USD',
-      currencySymbol: 'US$',
+      currency: 'GBP',
+      currencySymbol: '£',
       content: {
         nav: {
           home: 'Home',
