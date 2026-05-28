@@ -3,11 +3,13 @@ export const siteConfig = {
     groom: { ar: 'Tomi', br: 'Chico', en: 'Chico' },
     bride: 'Alexita',
   },
-  // Photos for "The Couple" section. Leave as empty string to show a
-  // placeholder; drop the file in /public/branding/ and set the path here.
+  // Photos for "The Couple" section. Leave src empty to fall back to
+  // the User-icon placeholder; drop a file in /public/branding/ and
+  // set src + natural width/height here so the frame matches the
+  // photo's aspect (no letterbox bars).
   couplePhotos: {
-    bride: '/branding/couple-alexita.jpg',
-    groom: '/branding/couple-chico.jpg',
+    bride: { src: '/branding/couple-alexita.jpg', width: 862, height: 1062 },
+    groom: { src: '/branding/couple-chico.jpg', width: 943, height: 1055 },
   },
   eventDate: '2027-03-06T17:00:00', // Reference date for general countdown
   theme: {

@@ -20,8 +20,8 @@ export function Couple() {
   return (
     <Section id='couple' className='bg-background'>
       <div className='flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-16 md:gap-24 mb-12'>
-        <Portrait src={bridePhoto} alt={bride} name={bride} />
-        <Portrait src={groomPhoto} alt={groom} name={groom} />
+        <Portrait photo={bridePhoto} alt={bride} name={bride} />
+        <Portrait photo={groomPhoto} alt={groom} name={groom} />
       </div>
 
       <BotanicalDivider />
@@ -42,20 +42,30 @@ export function Couple() {
   );
 }
 
-function Portrait({ src, alt, name }: { src: string; alt: string; name: string }) {
+function Portrait({
+  photo,
+  alt,
+  name,
+}: {
+  photo: { src: string; width: number; height: number };
+  alt: string;
+  name: string;
+}) {
+  const hasPhoto = Boolean(photo.src);
   return (
     <figure className='flex flex-col items-center'>
-      <div className='relative w-52 sm:w-60 md:w-72 aspect-[4/5] rounded-[2.25rem] overflow-hidden bg-accent/15 ring-1 ring-accent/40 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)]'>
-        {src ? (
+      <div className='w-52 sm:w-60 md:w-72 rounded-[2.25rem] overflow-hidden bg-accent/15 ring-1 ring-accent/40 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)]'>
+        {hasPhoto ? (
           <Image
-            src={src}
+            src={photo.src}
             alt={alt}
-            fill
+            width={photo.width}
+            height={photo.height}
             sizes='(min-width: 768px) 288px, 240px'
-            className='object-contain'
+            className='block w-full h-auto'
           />
         ) : (
-          <div className='absolute inset-0 flex items-center justify-center text-primary/35'>
+          <div className='aspect-[4/5] flex items-center justify-center text-primary/35'>
             <User size={64} strokeWidth={1} />
           </div>
         )}
