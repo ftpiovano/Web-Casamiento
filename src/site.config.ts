@@ -44,60 +44,239 @@ export const siteConfig = {
       backgroundImage: '/branding/brasil-bg.jpg',
     },
   },
-  // Centralized Gift Registry
+  // Centralized Gift Registry — comic edition.
+  // `emoji` renders as the card visual until an `image` path is set
+  // (drop a photo under /public/branding/gifts/ and reference it here).
   gifts: [
     {
       id: 1,
-      category: { br: 'Experiência', ar: 'Experiencia', en: 'Experience' },
+      emoji: '💐',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
-        br: { name: 'Jantar Romântico em Buenos Aires', description: 'Um jantar especial para o casal.', price: 500 },
-        ar: { name: 'Cena Romántica en Buenos Aires', description: 'Una cena especial para la pareja.', price: 15000 },
-        en: { name: 'Romantic Dinner in Buenos Aires', description: 'A special dinner for the couple.', price: 80 },
+        br: {
+          name: 'Taxa para a noiva não jogar o buquê na sua namorada',
+          description:
+            'Para o buquê voar em outra direção e o destino não apressar o seu compromisso.',
+          price: 80,
+        },
+        ar: {
+          name: 'Tasa para que la novia no le tire el ramo a tu novia',
+          description:
+            'Para que el ramo vuele en otra dirección y el destino no te apure el compromiso.',
+          price: 3000,
+        },
+        en: {
+          name: 'Fee for the bride not to throw the bouquet at your girlfriend',
+          description:
+            'So the bouquet flies the other way and destiny doesn’t rush your engagement.',
+          price: 12,
+        },
       },
     },
     {
       id: 2,
-      category: { br: 'Viagem', ar: 'Viaje', en: 'Travel' },
+      emoji: '🥖',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
-        br: { name: 'Passagens Aéreas', description: 'Ajude-nos a chegar ao nuestro destino.', price: 2000 },
-        ar: { name: 'Pasajes Aéreos', description: 'Ayúdanos a llegar a nuestro destino.', price: 60000 },
-        en: { name: 'Flight Tickets', description: 'Help us reach our destination.', price: 320 },
+        br: {
+          name: 'Rolo de macarrão caso o noivo não se comporte',
+          description:
+            'Recurso pedagógico clássico para manter a vida a dois em harmonia.',
+          price: 50,
+        },
+        ar: {
+          name: 'Palo de amasar por si el novio no se porta bien',
+          description:
+            'Recurso pedagógico clásico para mantener la vida en pareja en armonía.',
+          price: 2000,
+        },
+        en: {
+          name: 'Rolling pin in case the groom misbehaves',
+          description:
+            'A classic pedagogical resource to keep married life in harmony.',
+          price: 8,
+        },
       },
     },
     {
       id: 3,
-      category: { br: 'Viagem', ar: 'Viaje', en: 'Travel' },
+      emoji: '⛑️',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
-        br: { name: 'Hospedagem em Resort', description: 'Uma noite de descanso e luxo.', price: 800 },
-        ar: { name: 'Estadía en Resort', description: 'Una noche de descanso y lujo.', price: 25000 },
-        en: { name: 'Resort Stay', description: 'A night of rest and luxury.', price: 120 },
+        br: {
+          name: 'Capacete para proteger o noivo do rolo de macarrão',
+          description:
+            'Combo prevenção: melhor evitar o problema do que sofrer com ele.',
+          price: 60,
+        },
+        ar: {
+          name: 'Casco para proteger al novio del palo de amasar',
+          description:
+            'Combo prevención: mejor evitar el problema que sufrirlo.',
+          price: 2500,
+        },
+        en: {
+          name: 'Helmet to protect the groom from the rolling pin',
+          description:
+            'Prevention combo: better to dodge the problem than endure it.',
+          price: 10,
+        },
       },
     },
     {
       id: 4,
-      category: { br: 'Experiência', ar: 'Experiencia', en: 'Experience' },
+      emoji: '✂️',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
-        br: { name: 'Passeio de Barco', description: 'Explorando as águas cristalinas.', price: 300 },
-        ar: { name: 'Paseo en Barco', description: 'Explorando las aguas cristalinas.', price: 10000 },
-        en: { name: 'Boat Trip', description: 'Exploring crystalline waters.', price: 50 },
+        br: {
+          name: 'Cabeleireiro para o noivo',
+          description:
+            'Uma ajudinha capilar para o grande dia — ou um corte de prejuízo, vai saber.',
+          price: 100,
+        },
+        ar: {
+          name: 'Peluquero para el novio',
+          description:
+            'Una manito capilar para el gran día — o un corte de pérdidas, vaya uno a saber.',
+          price: 4000,
+        },
+        en: {
+          name: 'Hairdresser for the groom',
+          description:
+            'A little hair help for the big day — or a haircut of losses, who knows.',
+          price: 15,
+        },
       },
     },
     {
       id: 5,
-      category: { br: 'Casa', ar: 'Casa', en: 'Home' },
+      emoji: '👠',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
-        br: { name: 'Jogo de Pratos', description: 'Para nossa nova casa.', price: 250 },
-        ar: { name: 'Juego de Platos', description: 'Para nuestra nueva casa.', price: 8000 },
-        en: { name: 'Dinnerware Set', description: 'For our new home.', price: 40 },
+        br: {
+          name: 'Salto alto para a noiva caber no vestido',
+          description:
+            'Para a altura combinar com o vestido e o noivo continuar sendo o mais alto.',
+          price: 120,
+        },
+        ar: {
+          name: 'Tacos altos para que la novia entre en el vestido',
+          description:
+            'Para que la altura combine con el vestido y el novio siga siendo el más alto.',
+          price: 5000,
+        },
+        en: {
+          name: 'High heels so the bride fits her dress',
+          description:
+            'So the height matches the dress and the groom keeps being the tallest.',
+          price: 18,
+        },
       },
     },
     {
       id: 6,
-      category: { br: 'Casa', ar: 'Casa', en: 'Home' },
+      emoji: '🛏️',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
-        br: { name: 'Cafeteira Espresso', description: 'Para começar o dia bem.', price: 100 },
-        ar: { name: 'Cafetera Espresso', description: 'Para empezar bien el día.', price: 50000 },
-        en: { name: 'Espresso Machine', description: 'To start the day right.', price: 95 },
+        br: {
+          name: 'Cobertor para a noiva, que sempre está coberta de razão',
+          description:
+            'Para os dias em que ela ganha a discussão antes mesmo de começar.',
+          price: 90,
+        },
+        ar: {
+          name: 'Manta para la novia, que siempre está cubierta de razón',
+          description:
+            'Para los días en que ella gana la discusión antes incluso de empezar.',
+          price: 3500,
+        },
+        en: {
+          name: 'Blanket for the bride — she’s always covered in being right',
+          description:
+            'For the days when she wins the argument before it even starts.',
+          price: 14,
+        },
+      },
+    },
+    {
+      id: 7,
+      emoji: '🍽️',
+      image: '',
+      category: { br: 'VIP', ar: 'VIP', en: 'VIP' },
+      localized: {
+        br: {
+          name: 'Primeiro lugar na fila do buffet',
+          description: 'Sem espera. Direto à comida. Sem julgamentos.',
+          price: 200,
+        },
+        ar: {
+          name: 'Primer puesto en la fila del buffet',
+          description: 'Sin esperar. Directo a la comida. Sin juicios.',
+          price: 8000,
+        },
+        en: {
+          name: 'First in line at the buffet',
+          description: 'No waiting. Straight to the food. No judgment.',
+          price: 30,
+        },
+      },
+    },
+    {
+      id: 8,
+      emoji: '✈️',
+      image: '',
+      category: { br: 'VIP', ar: 'VIP', en: 'VIP' },
+      localized: {
+        br: {
+          name: 'Ir junto com os noivos para a lua de mel',
+          description:
+            'Toalha de praia incluída. Apartamento separado, prometemos.',
+          price: 5000,
+        },
+        ar: {
+          name: 'Acompañar a los novios en la luna de miel',
+          description:
+            'Toalla de playa incluida. Departamento aparte, lo prometemos.',
+          price: 200000,
+        },
+        en: {
+          name: 'Join the couple on their honeymoon',
+          description:
+            'Beach towel included. Separate apartment, we promise.',
+          price: 800,
+        },
+      },
+    },
+    {
+      id: 9,
+      emoji: '🏰',
+      image: '',
+      category: { br: 'VIP', ar: 'VIP', en: 'VIP' },
+      localized: {
+        br: {
+          name: 'Prioridade no quarto de hóspedes dos noivos na Inglaterra',
+          description:
+            'Pernoites garantidos, chá das cinco incluído e fila zero.',
+          price: 400,
+        },
+        ar: {
+          name: 'Prioridad en el cuarto de huéspedes de los novios en Inglaterra',
+          description:
+            'Estadías garantizadas, té de las cinco incluido y sin filas.',
+          price: 16000,
+        },
+        en: {
+          name: 'Priority access to the couple’s guest room in England',
+          description:
+            'Stays guaranteed, five-o’clock tea included, no queue.',
+          price: 60,
+        },
       },
     },
   ],

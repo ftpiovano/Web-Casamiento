@@ -34,6 +34,8 @@ export function GiftGrid() {
   // Map the centralized gifts to the current region's format
   const localizedGifts = siteConfig.gifts.map((gift) => ({
     id: gift.id,
+    emoji: gift.emoji,
+    image: gift.image,
     category: (gift.category as any)[region] || gift.category.en,
     name: (gift.localized as any)[region].name,
     description: (gift.localized as any)[region].description,
@@ -123,7 +125,25 @@ export function GiftGrid() {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className='h-full flex flex-col'>
+              <Card className='h-full flex flex-col overflow-hidden'>
+                <div
+                  className='relative -mx-8 -mt-8 mb-6 h-32 bg-gradient-to-br from-accent/25 via-primary/5 to-accent/30 flex items-center justify-center overflow-hidden'
+                  aria-hidden
+                >
+                  {gift.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={gift.image}
+                      alt=''
+                      className='w-full h-full object-cover'
+                      loading='lazy'
+                    />
+                  ) : (
+                    <span className='text-6xl leading-none select-none drop-shadow-sm'>
+                      {gift.emoji}
+                    </span>
+                  )}
+                </div>
                 <div className='mb-4'>
                   <span className='text-[10px] uppercase tracking-[0.2em] text-primary font-bold bg-primary/10 px-3 py-1 rounded-full'>
                     {gift.category}
