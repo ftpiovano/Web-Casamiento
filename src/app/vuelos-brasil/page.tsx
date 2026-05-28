@@ -16,15 +16,42 @@ const TOURISM_PHONE_TEL = '+541100000000';
 const DESPEGAR_URL =
   'https://www.despegar.com.ar/shop/flights/results/roundtrip/BUE/SSA/2027-03-04/2027-03-14/1/0/0?from=SB&di=1&currency=USD';
 
-const outbound = {
-  dayLabel: 'Jueves 4 mar 2027',
-  airline: 'Gol',
-  origin: 'Aeroparque · AEP',
-  departure: '18:05',
-  stop: 'Escala en São Paulo',
-  arrivalLabel: '07:00 hs',
-  destination: 'Hotel Ponta de Inhambupe · Baixio',
+type OutboundOption = {
+  id: number;
+  type: string;
+  airline: string;
+  dateLabel: string;
+  fromTime: string;
+  toTime: string;
+  arrivalDetail: string;
+  route: string;
+  priceUsd: number | null;
 };
+
+const outboundOptions: OutboundOption[] = [
+  {
+    id: 1,
+    type: 'Directo',
+    airline: 'Aerolíneas Argentinas',
+    dateLabel: 'Jueves 4 mar 2027',
+    fromTime: '19:10',
+    toTime: '23:30',
+    arrivalDetail: 'en SSA',
+    route: 'AEP → SSA',
+    priceUsd: 152,
+  },
+  {
+    id: 2,
+    type: 'Con escala',
+    airline: 'Gol',
+    dateLabel: 'Jueves 4 mar 2027',
+    fromTime: '18:05',
+    toTime: '07:00',
+    arrivalDetail: 'al hotel',
+    route: 'AEP → GRU → SSA',
+    priceUsd: null,
+  },
+];
 
 type ReturnOption = {
   id: number;
@@ -208,27 +235,106 @@ export default function VuelosBrasilPage() {
           <div className='flex items-baseline justify-between mb-5'>
             <h2 className='font-heading text-2xl md:text-3xl'>Viaje de ida</h2>
             <span className='text-[11px] uppercase tracking-[0.25em] text-foreground/50'>
-              Una sola opción
+              {outboundOptions.length} opciones
             </span>
           </div>
-          <article
-            className='rounded-2xl bg-background border shadow-sm p-6 md:p-8'
+
+          <div className='md:hidden space-y-4'>
+            {outboundOptions.map((opt) => (
+              <article
+                key={opt.id}
+                className='rounded-2xl border p-5 bg-background'
+                style={{ borderColor: `${NAVY}1f` }}
+              >
+                <div className='flex items-baseline justify-between mb-3'>
+                  <div>
+                    <p className='text-[11px] uppercase tracking-[0.25em] text-primary mb-1'>
+                      Opción {opt.id} · {opt.type}
+                    </p>
+                    <p className='font-heading text-xl leading-tight'>{opt.airline}</p>
+                  </div>
+                  {opt.priceUsd != null && (
+                    <p className='font-heading text-2xl' style={{ color: NAVY }}>
+                      US$ {opt.priceUsd}
+                    </p>
+                  )}
+                </div>
+                <dl className='space-y-2.5 text-sm border-t border-accent/40 pt-4'>
+                  <Row label='Fecha' value={opt.dateLabel} />
+                  <Row label='Ruta' value={opt.route} />
+                  <Row
+                    label='Horario'
+                    value={`${opt.fromTime} → ${opt.toTime} (${opt.arrivalDetail})`}
+                  />
+                </dl>
+              </article>
+            ))}
+          </div>
+
+          <div
+            className='hidden md:block overflow-hidden rounded-2xl border'
             style={{ borderColor: `${NAVY}1f` }}
           >
-            <div className='grid sm:grid-cols-3 gap-6'>
-              <Field label='Salida' value='18:05' sub={`${outbound.dayLabel} · ${outbound.origin}`} />
-              <Field label='Aerolínea' value={outbound.airline} sub={outbound.stop} />
-              <Field
-                label='Llegada al hotel'
-                value={outbound.arrivalLabel}
-                sub={outbound.destination}
-              />
-            </div>
-            <div className='mt-6 pt-6 border-t border-accent/40 flex items-center gap-2 text-sm text-foreground/70'>
-              <Bus size={16} className='text-primary' />
-              <span>Transfer incluido desde el aeropuerto al hotel de la boda.</span>
-            </div>
-          </article>
+            <table className='w-full text-left'>
+              <thead style={{ backgroundColor: NAVY }} className='text-background'>
+                <tr>
+                  <Th>Opción</Th>
+                  <Th>Aerolínea</Th>
+                  <Th>Fecha</Th>
+                  <Th>Horario</Th>
+                  <Th>Ruta</Th>
+                  <Th className='text-right'>Precio USD</Th>
+                </tr>
+              </thead>
+              <tbody>
+                {outboundOptions.map((opt, i) => (
+                  <tr
+                    key={opt.id}
+                    className={
+                      i < outboundOptions.length - 1
+                        ? 'border-b border-accent/40'
+                        : ''
+                    }
+                  >
+                    <Td>
+                      <span className='font-heading text-xl' style={{ color: NAVY }}>
+                        {opt.id}
+                      </span>
+                      <div className='text-xs text-foreground/55 mt-0.5'>{opt.type}</div>
+                    </Td>
+                    <Td>
+                      <span className='font-medium'>{opt.airline}</span>
+                    </Td>
+                    <Td>{opt.dateLabel}</Td>
+                    <Td>
+                      <div className='text-sm'>
+                        {opt.fromTime} → {opt.toTime}
+                      </div>
+                      <div className='text-xs text-foreground/55'>{opt.arrivalDetail}</div>
+                    </Td>
+                    <Td>{opt.route}</Td>
+                    <Td className='text-right'>
+                      {opt.priceUsd != null ? (
+                        <span
+                          className='font-heading text-xl'
+                          style={{ color: NAVY }}
+                        >
+                          ${opt.priceUsd}
+                        </span>
+                      ) : (
+                        <span className='text-foreground/45'>—</span>
+                      )}
+                    </Td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className='mt-5 flex items-center gap-2 text-sm text-foreground/70'>
+            <Bus size={16} className='text-primary' />
+            <span>Transfer incluido desde el aeropuerto al hotel de la boda.</span>
+          </div>
         </section>
 
         <section className='mb-12'>
@@ -372,18 +478,6 @@ export default function VuelosBrasilPage() {
         </div>
       </div>
     </main>
-  );
-}
-
-function Field({ label, value, sub }: { label: string; value: string; sub?: string }) {
-  return (
-    <div>
-      <p className='text-[10px] uppercase tracking-[0.25em] text-primary mb-1.5'>
-        {label}
-      </p>
-      <p className='text-lg font-medium leading-tight'>{value}</p>
-      {sub && <p className='text-sm text-foreground/60 mt-1'>{sub}</p>}
-    </div>
   );
 }
 
