@@ -169,6 +169,7 @@ export function EventDetails() {
           address={siteConfig.events.ar.address}
           mapLink={siteConfig.events.ar.mapLink}
           flightPackagesUrl={siteConfig.events.ar.flightPackagesUrl}
+          backgroundImage={siteConfig.events.ar.backgroundImage}
         />
         <EventCard
           id='brasil'
