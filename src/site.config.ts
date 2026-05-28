@@ -279,6 +279,259 @@ export const siteConfig = {
         },
       },
     },
+    {
+      id: 10,
+      emoji: '🧘',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Dose de paciência para a noiva',
+          description: 'Pequena dose diária para sobreviver aos detalhes da vida real.',
+          price: 70,
+        },
+        ar: {
+          name: 'Dosis de paciencia para la novia',
+          description: 'Pequeña dosis diaria para sobrevivir a los detalles de la vida real.',
+          price: 2800,
+        },
+        en: {
+          name: 'A dose of patience for the bride',
+          description: 'A tiny daily dose to survive the small things of real life.',
+          price: 10,
+        },
+      },
+    },
+    {
+      id: 11,
+      emoji: '🎧',
+      image: '',
+      category: { br: 'VIP', ar: 'VIP', en: 'VIP' },
+      localized: {
+        br: {
+          name: 'Pedir suas músicas para o DJ',
+          description: 'Crédito direto na cabine: três pedidos garantidos durante a festa.',
+          price: 250,
+        },
+        ar: {
+          name: 'Pedir tus canciones al DJ',
+          description: 'Crédito directo en la cabina: tres pedidos garantizados durante la fiesta.',
+          price: 10000,
+        },
+        en: {
+          name: 'Request your songs from the DJ',
+          description: 'Direct credit at the booth: three guaranteed requests during the party.',
+          price: 40,
+        },
+      },
+    },
+    {
+      id: 12,
+      emoji: '🩲',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Cueca especial para o noivo na noite de núpcias',
+          description: 'Modelo edição limitada — usada uma única vez, mas a história fica.',
+          price: 80,
+        },
+        ar: {
+          name: 'Calzoncillo especial para el novio en la noche de bodas',
+          description: 'Modelo edición limitada — usado una sola vez, pero la historia queda.',
+          price: 3000,
+        },
+        en: {
+          name: 'Special underwear for the groom on the wedding night',
+          description: 'Limited-edition model — worn just once, but the story stays.',
+          price: 12,
+        },
+      },
+    },
+    {
+      id: 13,
+      emoji: '💈',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: '6 meses de corte de cabelo para o noivo',
+          description: 'Plano semestral — para quem é tão otimista quanto generoso.',
+          price: 130,
+        },
+        ar: {
+          name: '6 meses de corte de pelo para el novio',
+          description: 'Plan semestral — para quien es tan optimista como generoso.',
+          price: 5500,
+        },
+        en: {
+          name: '6 months of haircuts for the groom',
+          description: 'A six-month plan — for those as optimistic as they are generous.',
+          price: 20,
+        },
+      },
+    },
+    {
+      id: 14,
+      emoji: '🍳',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Curso de culinária para a Alexita',
+          description: 'Investimento no futuro gastronômico do casal — agradecimentos antecipados, Chico.',
+          price: 250,
+        },
+        ar: {
+          name: 'Curso de cocina para Alexita',
+          description: 'Inversión en el futuro gastronómico de la pareja — gracias por adelantado, Tomi.',
+          price: 10000,
+        },
+        en: {
+          name: 'Cooking course for Alexita',
+          description: 'An investment in the couple’s culinary future — thanks in advance, Chico.',
+          price: 40,
+        },
+      },
+    },
+    {
+      id: 15,
+      emoji: '😴',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Tampão de ouvido para não escutar os roncos do Chico',
+          description: 'Tecnologia de ponta para preservar a saúde mental da noiva.',
+          price: 60,
+        },
+        ar: {
+          name: 'Tapones para no escuchar los ronquidos de Tomi',
+          description: 'Tecnología de punta para preservar la salud mental de la novia.',
+          price: 2500,
+        },
+        en: {
+          name: 'Earplugs to block out Chico’s snoring',
+          description: 'Cutting-edge technology to preserve the bride’s sanity.',
+          price: 10,
+        },
+      },
+    },
+    {
+      id: 16,
+      emoji: '🍔',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Ajude a Alexita a comer para não ficar mal-humorada',
+          description: 'Vale-lanche permanente. Investimento certeiro na paz doméstica.',
+          price: 100,
+        },
+        ar: {
+          name: 'Ayudá a Alexita a comer para que no se ponga de mal humor',
+          description: 'Vale-merienda permanente. Inversión certera en la paz doméstica.',
+          price: 4000,
+        },
+        en: {
+          name: 'Help Alexita eat — so she doesn’t get hangry',
+          description: 'A permanent snack voucher. A sure-fire investment in domestic peace.',
+          price: 15,
+        },
+      },
+    },
+    {
+      id: 17,
+      emoji: '🥩',
+      image: '',
+      category: { br: 'VIP', ar: 'VIP', en: 'VIP' },
+      localized: {
+        br: {
+          name: '1 ano de bife para o noivo na Inglaterra',
+          description: 'Porque saudade de churrasco se cura com proteína de qualidade.',
+          price: 1000,
+        },
+        ar: {
+          name: '1 año de bife para el novio en Inglaterra',
+          description: 'Porque la nostalgia del asado se cura con proteína de calidad.',
+          price: 35000,
+        },
+        en: {
+          name: '1 year of steaks for the groom in England',
+          description: 'Because longing for proper grilled meat is cured with quality protein.',
+          price: 150,
+        },
+      },
+    },
+    {
+      id: 18,
+      emoji: '🪙',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Só para dizer que não dei nada',
+          description: 'Você paga isto e ainda conta para todos que não deu nada. Vitória dupla.',
+          price: 1,
+        },
+        ar: {
+          name: 'Solo para decir que no regalé nada',
+          description: 'Pagás esto y aun así contás a todos que no regalaste nada. Doble victoria.',
+          price: 50,
+        },
+        en: {
+          name: 'Just to say I didn’t give anything',
+          description: 'You pay for this and still tell everyone you gave nothing. Double win.',
+          price: 1,
+        },
+      },
+    },
+    {
+      id: 19,
+      emoji: '🇧🇷',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Camisa do Brasil para o noivo curtir a Copa do Mundo',
+          description: 'Estratégia diplomática para os jogos que dividem o casal.',
+          price: 150,
+        },
+        ar: {
+          name: 'Camiseta de Brasil para que el novio disfrute el Mundial',
+          description: 'Estrategia diplomática para los partidos que dividen a la pareja.',
+          price: 6000,
+        },
+        en: {
+          name: 'Brazil jersey for the groom to enjoy the World Cup',
+          description: 'Diplomatic strategy for the matches that divide the couple.',
+          price: 25,
+        },
+      },
+    },
+    {
+      id: 20,
+      emoji: '🇦🇷',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Camisa da Argentina para a noiva curtir a Copa do Mundo',
+          description: 'Para empatar o placar antes mesmo da bola rolar.',
+          price: 150,
+        },
+        ar: {
+          name: 'Camiseta de Argentina para que la novia disfrute el Mundial',
+          description: 'Para empatar el marcador antes incluso de que ruede la pelota.',
+          price: 6000,
+        },
+        en: {
+          name: 'Argentina jersey for the bride to enjoy the World Cup',
+          description: 'To even the score before the ball even starts rolling.',
+          price: 25,
+        },
+      },
+    },
   ],
   // Travel tips — destinations to suggest to guests visiting northeast Brazil.
   // Distances are relative to the BR venue (Hotel Ponta de Inhambupe, Esplanada-BA).
