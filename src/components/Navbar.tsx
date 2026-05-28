@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
@@ -18,6 +19,10 @@ const navOrder: SectionKey[] = [
   'messages',
 ];
 
+type NavItem =
+  | { kind: 'section'; key: SectionKey; name: string }
+  | { kind: 'route'; key: string; href: string; name: string };
+
 /**
  * Navbar component providing sticky tab-style navigation between sections.
  * @return {JSX.Element} The rendered navbar.
@@ -27,7 +32,20 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { region, setRegion, config } = useLanguage();
   const { activeSection, setActiveSection } = useSection();
-  const navItems = navOrder.map((key) => ({ key, name: config.content.nav[key] }));
+  const navItems: NavItem[] = navOrder.map((key) => ({
+    kind: 'section',
+    key,
+    name: config.content.nav[key],
+  }));
+  if (region === 'ar') {
+    const after = navItems.findIndex((i) => i.kind === 'section' && i.key === 'ceremony');
+    navItems.splice(after + 1, 0, {
+      kind: 'route',
+      key: 'vuelos',
+      href: '/vuelos-brasil',
+      name: 'Vuelos',
+    });
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,6 +87,17 @@ export function Navbar() {
         {/* Desktop Nav */}
         <div className='hidden md:flex items-center space-x-8'>
           {navItems.map((item) => {
+            if (item.kind === 'route') {
+              return (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  className='text-xs uppercase tracking-widest transition-colors duration-200 hover:text-primary'
+                >
+                  {item.name}
+                </Link>
+              );
+            }
             const isActive = activeSection === item.key;
             return (
               <button
@@ -145,6 +174,18 @@ export function Navbar() {
           >
             <div className='flex flex-col space-y-4 p-6 text-center'>
               {navItems.map((item) => {
+                if (item.kind === 'route') {
+                  return (
+                    <Link
+                      key={item.key}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className='text-sm uppercase tracking-widest transition-colors hover:text-primary'
+                    >
+                      {item.name}
+                    </Link>
+                  );
+                }
                 const isActive = activeSection === item.key;
                 return (
                   <button
