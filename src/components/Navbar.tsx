@@ -38,8 +38,7 @@ export function Navbar() {
     name: config.content.nav[key],
   }));
   if (region === 'ar') {
-    const after = navItems.findIndex((i) => i.kind === 'section' && i.key === 'ceremony');
-    navItems.splice(after + 1, 0, {
+    navItems.push({
       kind: 'route',
       key: 'vuelos',
       href: '/vuelos-brasil',
