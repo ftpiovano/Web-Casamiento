@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const NAVY = '#13234d';
 
 const HOTEL_WHATSAPP_URL = 'https://wa.me/5575999526962';
-const HOTEL_EMAIL = 'reservasbaixio@slaveirohoteis.com.br';
+const HOTEL_EMAIL = 'reservasbaixio@slavierohoteis.com.br';
 
 type Room = {
   id: string;
@@ -151,43 +151,6 @@ export default function HospedagensBrasilPage() {
         </section>
 
         <section
-          className='mb-16 rounded-3xl overflow-hidden border bg-background'
-          style={{ borderColor: `${NAVY}1f` }}
-        >
-          <div className='grid md:grid-cols-2'>
-            <div className='relative aspect-[4/3] md:aspect-auto md:min-h-[320px]'>
-              <Image
-                src='/branding/lagoa-azul.jpg'
-                alt='Lagoa Azul — experiência inclusa para os convidados'
-                fill
-                sizes='(min-width: 768px) 50vw, 100vw'
-                className='object-cover'
-              />
-            </div>
-            <div className='p-7 md:p-10 flex flex-col justify-center'>
-              <p
-                className='text-[11px] uppercase tracking-[0.35em] mb-3'
-                style={{ color: NAVY }}
-              >
-                Cortesia para os convidados
-              </p>
-              <h2 className='font-heading text-2xl md:text-3xl mb-4 leading-tight'>
-                Experiência na Lagoa Azul
-              </h2>
-              <p className='text-foreground/80 leading-relaxed mb-3'>
-                A sua hospedagem inclui uma pequena experiência na{' '}
-                <strong>Lagoa Azul</strong>, próxima ao hotel — uma das
-                paisagens mais bonitas da região.
-              </p>
-              <p className='text-sm text-foreground/65 italic'>
-                Para mais detalhes (horários e logística), basta falar com a
-                recepção do hotel durante a sua estadia.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section
           className='mb-16 rounded-3xl p-8 md:p-10 border-2'
           style={{ borderColor: NAVY, backgroundColor: `${NAVY}05` }}
         >
@@ -201,18 +164,18 @@ export default function HospedagensBrasilPage() {
               <h2 className='font-heading text-xl md:text-2xl mb-3'>
                 Como reservar
               </h2>
-              <p className='text-foreground/80 leading-relaxed'>
-                As reservas devem ser feitas diretamente com o hotel,
-                informando que você é convidado(a) do casamento de{' '}
-                <strong>
-                  {siteConfig.names.bride} &amp; {siteConfig.names.groom.br}
-                </strong>{' '}
-                no dia 6 de março de 2027.
+              <p className='text-foreground/80 leading-relaxed mb-4'>
+                As reservas devem ser feitas diretamente com o setor de
+                reservas do hotel pelos canais abaixo. Mencione o nome do
+                evento como{' '}
+                <strong>«Casamento Alexa e Francisco»</strong> e envie os
+                dados de cada hóspede:{' '}
+                <strong>nome completo, CPF e e-mail</strong>.
               </p>
             </div>
           </div>
 
-          <div className='flex flex-col sm:flex-row gap-3 sm:items-stretch sm:justify-start ml-9'>
+          <div className='flex flex-col sm:flex-row gap-3 sm:items-stretch sm:justify-start ml-9 mb-7'>
             <a
               href={HOTEL_WHATSAPP_URL}
               target='_blank'
@@ -232,9 +195,72 @@ export default function HospedagensBrasilPage() {
             </a>
           </div>
 
+          <div
+            className='ml-9 pt-6 border-t'
+            style={{ borderColor: `${NAVY}1f` }}
+          >
+            <p
+              className='text-[10px] uppercase tracking-[0.3em] mb-3'
+              style={{ color: NAVY }}
+            >
+              Horário do setor de reservas
+            </p>
+            <ul className='space-y-1.5 text-sm text-foreground/80 max-w-md'>
+              <li className='flex justify-between gap-4'>
+                <span>Segunda a sexta-feira</span>
+                <span className='tabular-nums'>08h às 19h</span>
+              </li>
+              <li className='flex justify-between gap-4'>
+                <span>Sábados</span>
+                <span className='tabular-nums'>08h às 12h</span>
+              </li>
+              <li className='flex justify-between gap-4'>
+                <span>Domingos e feriados</span>
+                <span className='italic text-foreground/55'>fechado</span>
+              </li>
+            </ul>
+          </div>
+
           <p className='text-xs text-foreground/60 italic mt-6 ml-9'>
             Valores e disponibilidade sujeitos a confirmação pelo hotel.
           </p>
+        </section>
+
+        <section
+          className='mb-16 rounded-3xl overflow-hidden border bg-background'
+          style={{ borderColor: `${NAVY}1f` }}
+        >
+          <div className='grid md:grid-cols-2'>
+            <div className='relative aspect-[4/3] md:aspect-auto md:min-h-[320px]'>
+              <Image
+                src='/branding/lagoa-azul.jpg'
+                alt='Lagoa Azul — experiência inclusa para os convidados'
+                fill
+                sizes='(min-width: 768px) 50vw, 100vw'
+                className='object-cover'
+              />
+            </div>
+            <div className='p-7 md:p-10 flex flex-col justify-center'>
+              <p
+                className='text-[11px] uppercase tracking-[0.35em] mb-3'
+                style={{ color: NAVY }}
+              >
+                Um bônus para os convidados
+              </p>
+              <h2 className='font-heading text-2xl md:text-3xl mb-4 leading-tight'>
+                Experiência na Lagoa Azul
+              </h2>
+              <p className='text-foreground/80 leading-relaxed mb-3'>
+                A sua hospedagem inclui uma pequena experiência na{' '}
+                <strong>Lagoa Azul</strong>, próxima ao hotel — uma das
+                paisagens mais bonitas da região.
+              </p>
+              <p className='text-sm text-foreground/65 italic'>
+                Para mais detalhes (horários e logística), basta falar com a
+                recepção do hotel durante a sua estadia.
+              </p>
+            </div>
+          </div>
         </section>
 
         <div className='text-center'>
