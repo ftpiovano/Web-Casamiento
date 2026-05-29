@@ -11,42 +11,225 @@ const NAVY = '#13234d';
 const HOTEL_WHATSAPP_URL = 'https://wa.me/5575999526962';
 const HOTEL_EMAIL = 'reservasbaixio@slavierohoteis.com.br';
 
+type Region = 'br' | 'ar' | 'en';
+
+type RoomCopy = { blurb: string };
 type Room = {
   id: string;
   name: string;
-  blurb: string;
   priceBrl: number;
   tag: string;
+  copy: Record<Region, RoomCopy>;
 };
 
 const rooms: Room[] = [
   {
     id: 'luxo-terreo',
     name: 'Quarto Luxo Térreo',
-    blurb: 'Categoria base do hotel, no térreo, acesso direto ao jardim.',
     priceBrl: 1938,
     tag: '01',
+    copy: {
+      br: { blurb: 'Categoria base do hotel, no térreo, acesso direto ao jardim.' },
+      ar: { blurb: 'Categoría base del hotel, en planta baja, con acceso directo al jardín.' },
+      en: { blurb: 'The hotel’s base category, ground floor with direct garden access.' },
+    },
   },
   {
     id: 'luxo-vista-mar',
     name: 'Quarto Luxo Vista Mar',
-    blurb: 'Mesmo conforto do Luxo, com vista para o mar pelo andar superior.',
     priceBrl: 2142,
     tag: '02',
+    copy: {
+      br: { blurb: 'Mesmo conforto do Luxo, com vista para o mar pelo andar superior.' },
+      ar: { blurb: 'Mismo confort que el Luxo, con vista al mar desde el piso superior.' },
+      en: { blurb: 'Same comfort as the Luxo, with sea view from the upper floor.' },
+    },
   },
   {
     id: 'suite-master',
     name: 'Suíte Master',
-    blurb: 'A categoria mais ampla — sala, varanda privativa e o melhor enxoval.',
     priceBrl: 2754,
     tag: '03',
+    copy: {
+      br: { blurb: 'A categoria mais ampla — sala, varanda privativa e o melhor enxoval.' },
+      ar: { blurb: 'La categoría más amplia — sala, balcón privado y la mejor amenidad.' },
+      en: { blurb: 'The largest category — living room, private balcony, and the best amenities.' },
+    },
   },
 ];
 
-const documentLabel: Record<'br' | 'ar' | 'en', string> = {
-  br: 'CPF',
-  ar: 'Pasaporte',
-  en: 'Passport',
+type Copy = {
+  backTop: string;
+  tag: string;
+  title: string;
+  subtitle: string;
+  intro: {
+    lead: string;
+    perRoom: string;
+    conn1: string;
+    arrival: string;
+    conn2: string;
+    departure: string;
+    tail: string;
+  };
+  categoriesTitle: string;
+  optionsLabel: string;
+  totalLabel: string;
+  howToBookTitle: string;
+  howToBookLead: string;
+  eventNameLabel: string;
+  guestDataIntro: string;
+  guestData: string;
+  guestDataTail: string;
+  whatsappLabel: string;
+  emailLabel: string;
+  hoursTitle: string;
+  monFri: string;
+  sat: string;
+  sunHol: string;
+  closed: string;
+  disclaimer: string;
+  bonus: string;
+  lagoaTitle: string;
+  lagoaBody: { lead: string; lagoa: string; tail: string };
+  lagoaFrontDesk: string;
+  backBottom: string;
+  numberLocale: string;
+};
+
+const copy: Record<Region, Copy> = {
+  br: {
+    backTop: 'Voltar ao site',
+    tag: 'Hospedagem · Brasil · Mar 2027',
+    title: 'Hospedagens',
+    subtitle: 'Hotel Boutique & Spa Ponta de Inhambupe',
+    intro: {
+      lead: 'Reservamos categorias de quarto para os convidados no hotel-sede. Todos os valores abaixo são ',
+      perRoom: 'por quarto',
+      conn1: ', com ',
+      arrival: 'chegada na sexta-feira',
+      conn2: ' e ',
+      departure: 'saída no domingo',
+      tail: ' — duas diárias incluídas.',
+    },
+    categoriesTitle: 'Categorias disponíveis',
+    optionsLabel: 'opções',
+    totalLabel: 'Total — sex a dom',
+    howToBookTitle: 'Como reservar',
+    howToBookLead:
+      'As reservas devem ser feitas diretamente com o setor de reservas do hotel pelos canais abaixo. Mencione o nome do evento como ',
+    eventNameLabel: '«Casamento Alexa e Francisco»',
+    guestDataIntro: ' e envie os dados de cada hóspede: ',
+    guestData: 'nome completo, CPF e e-mail',
+    guestDataTail: '.',
+    whatsappLabel: 'WhatsApp',
+    emailLabel: 'E-mail',
+    hoursTitle: 'Horário do setor de reservas',
+    monFri: 'Segunda a sexta-feira',
+    sat: 'Sábados',
+    sunHol: 'Domingos e feriados',
+    closed: 'fechado',
+    disclaimer: 'Valores e disponibilidade sujeitos a confirmação pelo hotel.',
+    bonus: 'Um bônus para os convidados',
+    lagoaTitle: 'Experiência na Lagoa Azul',
+    lagoaBody: {
+      lead: 'A sua hospedagem inclui uma pequena experiência na ',
+      lagoa: 'Lagoa Azul',
+      tail: ', próxima ao hotel — uma das paisagens mais bonitas da região.',
+    },
+    lagoaFrontDesk:
+      'Para mais detalhes (horários e logística), basta falar com a recepção do hotel durante a sua estadia.',
+    backBottom: 'Voltar ao site principal',
+    numberLocale: 'pt-BR',
+  },
+  ar: {
+    backTop: 'Volver al sitio',
+    tag: 'Alojamiento · Brasil · Mar 2027',
+    title: 'Alojamiento',
+    subtitle: 'Hotel Boutique & Spa Ponta de Inhambupe',
+    intro: {
+      lead: 'Reservamos categorías de habitación para los invitados en el hotel sede. Todos los valores son ',
+      perRoom: 'por habitación',
+      conn1: ', con ',
+      arrival: 'llegada el viernes',
+      conn2: ' y ',
+      departure: 'salida el domingo',
+      tail: ' — dos noches incluidas.',
+    },
+    categoriesTitle: 'Categorías disponibles',
+    optionsLabel: 'opciones',
+    totalLabel: 'Total — vie a dom',
+    howToBookTitle: 'Cómo reservar',
+    howToBookLead:
+      'Las reservas se hacen directamente con el sector de reservas del hotel por los canales de abajo. Mencioná el nombre del evento como ',
+    eventNameLabel: '«Casamento Alexa e Francisco»',
+    guestDataIntro: ' y enviá los datos de cada huésped: ',
+    guestData: 'nombre completo, Pasaporte y correo electrónico',
+    guestDataTail: '.',
+    whatsappLabel: 'WhatsApp',
+    emailLabel: 'Correo',
+    hoursTitle: 'Horario del sector de reservas',
+    monFri: 'Lunes a viernes',
+    sat: 'Sábados',
+    sunHol: 'Domingos y feriados',
+    closed: 'cerrado',
+    disclaimer: 'Valores y disponibilidad sujetos a confirmación por el hotel.',
+    bonus: 'Un bonus para los invitados',
+    lagoaTitle: 'Experiencia en la Lagoa Azul',
+    lagoaBody: {
+      lead: 'Tu hospedaje incluye una pequeña experiencia en la ',
+      lagoa: 'Lagoa Azul',
+      tail: ', cerca del hotel — uno de los paisajes más lindos de la región.',
+    },
+    lagoaFrontDesk:
+      'Para más detalles (horarios y logística), hablá con la recepción del hotel durante tu estadía.',
+    backBottom: 'Volver al sitio principal',
+    numberLocale: 'es-AR',
+  },
+  en: {
+    backTop: 'Back to site',
+    tag: 'Accommodations · Brasil · Mar 2027',
+    title: 'Accommodations',
+    subtitle: 'Hotel Boutique & Spa Ponta de Inhambupe',
+    intro: {
+      lead: 'We have reserved room categories for our guests at the wedding hotel. All rates below are ',
+      perRoom: 'per room',
+      conn1: ', with ',
+      arrival: 'arrival on Friday',
+      conn2: ' and ',
+      departure: 'departure on Sunday',
+      tail: ' — two nights included.',
+    },
+    categoriesTitle: 'Available categories',
+    optionsLabel: 'options',
+    totalLabel: 'Total — Fri to Sun',
+    howToBookTitle: 'How to book',
+    howToBookLead:
+      'Bookings are made directly with the hotel’s reservations team through the channels below. Mention the event name as ',
+    eventNameLabel: '«Casamento Alexa e Francisco»',
+    guestDataIntro: ' and send each guest’s details: ',
+    guestData: 'full name, Passport and e-mail',
+    guestDataTail: '.',
+    whatsappLabel: 'WhatsApp',
+    emailLabel: 'E-mail',
+    hoursTitle: 'Reservations desk hours',
+    monFri: 'Monday to Friday',
+    sat: 'Saturdays',
+    sunHol: 'Sundays and holidays',
+    closed: 'closed',
+    disclaimer: 'Rates and availability subject to confirmation by the hotel.',
+    bonus: 'A bonus for our guests',
+    lagoaTitle: 'Lagoa Azul experience',
+    lagoaBody: {
+      lead: 'Your stay includes a small experience at ',
+      lagoa: 'Lagoa Azul',
+      tail: ', near the hotel — one of the region’s most beautiful landscapes.',
+    },
+    lagoaFrontDesk:
+      'For details (timing and logistics), just speak with the hotel’s front desk during your stay.',
+    backBottom: 'Back to the main site',
+    numberLocale: 'en-US',
+  },
 };
 
 function WhatsAppIcon({ size = 20 }: { size?: number }) {
@@ -63,12 +246,12 @@ function WhatsAppIcon({ size = 20 }: { size?: number }) {
   );
 }
 
-const formatBrl = (v: number) =>
-  v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const formatBrl = (v: number, locale: string) =>
+  v.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export function HospedagensContent() {
   const { region } = useLanguage();
-  const docLabel = documentLabel[region];
+  const t = copy[region];
 
   return (
     <main className='min-h-screen bg-background text-foreground px-6 py-10 md:py-16'>
@@ -78,45 +261,48 @@ export function HospedagensContent() {
           className='inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-foreground/55 hover:text-foreground transition-colors mb-10'
         >
           <ArrowLeft size={14} />
-          Voltar ao site
+          {t.backTop}
         </Link>
 
         <header className='text-center mb-14 md:mb-20'>
           <Image
             src='/branding/wedding-logo.png'
-            alt={`${siteConfig.names.bride} & ${siteConfig.names.groom.br}`}
+            alt={`${siteConfig.names.bride} & ${siteConfig.names.groom[region]}`}
             width={969}
             height={1279}
             priority
             className='w-28 md:w-36 h-auto mx-auto mb-6 select-none'
           />
           <p className='text-[11px] uppercase tracking-[0.4em] text-primary mb-4'>
-            Hospedagem · Brasil · Mar 2027
+            {t.tag}
           </p>
           <h1 className='font-heading text-4xl md:text-5xl leading-tight mb-3'>
-            Hospedagens
+            {t.title}
           </h1>
           <p className='text-xs uppercase tracking-[0.3em] text-foreground/50'>
-            Hotel Boutique &amp; Spa Ponta de Inhambupe
+            {t.subtitle}
           </p>
         </header>
 
         <section className='max-w-2xl mx-auto mb-14 text-center'>
           <p className='text-base md:text-lg leading-relaxed text-foreground/80'>
-            Reservamos categorias de quarto para os convidados no hotel-sede.
-            Todos os valores abaixo são <strong>por quarto</strong>, com{' '}
-            <strong>chegada na sexta-feira</strong> e{' '}
-            <strong>saída no domingo</strong> — duas diárias incluídas.
+            {t.intro.lead}
+            <strong>{t.intro.perRoom}</strong>
+            {t.intro.conn1}
+            <strong>{t.intro.arrival}</strong>
+            {t.intro.conn2}
+            <strong>{t.intro.departure}</strong>
+            {t.intro.tail}
           </p>
         </section>
 
         <section className='mb-16'>
           <div className='flex items-baseline justify-between mb-6'>
             <h2 className='font-heading text-2xl md:text-3xl'>
-              Categorias disponíveis
+              {t.categoriesTitle}
             </h2>
             <span className='text-[11px] uppercase tracking-[0.25em] text-foreground/50'>
-              {rooms.length} opções
+              {rooms.length} {t.optionsLabel}
             </span>
           </div>
 
@@ -140,14 +326,14 @@ export function HospedagensContent() {
                   {room.name}
                 </h3>
                 <p className='text-sm text-foreground/75 leading-relaxed mb-6 flex-grow'>
-                  {room.blurb}
+                  {room.copy[region].blurb}
                 </p>
                 <div className='pt-5 border-t border-accent/40'>
                   <p className='text-[10px] uppercase tracking-[0.25em] text-primary mb-1'>
-                    Total — sex a dom
+                    {t.totalLabel}
                   </p>
                   <p className='font-heading text-3xl' style={{ color: NAVY }}>
-                    R$ {formatBrl(room.priceBrl)}
+                    R$ {formatBrl(room.priceBrl, t.numberLocale)}
                   </p>
                 </div>
               </article>
@@ -167,15 +353,14 @@ export function HospedagensContent() {
             />
             <div>
               <h2 className='font-heading text-xl md:text-2xl mb-3'>
-                Como reservar
+                {t.howToBookTitle}
               </h2>
               <p className='text-foreground/80 leading-relaxed mb-4'>
-                As reservas devem ser feitas diretamente com o setor de
-                reservas do hotel pelos canais abaixo. Mencione o nome do
-                evento como{' '}
-                <strong>«Casamento Alexa e Francisco»</strong> e envie os
-                dados de cada hóspede:{' '}
-                <strong>nome completo, {docLabel} e e-mail</strong>.
+                {t.howToBookLead}
+                <strong>{t.eventNameLabel}</strong>
+                {t.guestDataIntro}
+                <strong>{t.guestData}</strong>
+                {t.guestDataTail}
               </p>
             </div>
           </div>
@@ -188,7 +373,7 @@ export function HospedagensContent() {
               className='inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#25D366] text-white text-sm uppercase tracking-[0.2em] shadow-[0_6px_20px_-8px_rgba(37,211,102,0.6)] hover:bg-[#1ebe57] transition-all'
             >
               <WhatsAppIcon size={18} />
-              WhatsApp
+              {t.whatsappLabel}
             </a>
             <a
               href={`mailto:${HOTEL_EMAIL}`}
@@ -196,7 +381,7 @@ export function HospedagensContent() {
               style={{ borderColor: NAVY, color: NAVY }}
             >
               <Mail size={16} />
-              E-mail
+              {t.emailLabel}
             </a>
           </div>
 
@@ -208,26 +393,26 @@ export function HospedagensContent() {
               className='text-[10px] uppercase tracking-[0.3em] mb-3'
               style={{ color: NAVY }}
             >
-              Horário do setor de reservas
+              {t.hoursTitle}
             </p>
             <ul className='space-y-1.5 text-sm text-foreground/80 max-w-md'>
               <li className='flex justify-between gap-4'>
-                <span>Segunda a sexta-feira</span>
+                <span>{t.monFri}</span>
                 <span className='tabular-nums'>08h às 19h</span>
               </li>
               <li className='flex justify-between gap-4'>
-                <span>Sábados</span>
+                <span>{t.sat}</span>
                 <span className='tabular-nums'>08h às 12h</span>
               </li>
               <li className='flex justify-between gap-4'>
-                <span>Domingos e feriados</span>
-                <span className='italic text-foreground/55'>fechado</span>
+                <span>{t.sunHol}</span>
+                <span className='italic text-foreground/55'>{t.closed}</span>
               </li>
             </ul>
           </div>
 
           <p className='text-xs text-foreground/60 italic mt-6 ml-9'>
-            Valores e disponibilidade sujeitos a confirmação pelo hotel.
+            {t.disclaimer}
           </p>
         </section>
 
@@ -239,7 +424,7 @@ export function HospedagensContent() {
             <div className='relative aspect-[4/3] md:aspect-auto md:min-h-[320px]'>
               <Image
                 src='/branding/lagoa-azul.jpg'
-                alt='Lagoa Azul — experiência inclusa para os convidados'
+                alt={t.lagoaTitle}
                 fill
                 sizes='(min-width: 768px) 50vw, 100vw'
                 className='object-cover'
@@ -250,19 +435,18 @@ export function HospedagensContent() {
                 className='text-[11px] uppercase tracking-[0.35em] mb-3'
                 style={{ color: NAVY }}
               >
-                Um bônus para os convidados
+                {t.bonus}
               </p>
               <h2 className='font-heading text-2xl md:text-3xl mb-4 leading-tight'>
-                Experiência na Lagoa Azul
+                {t.lagoaTitle}
               </h2>
               <p className='text-foreground/80 leading-relaxed mb-3'>
-                A sua hospedagem inclui uma pequena experiência na{' '}
-                <strong>Lagoa Azul</strong>, próxima ao hotel — uma das
-                paisagens mais bonitas da região.
+                {t.lagoaBody.lead}
+                <strong>{t.lagoaBody.lagoa}</strong>
+                {t.lagoaBody.tail}
               </p>
               <p className='text-sm text-foreground/65 italic'>
-                Para mais detalhes (horários e logística), basta falar com a
-                recepção do hotel durante a sua estadia.
+                {t.lagoaFrontDesk}
               </p>
             </div>
           </div>
@@ -274,7 +458,7 @@ export function HospedagensContent() {
             className='inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-foreground/55 hover:text-foreground transition-colors'
           >
             <ArrowLeft size={14} />
-            Voltar ao site principal
+            {t.backBottom}
           </Link>
         </div>
       </div>
