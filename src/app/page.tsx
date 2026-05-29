@@ -8,7 +8,7 @@ import { Welcome } from '@/components/Welcome';
 import { Countdown } from '@/components/Countdown';
 import { Couple } from '@/components/Couple';
 import { EventDetails } from '@/components/EventDetails';
-import { TravelTips } from '@/components/TravelTips';
+import { TravelHub } from '@/components/TravelHub';
 import { GiftGrid } from '@/components/GiftGrid';
 import { RSVPForm } from '@/components/RSVPForm';
 import { Guestbook } from '@/components/Guestbook';
@@ -33,7 +33,7 @@ function ActiveSection() {
     ) : activeSection === 'ceremony' ? (
       <EventDetails />
     ) : activeSection === 'travel' ? (
-      <TravelTips />
+      <TravelHub />
     ) : activeSection === 'gifts' ? (
       <GiftGrid />
     ) : activeSection === 'rsvp' ? (
