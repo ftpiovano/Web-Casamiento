@@ -180,13 +180,20 @@ export default function VuelosBrasilPage() {
               </p>
               <ul className='space-y-2.5 mb-8'>
                 {[
-                  '6 cuotas mensuales con financiación propia (anticipo en junio + cuotas hasta diciembre, sin tarjeta de crédito)',
+                  <>
+                    6 cuotas mensuales con financiación propia (anticipo
+                    en junio + cuotas hasta diciembre,{' '}
+                    <strong className='text-background'>
+                      sin tarjeta de crédito
+                    </strong>
+                    )
+                  </>,
                   'Pago con tarjeta de crédito',
                   'Pago de contado',
                   'La agencia coordina todo el viaje grupal',
-                ].map((item) => (
+                ].map((item, idx) => (
                   <li
-                    key={item}
+                    key={idx}
                     className='flex items-start gap-3 text-background/85'
                   >
                     <Check
@@ -248,7 +255,7 @@ export default function VuelosBrasilPage() {
               >
                 <div className='mb-3'>
                   <p className='text-[11px] uppercase tracking-[0.25em] text-primary mb-1'>
-                    Salida {opt.id} · {opt.type}
+                    Ida {opt.id} · {opt.type}
                   </p>
                   <p className='font-heading text-xl leading-tight'>{opt.airline}</p>
                 </div>
@@ -271,7 +278,7 @@ export default function VuelosBrasilPage() {
             <table className='w-full text-left'>
               <thead style={{ backgroundColor: NAVY }} className='text-background'>
                 <tr>
-                  <Th>Salida</Th>
+                  <Th>Ida</Th>
                   <Th>Aerolínea</Th>
                   <Th>Fecha</Th>
                   <Th>Horario</Th>
@@ -360,12 +367,12 @@ export default function VuelosBrasilPage() {
                 </dl>
                 <div className='mt-4 pt-4 border-t border-accent/40 grid grid-cols-2 gap-3'>
                   <ComboPrice
-                    label='Con Salida 1'
+                    label='Con Ida 1'
                     sub='Directo · AA'
                     value={opt.comboWithDep1Usd}
                   />
                   <ComboPrice
-                    label='Con Salida 2'
+                    label='Con Ida 2'
                     sub='Con escala · Gol'
                     value={opt.comboWithDep2Usd}
                   />
@@ -383,11 +390,11 @@ export default function VuelosBrasilPage() {
                   <Th>Vuelo</Th>
                   <Th>Horarios</Th>
                   <Th className='text-right whitespace-nowrap'>
-                    <div>Con Salida 1</div>
+                    <div>Con Ida 1</div>
                     <div className='text-[10px] font-normal opacity-70'>Directo · AA</div>
                   </Th>
                   <Th className='text-right whitespace-nowrap'>
-                    <div>Con Salida 2</div>
+                    <div>Con Ida 2</div>
                     <div className='text-[10px] font-normal opacity-70'>Con escala · Gol</div>
                   </Th>
                 </tr>
@@ -452,17 +459,17 @@ export default function VuelosBrasilPage() {
         </section>
 
         <section className='mb-12 text-center'>
-          <p className='text-sm text-foreground/65 mb-3'>
-            ¿Dudas? Escribinos por WhatsApp a la agencia organizadora del viaje:
+          <p className='text-sm md:text-base text-foreground/70 mb-5 max-w-lg mx-auto'>
+            Para coordinar tu viaje, contactá a la agencia organizadora —
+            este es su número de WhatsApp:
           </p>
           <a
             href={AGENCY_WHATSAPP_URL}
             target='_blank'
             rel='noopener noreferrer'
-            className='inline-flex items-center gap-2 text-base md:text-lg font-heading hover:opacity-80 transition-opacity'
-            style={{ color: NAVY }}
+            className='inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#25D366] text-white text-base md:text-lg font-medium shadow-[0_6px_20px_-8px_rgba(37,211,102,0.6)] hover:bg-[#1ebe57] hover:shadow-[0_8px_24px_-6px_rgba(37,211,102,0.7)] transition-all'
           >
-            <MessageCircle size={18} />
+            <WhatsAppIcon size={22} />
             {AGENCY_PHONE_DISPLAY}
           </a>
         </section>
@@ -504,6 +511,20 @@ function Th({ children, className = '' }: { children: React.ReactNode; className
 
 function Td({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return <td className={`py-5 px-5 align-top ${className}`}>{children}</td>;
+}
+
+function WhatsAppIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox='0 0 24 24'
+      fill='currentColor'
+      aria-hidden
+    >
+      <path d='M19.05 4.91A9.82 9.82 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zM12.04 20.15h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.4c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.23 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42-.14 0-.31-.02-.48-.02-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.05 0 1.21.88 2.38 1.01 2.55.12.17 1.74 2.65 4.21 3.72.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18-.06-.1-.23-.16-.48-.28z' />
+    </svg>
+  );
 }
 
 function PriceCell({ value }: { value: number | null }) {
