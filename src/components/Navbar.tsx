@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Menu, X, Globe } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { useSection, SectionKey } from '@/context/SectionContext';
@@ -146,12 +146,32 @@ export function Navbar() {
 
         {/* Mobile Menu Toggle */}
         <div className='flex items-center gap-4 md:hidden'>
-          <button
-            onClick={() => setRegion(region === 'br' ? 'ar' : 'br')}
-            className='p-2 text-primary/60'
-          >
-            <Globe size={20} />
-          </button>
+          <div className='flex items-center gap-2 text-xl leading-none' role='group' aria-label='Region'>
+            <button
+              onClick={() => setRegion('br')}
+              aria-label='Português (Brasil)'
+              aria-pressed={region === 'br'}
+              className={`transition-opacity ${region === 'br' ? 'opacity-100' : 'opacity-35 hover:opacity-70'}`}
+            >
+              🇧🇷
+            </button>
+            <button
+              onClick={() => setRegion('ar')}
+              aria-label='Español (Argentina)'
+              aria-pressed={region === 'ar'}
+              className={`transition-opacity ${region === 'ar' ? 'opacity-100' : 'opacity-35 hover:opacity-70'}`}
+            >
+              🇦🇷
+            </button>
+            <button
+              onClick={() => setRegion('en')}
+              aria-label='English (UK)'
+              aria-pressed={region === 'en'}
+              className={`transition-opacity ${region === 'en' ? 'opacity-100' : 'opacity-35 hover:opacity-70'}`}
+            >
+              🇬🇧
+            </button>
+          </div>
           <button
             className='text-foreground'
             onClick={() => setIsOpen(!isOpen)}

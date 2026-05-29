@@ -237,19 +237,19 @@ export const siteConfig = {
           name: 'Ir junto com os noivos para a lua de mel',
           description:
             'Toalha de praia incluída. Apartamento separado, prometemos.',
-          price: 2000,
+          price: 5000,
         },
         ar: {
           name: 'Acompañar a los novios en la luna de miel',
           description:
             'Toalla de playa incluida. Departamento aparte, lo prometemos.',
-          price: 1000000,
+          price: 3000000,
         },
         en: {
           name: 'Join the couple on their honeymoon',
           description:
             'Beach towel included. Separate apartment, we promise.',
-          price: 500,
+          price: 2000,
         },
       },
     },
@@ -473,7 +473,7 @@ export const siteConfig = {
       category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
         br: {
-          name: 'Só para dizer que não dei nada',
+          name: 'Só para não dizer que não dei nada',
           description: 'Você paga isto e ainda conta para todos que não deu nada. Vitória dupla.',
           price: 100,
         },
@@ -498,7 +498,7 @@ export const siteConfig = {
         br: {
           name: 'Camisa do Brasil para o noivo curtir a Copa do Mundo',
           description: 'Estratégia diplomática para os jogos que dividem o casal.',
-          price: 1500,
+          price: 140,
         },
         ar: {
           name: 'Camiseta de Brasil para que el novio disfrute el Mundial',
