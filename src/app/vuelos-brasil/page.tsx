@@ -73,8 +73,8 @@ const returnOptions: ReturnOption[] = [
     fromAirport: 'Salvador · SSA',
     toTime: '05:00',
     toAirport: 'Aeroparque · AEP',
-    comboWithDep1Usd: 689,
-    comboWithDep2Usd: null,
+    comboWithDep1Usd: null,
+    comboWithDep2Usd: 689,
   },
   {
     id: 2,
@@ -85,8 +85,8 @@ const returnOptions: ReturnOption[] = [
     fromAirport: 'Salvador · SSA',
     toTime: '05:00',
     toAirport: 'Aeroparque · AEP',
-    comboWithDep1Usd: 689,
-    comboWithDep2Usd: null,
+    comboWithDep1Usd: null,
+    comboWithDep2Usd: 689,
   },
   {
     id: 3,
@@ -174,18 +174,15 @@ export default function VuelosBrasilPage() {
                 Reservar con la agencia
               </h2>
               <p className='text-background/85 leading-relaxed mb-7 max-w-2xl'>
-                La empresa organizadora del viaje grupal tiene{' '}
-                <strong className='text-background'>financiación propia</strong>
-                : pagás un anticipo en junio y 6 cuotas hasta diciembre,{' '}
-                <strong className='text-background'>
-                  sin usar tu tarjeta de crédito
-                </strong>{' '}
-                ni consumir tu límite.
+                La empresa organizadora del viaje grupal te ofrece{' '}
+                <strong className='text-background'>varias formas de pago</strong>
+                . Elegí la que mejor se acomode a vos:
               </p>
               <ul className='space-y-2.5 mb-8'>
                 {[
-                  'Anticipo en junio + 6 cuotas (julio a diciembre)',
-                  'Sin tarjeta de crédito ni límite consumido',
+                  '6 cuotas mensuales con financiación propia (anticipo en junio + cuotas hasta diciembre, sin tarjeta de crédito)',
+                  'Pago con tarjeta de crédito',
+                  'Pago de contado',
                   'La agencia coordina todo el viaje grupal',
                 ].map((item) => (
                   <li
@@ -216,9 +213,9 @@ export default function VuelosBrasilPage() {
               style={{ borderTop: `1px solid ${NAVY}1f` }}
             >
               <p className='text-sm md:text-base text-foreground/75 leading-relaxed mb-3'>
-                ¿Preferís pagar con tu tarjeta de crédito? Podés comprar los
-                vuelos directamente en Despegar — te dejamos la búsqueda con
-                todas las fechas ya configuradas.
+                ¿Preferís sacar el vuelo por tu cuenta y manejarlo a tu manera?
+                Podés comprarlo directamente en Despegar — te dejamos la
+                búsqueda con todas las fechas ya configuradas.
               </p>
               <a
                 href={DESPEGAR_URL}
@@ -385,11 +382,11 @@ export default function VuelosBrasilPage() {
                   <Th>Fecha</Th>
                   <Th>Vuelo</Th>
                   <Th>Horarios</Th>
-                  <Th className='text-right'>
+                  <Th className='text-right whitespace-nowrap'>
                     <div>Con Salida 1</div>
                     <div className='text-[10px] font-normal opacity-70'>Directo · AA</div>
                   </Th>
-                  <Th className='text-right'>
+                  <Th className='text-right whitespace-nowrap'>
                     <div>Con Salida 2</div>
                     <div className='text-[10px] font-normal opacity-70'>Con escala · Gol</div>
                   </Th>
