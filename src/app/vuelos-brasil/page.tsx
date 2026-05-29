@@ -460,17 +460,18 @@ export default function VuelosBrasilPage() {
 
         <section className='mb-12 text-center'>
           <p className='text-sm md:text-base text-foreground/70 mb-5 max-w-lg mx-auto'>
-            Para coordinar tu viaje, contactá a la agencia organizadora —
-            este es su número de WhatsApp:
+            Para coordinar tu viaje, escribile a la agencia organizadora del
+            viaje por WhatsApp:
           </p>
           <a
             href={AGENCY_WHATSAPP_URL}
             target='_blank'
             rel='noopener noreferrer'
             className='inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#25D366] text-white text-base md:text-lg font-medium shadow-[0_6px_20px_-8px_rgba(37,211,102,0.6)] hover:bg-[#1ebe57] hover:shadow-[0_8px_24px_-6px_rgba(37,211,102,0.7)] transition-all'
+            aria-label={`Contactar a la agencia por WhatsApp (${AGENCY_PHONE_DISPLAY})`}
           >
             <WhatsAppIcon size={22} />
-            {AGENCY_PHONE_DISPLAY}
+            Contactá la agencia
           </a>
         </section>
 
