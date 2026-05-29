@@ -108,6 +108,7 @@ export function TravelHub() {
                 blurb={t.brazil.blurb}
                 cta={t.brazil.cta}
                 bg='/branding/brasil-bg.jpg'
+                bgPosition='center top'
                 alt='Nordeste do Brasil'
               />
               <DestinationCard
@@ -154,6 +155,7 @@ function DestinationCard({
   blurb,
   cta,
   bg,
+  bgPosition = 'center',
   alt,
 }: {
   onClick?: () => void;
@@ -163,14 +165,15 @@ function DestinationCard({
   blurb: string;
   cta: string;
   bg: string;
+  bgPosition?: string;
   alt: string;
 }) {
   const inner = (
     <div className='group relative rounded-2xl border border-accent/30 bg-background overflow-hidden transition-shadow hover:shadow-lg h-full flex flex-col'>
       <div className='relative aspect-[5/3] overflow-hidden'>
         <div
-          className='absolute inset-0 bg-cover bg-center opacity-65 transition-transform duration-500 group-hover:scale-105'
-          style={{ backgroundImage: `url(${bg})` }}
+          className='absolute inset-0 bg-cover transition-transform duration-500 group-hover:scale-105'
+          style={{ backgroundImage: `url(${bg})`, backgroundPosition: bgPosition, opacity: 0.65 }}
           role='img'
           aria-label={alt}
         />
