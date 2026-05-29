@@ -66,6 +66,7 @@ export function TravelTips() {
 
                 <dl className='space-y-3.5 border-t border-accent/15 pt-5 mb-6 flex-grow'>
                   <FactRow label={content.travelLabelDistance} value={tip.distance} />
+                  <FactRow label={content.travelLabelDistanceSsa} value={tip.distanceFromSsa} />
                   <FactRow label={content.travelLabelHighlights} value={tip.highlights} />
                   <FactRow label={content.travelLabelStay} value={tip.stay} />
                   <FactRow label={content.travelLabelBudget} value={tip.budget} />
