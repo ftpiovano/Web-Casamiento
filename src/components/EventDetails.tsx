@@ -16,6 +16,7 @@ interface EventProps {
   mapLink: string;
   flightPackagesUrl: string;
   backgroundImage?: string;
+  backgroundPosition?: string;
   id: string;
 }
 
@@ -24,7 +25,7 @@ interface EventProps {
  * @param {EventProps} props component properties.
  * @return {JSX.Element} The rendered event card.
  */
-function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl, backgroundImage }: EventProps) {
+function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl, backgroundImage, backgroundPosition = 'center' }: EventProps) {
   const { region } = useLanguage();
   
   const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
@@ -86,8 +87,8 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
       {backgroundImage && (
         <div className='absolute inset-0 pointer-events-none' aria-hidden>
           <div
-            className='absolute inset-0 bg-cover bg-center opacity-50'
-            style={{ backgroundImage: `url(${backgroundImage})` }}
+            className='absolute inset-0 bg-cover opacity-50'
+            style={{ backgroundImage: `url(${backgroundImage})`, backgroundPosition }}
           />
           <div className='absolute inset-0 bg-gradient-to-b from-background/65 via-background/35 to-background/70' />
         </div>
@@ -180,6 +181,7 @@ export function EventDetails() {
           mapLink={siteConfig.events.br.mapLink}
           flightPackagesUrl={siteConfig.events.br.flightPackagesUrl}
           backgroundImage={siteConfig.events.br.backgroundImage}
+          backgroundPosition={siteConfig.events.br.backgroundPosition}
         />
       </div>
     </Section>
