@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Clock, Calendar, Plane } from 'lucide-react';
+import { MapPin, Clock, Calendar, Plane, BedDouble } from 'lucide-react';
 import { siteConfig } from '@/site.config';
 import { Section, Typography, Card, Button } from './Base';
 import { useLanguage } from '@/context/LanguageContext';
@@ -15,6 +15,7 @@ interface EventProps {
   address: string;
   mapLink: string;
   flightPackagesUrl: string;
+  accommodationsUrl?: string;
   backgroundImage?: string;
   backgroundPosition?: string;
   id: string;
@@ -25,7 +26,7 @@ interface EventProps {
  * @param {EventProps} props component properties.
  * @return {JSX.Element} The rendered event card.
  */
-function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl, backgroundImage, backgroundPosition = 'center' }: EventProps) {
+function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl, accommodationsUrl, backgroundImage, backgroundPosition = 'center' }: EventProps) {
   const { region } = useLanguage();
   
   const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
@@ -75,9 +76,9 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
   };
 
   const labels = {
-    br: { map: 'Abrir Mapa', cal: 'Adicionar ao Calendário', flights: 'Pacotes de Voo' },
-    ar: { map: 'Abrir Mapa', cal: 'Agregar al Calendario', flights: 'Paquetes de Vuelo' },
-    en: { map: 'Open Map', cal: 'Add to Calendar', flights: 'Flight Packages' },
+    br: { map: 'Abrir Mapa', cal: 'Adicionar ao Calendário', flights: 'Pacotes de Voo', stay: 'Hospedagens' },
+    ar: { map: 'Abrir Mapa', cal: 'Agregar al Calendario', flights: 'Paquetes de Vuelo', stay: 'Alojamiento' },
+    en: { map: 'Open Map', cal: 'Add to Calendar', flights: 'Flight Packages', stay: 'Accommodations' },
   };
 
   const currentLabels = labels[region] || labels.en;
@@ -139,6 +140,20 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
             </Button>
           </a>
         )}
+        {accommodationsUrl && (
+          <a
+            href={accommodationsUrl}
+            {...(accommodationsUrl.startsWith('http')
+              ? { target: '_blank', rel: 'noopener noreferrer' }
+              : {})}
+            className='w-full'
+          >
+            <Button variant='outline' className='w-full'>
+              <BedDouble size={16} className='mr-2 inline' />
+              {currentLabels.stay}
+            </Button>
+          </a>
+        )}
       </div>
       </div>
     </Card>
@@ -180,6 +195,7 @@ export function EventDetails() {
           address={siteConfig.events.br.address}
           mapLink={siteConfig.events.br.mapLink}
           flightPackagesUrl={siteConfig.events.br.flightPackagesUrl}
+          accommodationsUrl={siteConfig.events.br.accommodationsUrl}
           backgroundImage={siteConfig.events.br.backgroundImage}
           backgroundPosition={siteConfig.events.br.backgroundPosition}
         />
