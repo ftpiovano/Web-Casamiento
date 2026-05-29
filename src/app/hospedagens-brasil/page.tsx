@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, BedDouble, Sparkles } from 'lucide-react';
+import { ArrowLeft, BedDouble, Sparkles, Mail } from 'lucide-react';
 import { siteConfig } from '@/site.config';
 
 export const metadata: Metadata = {
@@ -11,6 +11,9 @@ export const metadata: Metadata = {
 };
 
 const NAVY = '#13234d';
+
+const HOTEL_WHATSAPP_URL = 'https://wa.me/5575999526962';
+const HOTEL_EMAIL = 'reservasbaixio@slaveirohoteis.com.br';
 
 type Room = {
   id: string;
@@ -43,6 +46,20 @@ const rooms: Room[] = [
     tag: '03',
   },
 ];
+
+function WhatsAppIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox='0 0 24 24'
+      fill='currentColor'
+      aria-hidden
+    >
+      <path d='M19.05 4.91A9.82 9.82 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zM12.04 20.15h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.4c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.23 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42-.14 0-.31-.02-.48-.02-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.05 0 1.21.88 2.38 1.01 2.55.12.17 1.74 2.65 4.21 3.72.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18-.06-.1-.23-.16-.48-.28z' />
+    </svg>
+  );
+}
 
 const formatBrl = (v: number) =>
   v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -134,10 +151,47 @@ export default function HospedagensBrasilPage() {
         </section>
 
         <section
+          className='mb-16 rounded-3xl overflow-hidden border bg-background'
+          style={{ borderColor: `${NAVY}1f` }}
+        >
+          <div className='grid md:grid-cols-2'>
+            <div className='relative aspect-[4/3] md:aspect-auto md:min-h-[320px]'>
+              <Image
+                src='/branding/lagoa-azul.jpg'
+                alt='Lagoa Azul — experiência inclusa para os convidados'
+                fill
+                sizes='(min-width: 768px) 50vw, 100vw'
+                className='object-cover'
+              />
+            </div>
+            <div className='p-7 md:p-10 flex flex-col justify-center'>
+              <p
+                className='text-[11px] uppercase tracking-[0.35em] mb-3'
+                style={{ color: NAVY }}
+              >
+                Cortesia para os convidados
+              </p>
+              <h2 className='font-heading text-2xl md:text-3xl mb-4 leading-tight'>
+                Experiência na Lagoa Azul
+              </h2>
+              <p className='text-foreground/80 leading-relaxed mb-3'>
+                A sua hospedagem inclui uma pequena experiência na{' '}
+                <strong>Lagoa Azul</strong>, próxima ao hotel — uma das
+                paisagens mais bonitas da região.
+              </p>
+              <p className='text-sm text-foreground/65 italic'>
+                Para mais detalhes (horários e logística), basta falar com a
+                recepção do hotel durante a sua estadia.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section
           className='mb-16 rounded-3xl p-8 md:p-10 border-2'
           style={{ borderColor: NAVY, backgroundColor: `${NAVY}05` }}
         >
-          <div className='flex items-start gap-4'>
+          <div className='flex items-start gap-4 mb-6'>
             <Sparkles
               size={20}
               className='shrink-0 mt-1'
@@ -147,7 +201,7 @@ export default function HospedagensBrasilPage() {
               <h2 className='font-heading text-xl md:text-2xl mb-3'>
                 Como reservar
               </h2>
-              <p className='text-foreground/80 leading-relaxed mb-2'>
+              <p className='text-foreground/80 leading-relaxed'>
                 As reservas devem ser feitas diretamente com o hotel,
                 informando que você é convidado(a) do casamento de{' '}
                 <strong>
@@ -155,11 +209,32 @@ export default function HospedagensBrasilPage() {
                 </strong>{' '}
                 no dia 6 de março de 2027.
               </p>
-              <p className='text-xs text-foreground/60 italic'>
-                Valores e disponibilidade sujeitos a confirmação pelo hotel.
-              </p>
             </div>
           </div>
+
+          <div className='flex flex-col sm:flex-row gap-3 sm:items-stretch sm:justify-start ml-9'>
+            <a
+              href={HOTEL_WHATSAPP_URL}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#25D366] text-white text-sm uppercase tracking-[0.2em] shadow-[0_6px_20px_-8px_rgba(37,211,102,0.6)] hover:bg-[#1ebe57] transition-all'
+            >
+              <WhatsAppIcon size={18} />
+              WhatsApp
+            </a>
+            <a
+              href={`mailto:${HOTEL_EMAIL}`}
+              className='inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border text-sm uppercase tracking-[0.2em] hover:bg-foreground/5 transition-colors'
+              style={{ borderColor: NAVY, color: NAVY }}
+            >
+              <Mail size={16} />
+              E-mail
+            </a>
+          </div>
+
+          <p className='text-xs text-foreground/60 italic mt-6 ml-9'>
+            Valores e disponibilidade sujeitos a confirmação pelo hotel.
+          </p>
         </section>
 
         <div className='text-center'>
