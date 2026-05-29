@@ -108,7 +108,7 @@ export function TravelHub() {
                 blurb={t.brazil.blurb}
                 cta={t.brazil.cta}
                 bg='/branding/brasil-bg.jpg'
-                bgPosition='center top'
+                bgPosition='center 30%'
                 alt='Nordeste do Brasil'
               />
               <DestinationCard
