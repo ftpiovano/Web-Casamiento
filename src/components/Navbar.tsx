@@ -45,6 +45,14 @@ export function Navbar() {
       name: 'Vuelos',
     });
   }
+  if (region === 'br') {
+    navItems.push({
+      kind: 'route',
+      key: 'buenos-aires',
+      href: '/buenos-aires',
+      name: 'Buenos Aires',
+    });
+  }
 
   useEffect(() => {
     const handleScroll = () => {
