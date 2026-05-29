@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Phone, ExternalLink, Plane, Bus, Check } from 'lucide-react';
+import { ArrowLeft, MessageCircle, ExternalLink, Plane, Bus, Check } from 'lucide-react';
 import { siteConfig } from '@/site.config';
 
 export const metadata: Metadata = {
@@ -10,9 +10,8 @@ export const metadata: Metadata = {
     'Opciones de vuelo grupal Buenos Aires ↔ Salvador de Bahía para nuestra boda — marzo 2027.',
 };
 
-// TODO(alexita): replace these phone placeholders with the agency's real details.
-const TOURISM_PHONE = '+54 11 0000-0000';
-const TOURISM_PHONE_TEL = '+541100000000';
+const AGENCY_PHONE_DISPLAY = '+54 9 11 6963-0806';
+const AGENCY_WHATSAPP_URL = 'https://wa.me/5491169630806';
 const DESPEGAR_URL =
   'https://www.despegar.com.ar/shop/flights/results/roundtrip/BUE/SSA/2027-03-04/2027-03-14/1/0/0?from=SB&di=1&currency=USD';
 
@@ -25,7 +24,6 @@ type OutboundOption = {
   toTime: string;
   arrivalDetail: string;
   route: string;
-  priceUsd: number | null;
 };
 
 const outboundOptions: OutboundOption[] = [
@@ -38,7 +36,6 @@ const outboundOptions: OutboundOption[] = [
     toTime: '23:30',
     arrivalDetail: 'en SSA',
     route: 'AEP → SSA',
-    priceUsd: 152,
   },
   {
     id: 2,
@@ -49,7 +46,6 @@ const outboundOptions: OutboundOption[] = [
     toTime: '02:15',
     arrivalDetail: 'en SSA',
     route: 'AEP → GRU → SSA',
-    priceUsd: null,
   },
 ];
 
@@ -58,14 +54,13 @@ type ReturnOption = {
   dateLabel: string;
   airline: string;
   flightType: string;
-  fromTime: string;
-  fromAirport: string;
-  toTime: string;
-  toAirport: string;
-  totalUsd: number;
-  depositUsd: number;
-  installmentsCount: number;
-  installmentUsd: number;
+  fromTime: string | null;
+  fromAirport: string | null;
+  toTime: string | null;
+  toAirport: string | null;
+  // Combined ida + vuelta totals per departure choice. null = a confirmar.
+  comboWithDep1Usd: number | null; // with Salida 1 (Directo · Aerolíneas Argentinas)
+  comboWithDep2Usd: number | null; // with Salida 2 (Con escala · Gol)
 };
 
 const returnOptions: ReturnOption[] = [
@@ -78,10 +73,8 @@ const returnOptions: ReturnOption[] = [
     fromAirport: 'Salvador · SSA',
     toTime: '05:00',
     toAirport: 'Aeroparque · AEP',
-    totalUsd: 689,
-    depositUsd: 206.7,
-    installmentsCount: 6,
-    installmentUsd: 80.38,
+    comboWithDep1Usd: 689,
+    comboWithDep2Usd: null,
   },
   {
     id: 2,
@@ -92,10 +85,8 @@ const returnOptions: ReturnOption[] = [
     fromAirport: 'Salvador · SSA',
     toTime: '05:00',
     toAirport: 'Aeroparque · AEP',
-    totalUsd: 689,
-    depositUsd: 206.7,
-    installmentsCount: 6,
-    installmentUsd: 80.38,
+    comboWithDep1Usd: 689,
+    comboWithDep2Usd: null,
   },
   {
     id: 3,
@@ -106,10 +97,20 @@ const returnOptions: ReturnOption[] = [
     fromAirport: 'Salvador · SSA',
     toTime: '20:05',
     toAirport: 'Aeroparque · AEP',
-    totalUsd: 573,
-    depositUsd: 171.9,
-    installmentsCount: 6,
-    installmentUsd: 66.85,
+    comboWithDep1Usd: null,
+    comboWithDep2Usd: 573,
+  },
+  {
+    id: 4,
+    dateLabel: 'Domingo (a confirmar)',
+    airline: 'Por confirmar',
+    flightType: 'A confirmar con la agencia',
+    fromTime: null,
+    fromAirport: null,
+    toTime: null,
+    toAirport: null,
+    comboWithDep1Usd: null,
+    comboWithDep2Usd: null,
   },
 ];
 
@@ -200,11 +201,13 @@ export default function VuelosBrasilPage() {
                 ))}
               </ul>
               <a
-                href={`tel:${TOURISM_PHONE_TEL}`}
+                href={AGENCY_WHATSAPP_URL}
+                target='_blank'
+                rel='noopener noreferrer'
                 className='inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-background text-foreground text-sm uppercase tracking-[0.2em] hover:opacity-90 transition-opacity'
               >
-                <Phone size={15} />
-                Llamar a la agencia
+                <MessageCircle size={15} />
+                Escribir por WhatsApp
               </a>
             </div>
 
@@ -246,18 +249,11 @@ export default function VuelosBrasilPage() {
                 className='rounded-2xl border p-5 bg-background'
                 style={{ borderColor: `${NAVY}1f` }}
               >
-                <div className='flex items-baseline justify-between mb-3'>
-                  <div>
-                    <p className='text-[11px] uppercase tracking-[0.25em] text-primary mb-1'>
-                      Opción {opt.id} · {opt.type}
-                    </p>
-                    <p className='font-heading text-xl leading-tight'>{opt.airline}</p>
-                  </div>
-                  {opt.priceUsd != null && (
-                    <p className='font-heading text-2xl' style={{ color: NAVY }}>
-                      US$ {opt.priceUsd}
-                    </p>
-                  )}
+                <div className='mb-3'>
+                  <p className='text-[11px] uppercase tracking-[0.25em] text-primary mb-1'>
+                    Salida {opt.id} · {opt.type}
+                  </p>
+                  <p className='font-heading text-xl leading-tight'>{opt.airline}</p>
                 </div>
                 <dl className='space-y-2.5 text-sm border-t border-accent/40 pt-4'>
                   <Row label='Fecha' value={opt.dateLabel} />
@@ -278,12 +274,11 @@ export default function VuelosBrasilPage() {
             <table className='w-full text-left'>
               <thead style={{ backgroundColor: NAVY }} className='text-background'>
                 <tr>
-                  <Th>Opción</Th>
+                  <Th>Salida</Th>
                   <Th>Aerolínea</Th>
                   <Th>Fecha</Th>
                   <Th>Horario</Th>
                   <Th>Ruta</Th>
-                  <Th className='text-right'>Precio USD</Th>
                 </tr>
               </thead>
               <tbody>
@@ -313,25 +308,18 @@ export default function VuelosBrasilPage() {
                       <div className='text-xs text-foreground/55'>{opt.arrivalDetail}</div>
                     </Td>
                     <Td>{opt.route}</Td>
-                    <Td className='text-right'>
-                      {opt.priceUsd != null ? (
-                        <span
-                          className='font-heading text-xl'
-                          style={{ color: NAVY }}
-                        >
-                          ${opt.priceUsd}
-                        </span>
-                      ) : (
-                        <span className='text-foreground/45'>—</span>
-                      )}
-                    </Td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          <div className='mt-5 flex items-center gap-2 text-sm text-foreground/70'>
+          <p className='text-xs md:text-sm text-foreground/60 italic mt-5 max-w-3xl'>
+            El precio total del viaje (ida + vuelta) se muestra en cada opción
+            de vuelta, según la combinación elegida con la salida 1 o la salida 2.
+          </p>
+
+          <div className='mt-3 flex items-center gap-2 text-sm text-foreground/70'>
             <Bus size={16} className='text-primary' />
             <span>Transfer incluido desde el aeropuerto al hotel de la boda.</span>
           </div>
@@ -341,7 +329,7 @@ export default function VuelosBrasilPage() {
           <div className='flex items-baseline justify-between mb-5'>
             <h2 className='font-heading text-2xl md:text-3xl'>Viaje de vuelta</h2>
             <span className='text-[11px] uppercase tracking-[0.25em] text-foreground/50'>
-              3 opciones
+              {returnOptions.length} opciones
             </span>
           </div>
 
@@ -352,32 +340,39 @@ export default function VuelosBrasilPage() {
                 className='rounded-2xl border p-5 bg-background'
                 style={{ borderColor: `${NAVY}1f` }}
               >
-                <div className='flex items-baseline justify-between mb-4'>
-                  <div>
-                    <p className='text-[11px] uppercase tracking-[0.25em] text-primary mb-1'>
-                      Opción {opt.id}
-                    </p>
-                    <p className='font-heading text-xl leading-tight'>{opt.dateLabel}</p>
-                  </div>
-                  <p className='font-heading text-2xl' style={{ color: NAVY }}>
-                    US$ {opt.totalUsd}
+                <div className='mb-4'>
+                  <p className='text-[11px] uppercase tracking-[0.25em] text-primary mb-1'>
+                    Vuelta {opt.id}
                   </p>
+                  <p className='font-heading text-xl leading-tight'>{opt.dateLabel}</p>
                 </div>
                 <dl className='space-y-2.5 text-sm border-t border-accent/40 pt-4'>
                   <Row
                     label='Vuelo'
                     value={`${opt.airline} · ${opt.flightType}`}
                   />
-                  <Row
-                    label='Salida'
-                    value={`${opt.fromTime} — ${opt.fromAirport}`}
-                  />
-                  <Row label='Llegada' value={`${opt.toTime} — ${opt.toAirport}`} />
-                  <Row
-                    label='Plan'
-                    value={`Anticipo US$ ${opt.depositUsd} + ${opt.installmentsCount} cuotas de US$ ${opt.installmentUsd}`}
-                  />
+                  {opt.fromTime && opt.toTime && (
+                    <Row
+                      label='Horario'
+                      value={`${opt.fromTime} → ${opt.toTime}`}
+                    />
+                  )}
+                  {opt.fromAirport && opt.toAirport && (
+                    <Row label='Ruta' value={`${opt.fromAirport} → ${opt.toAirport}`} />
+                  )}
                 </dl>
+                <div className='mt-4 pt-4 border-t border-accent/40 grid grid-cols-2 gap-3'>
+                  <ComboPrice
+                    label='Con Salida 1'
+                    sub='Directo · AA'
+                    value={opt.comboWithDep1Usd}
+                  />
+                  <ComboPrice
+                    label='Con Salida 2'
+                    sub='Con escala · Gol'
+                    value={opt.comboWithDep2Usd}
+                  />
+                </div>
               </article>
             ))}
           </div>
@@ -386,12 +381,18 @@ export default function VuelosBrasilPage() {
             <table className='w-full text-left'>
               <thead style={{ backgroundColor: NAVY }} className='text-background'>
                 <tr>
-                  <Th>Opción</Th>
+                  <Th>Vuelta</Th>
                   <Th>Fecha</Th>
                   <Th>Vuelo</Th>
                   <Th>Horarios</Th>
-                  <Th className='text-right'>Total USD</Th>
-                  <Th>Financiación</Th>
+                  <Th className='text-right'>
+                    <div>Con Salida 1</div>
+                    <div className='text-[10px] font-normal opacity-70'>Directo · AA</div>
+                  </Th>
+                  <Th className='text-right'>
+                    <div>Con Salida 2</div>
+                    <div className='text-[10px] font-normal opacity-70'>Con escala · Gol</div>
+                  </Th>
                 </tr>
               </thead>
               <tbody>
@@ -419,28 +420,26 @@ export default function VuelosBrasilPage() {
                       </div>
                     </Td>
                     <Td>
-                      <div className='text-sm'>
-                        {opt.fromTime} → {opt.toTime}
-                      </div>
-                      <div className='text-xs text-foreground/55'>
-                        {opt.fromAirport} → {opt.toAirport}
-                      </div>
+                      {opt.fromTime && opt.toTime ? (
+                        <>
+                          <div className='text-sm'>
+                            {opt.fromTime} → {opt.toTime}
+                          </div>
+                          {opt.fromAirport && opt.toAirport && (
+                            <div className='text-xs text-foreground/55'>
+                              {opt.fromAirport} → {opt.toAirport}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <span className='text-foreground/45'>—</span>
+                      )}
                     </Td>
                     <Td className='text-right'>
-                      <span
-                        className='font-heading text-xl'
-                        style={{ color: NAVY }}
-                      >
-                        ${opt.totalUsd}
-                      </span>
+                      <PriceCell value={opt.comboWithDep1Usd} />
                     </Td>
-                    <Td>
-                      <div className='text-xs leading-relaxed text-foreground/70'>
-                        Anticipo <strong className='text-foreground'>US$ {opt.depositUsd}</strong>
-                        <br />
-                        {opt.installmentsCount} cuotas de{' '}
-                        <strong className='text-foreground'>US$ {opt.installmentUsd}</strong>
-                      </div>
+                    <Td className='text-right'>
+                      <PriceCell value={opt.comboWithDep2Usd} />
                     </Td>
                   </tr>
                 ))}
@@ -449,21 +448,25 @@ export default function VuelosBrasilPage() {
           </div>
 
           <p className='text-xs md:text-sm text-foreground/60 italic mt-5 md:mt-6 max-w-3xl'>
-            Precios grupales sujetos a disponibilidad y confirmación.
+            Cada precio es el total del viaje (ida + vuelta) según la salida
+            elegida. Las combinaciones marcadas «—» están a confirmar con
+            la agencia. Precios grupales sujetos a disponibilidad.
           </p>
         </section>
 
         <section className='mb-12 text-center'>
           <p className='text-sm text-foreground/65 mb-3'>
-            ¿Dudas? Reservá o consultá con la agencia organizadora del viaje:
+            ¿Dudas? Escribinos por WhatsApp a la agencia organizadora del viaje:
           </p>
           <a
-            href={`tel:${TOURISM_PHONE_TEL}`}
+            href={AGENCY_WHATSAPP_URL}
+            target='_blank'
+            rel='noopener noreferrer'
             className='inline-flex items-center gap-2 text-base md:text-lg font-heading hover:opacity-80 transition-opacity'
             style={{ color: NAVY }}
           >
-            <Phone size={16} />
-            {TOURISM_PHONE}
+            <MessageCircle size={18} />
+            {AGENCY_PHONE_DISPLAY}
           </a>
         </section>
 
@@ -504,4 +507,43 @@ function Th({ children, className = '' }: { children: React.ReactNode; className
 
 function Td({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return <td className={`py-5 px-5 align-top ${className}`}>{children}</td>;
+}
+
+function PriceCell({ value }: { value: number | null }) {
+  if (value == null) {
+    return <span className='text-foreground/45'>—</span>;
+  }
+  return (
+    <span className='font-heading text-xl' style={{ color: NAVY }}>
+      ${value.toLocaleString('es-AR')}
+    </span>
+  );
+}
+
+function ComboPrice({
+  label,
+  sub,
+  value,
+}: {
+  label: string;
+  sub: string;
+  value: number | null;
+}) {
+  return (
+    <div>
+      <p className='text-[10px] uppercase tracking-[0.22em] text-primary mb-0.5'>
+        {label}
+      </p>
+      <p className='text-[10px] uppercase tracking-[0.2em] text-foreground/55 mb-1'>
+        {sub}
+      </p>
+      {value != null ? (
+        <p className='font-heading text-xl' style={{ color: NAVY }}>
+          US$ {value.toLocaleString('es-AR')}
+        </p>
+      ) : (
+        <p className='text-foreground/45'>—</p>
+      )}
+    </div>
+  );
 }
