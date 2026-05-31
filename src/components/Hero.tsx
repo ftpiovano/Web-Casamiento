@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { siteConfig } from '@/site.config';
 import { Button, Typography } from './Base';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSection } from '@/context/SectionContext';
 
 /**
  * Hero section component displaying the couple's names, monogram, and wedding date.
@@ -13,6 +14,7 @@ import { useLanguage } from '@/context/LanguageContext';
 export function Hero() {
   const { names, eventDate } = siteConfig;
   const { region } = useLanguage();
+  const { setActiveSection } = useSection();
   const groom = names.groom[region];
   
   const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
@@ -64,9 +66,9 @@ export function Hero() {
           {date}
         </p>
 
-        <a href='#rsvp'>
-          <Button variant='primary'>RSVP</Button>
-        </a>
+        <Button variant='primary' onClick={() => setActiveSection('rsvp')}>
+          RSVP
+        </Button>
       </motion.div>
 
       {/* Subtle Scroll Indicator */}
