@@ -789,6 +789,7 @@ export const siteConfig = {
         coupleStory:
           'Era uma vez… uma garota incrível, que carregava no olhar um brilho de quem nasceu para viver grandes histórias. Ela deixou sua terra, sua família e amigos para seguir o coração e explorar o mundo. E o destino… ah, o destino sabia exatamente onde queria levá-la. No meio do caminho, apareceu ele. Um argentino com sotaque marcante, sorriso fácil… e um jeito de olhar que dizia tudo sem dizer nada. Entre uma conversa e outra, ele encontrou um lar no sorriso dela. E ela… percebeu que encontrou amor nos braços dele. Vieram viagens, risadas, abraços apertados e até desafios — porque a vida real é feita disso. Mas em cada momento, a escolha sempre foi a mesma: ficar. Ficar, porque juntos, tudo faz sentido.',
         coupleAttribution: 'Gessy (amiga da noiva)',
+        countdown: { days: 'Dias', hours: 'Horas', minutes: 'Minutos', seconds: 'Segundos' },
       },
     },
     ar: {
@@ -832,6 +833,7 @@ export const siteConfig = {
         coupleStory:
           'Érase una vez… una chica increíble, que llevaba en la mirada el brillo de quien nació para vivir grandes historias. Dejó su tierra, su familia y sus amigos para seguir el corazón y descubrir el mundo. Y el destino… ah, el destino sabía exactamente a dónde la quería llevar. En el medio del camino, apareció él. Un argentino de acento marcado, sonrisa fácil… y una manera de mirar que lo decía todo sin decir nada. Entre una charla y otra, él encontró un hogar en su sonrisa. Y ella… descubrió que encontró amor en sus brazos. Vinieron viajes, risas, abrazos apretados y hasta desafíos — porque la vida real está hecha de eso. Pero en cada momento, la elección siempre fue la misma: quedarse. Quedarse, porque juntos, todo tiene sentido.',
         coupleAttribution: 'Gessy (amiga de la novia)',
+        countdown: { days: 'Días', hours: 'Horas', minutes: 'Minutos', seconds: 'Segundos' },
       },
     },
     en: {
@@ -875,6 +877,7 @@ export const siteConfig = {
         coupleStory:
           'Once upon a time… an incredible girl who carried in her gaze the sparkle of someone born to live great stories. She left her land, her family and her friends to follow her heart and explore the world. And destiny… ah, destiny knew exactly where it wanted to take her. Along the way, he appeared. An Argentine with a striking accent, an easy smile… and a way of looking that said everything without saying a word. Between one conversation and another, he found a home in her smile. And she… realized she had found love in his arms. There came trips, laughter, tight hugs and even challenges — because real life is made of that. But in every moment, the choice was always the same: to stay. To stay, because together, everything makes sense.',
         coupleAttribution: 'Gessy (friend of the bride)',
+        countdown: { days: 'Days', hours: 'Hours', minutes: 'Minutes', seconds: 'Seconds' },
       },
     },
   },

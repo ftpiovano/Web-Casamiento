@@ -26,7 +26,7 @@ interface EventProps {
  * @param {EventProps} props component properties.
  * @return {JSX.Element} The rendered event card.
  */
-function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl, accommodationsUrl, backgroundImage, backgroundPosition = 'center' }: EventProps) {
+function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl, accommodationsUrl, backgroundImage, backgroundPosition = 'center', id }: EventProps) {
   const { region } = useLanguage();
   
   const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
@@ -45,31 +45,57 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
 
   /**
    * Generates and downloads an .ics file for the event.
+   * Both ceremony venues sit in UTC-3 (no DST) so we convert the
+   * local-time dateTime to UTC and emit a fully-qualified ICS file
+   * with CRLF line endings, UID, DTSTAMP and a 4-hour duration.
    */
   const handleAddToCalendar = () => {
-    const event = {
-      title: `${siteConfig.names.bride} & ${siteConfig.names.groom[region]} Wedding - ${title}`,
-      start: dateTime,
-      duration: '0400', // 4 hours
-      location: `${locationName}, ${address}`,
-    };
+    const summary = `${siteConfig.names.bride} & ${siteConfig.names.groom[region]} Wedding - ${title}`;
+    const location = `${locationName}, ${address}`;
+
+    // Local-time string from siteConfig (no timezone). Both venues are UTC-3.
+    // Treat the timestamp as São_Paulo / Buenos_Aires local time and shift to UTC.
+    const local = new Date(dateTime);
+    const utcMs = local.getTime() + 3 * 60 * 60 * 1000;
+    const startUtc = new Date(utcMs);
+    const fmt = (d: Date) =>
+      [
+        d.getUTCFullYear(),
+        String(d.getUTCMonth() + 1).padStart(2, '0'),
+        String(d.getUTCDate()).padStart(2, '0'),
+        'T',
+        String(d.getUTCHours()).padStart(2, '0'),
+        String(d.getUTCMinutes()).padStart(2, '0'),
+        String(d.getUTCSeconds()).padStart(2, '0'),
+        'Z',
+      ].join('');
+    const dtStart = fmt(startUtc);
+    const dtStamp = fmt(new Date());
+    const uid = `${id}-${siteConfig.eventDate}@alexita-chico.wedding`;
+
+    const escapeIcs = (s: string) =>
+      s.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
 
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
+      'PRODID:-//Alexita & Chico//Wedding//EN',
+      'CALSCALE:GREGORIAN',
       'BEGIN:VEVENT',
-      `SUMMARY:${event.title}`,
-      `DTSTART:${event.start.replace(/[-:]/g, '')}`,
+      `UID:${uid}`,
+      `DTSTAMP:${dtStamp}`,
+      `DTSTART:${dtStart}`,
       'DURATION:PT4H',
-      `LOCATION:${event.location}`,
+      `SUMMARY:${escapeIcs(summary)}`,
+      `LOCATION:${escapeIcs(location)}`,
       'END:VEVENT',
       'END:VCALENDAR',
-    ].join('\n');
+    ].join('\r\n');
 
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.setAttribute('download', `${event.title}.ics`);
+    link.setAttribute('download', `${summary}.ics`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -126,7 +152,7 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
           <Calendar size={16} className='mr-2 inline' />
           {currentLabels.cal}
         </Button>
-        {region !== 'en' && (
+        {region !== 'en' && flightPackagesUrl && flightPackagesUrl !== '#' && (
           <a
             href={flightPackagesUrl}
             {...(flightPackagesUrl.startsWith('http')

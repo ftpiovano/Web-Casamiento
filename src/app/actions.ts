@@ -83,10 +83,11 @@ export async function validateAdminPassword(password: string) {
 
 /**
  * Creates a Stripe PaymentIntent.
- * @param {number} amount The amount in cents.
+ * @param {number} amount The amount in the smallest currency unit (cents/pence).
+ * @param {string} [currency] ISO 4217 lowercase code — defaults to 'brl'.
  * @return {Promise<{success: boolean, clientSecret?: string, error?: string}>} The result.
  */
-export async function createPaymentIntent(amount: number) {
+export async function createPaymentIntent(amount: number, currency: string = 'brl') {
   try {
     const stripeClient = getStripe();
     if (!stripeClient) {
@@ -94,7 +95,7 @@ export async function createPaymentIntent(amount: number) {
     }
     const paymentIntent = await stripeClient.paymentIntents.create({
       amount,
-      currency: 'brl',
+      currency,
       automatic_payment_methods: {
         enabled: true,
       },

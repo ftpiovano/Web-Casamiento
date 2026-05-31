@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { siteConfig } from '@/site.config';
-import { Typography } from './Base';
+import { useLanguage } from '@/context/LanguageContext';
 
 /**
  * Countdown component that displays time remaining until the wedding event.
  * @return {JSX.Element} The rendered countdown.
  */
 export function Countdown() {
+  const { config } = useLanguage();
+  const cd = config.content.countdown;
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -40,10 +42,10 @@ export function Countdown() {
   }, []);
 
   const items = [
-    { label: 'Dias', value: timeLeft.days },
-    { label: 'Horas', value: timeLeft.hours },
-    { label: 'Minutos', value: timeLeft.minutes },
-    { label: 'Segundos', value: timeLeft.seconds },
+    { label: cd.days, value: timeLeft.days },
+    { label: cd.hours, value: timeLeft.hours },
+    { label: cd.minutes, value: timeLeft.minutes },
+    { label: cd.seconds, value: timeLeft.seconds },
   ];
 
   return (

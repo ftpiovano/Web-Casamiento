@@ -72,11 +72,13 @@ export function GiftGrid() {
     setStep('success');
   };
 
+  const stripeCurrency = region === 'en' ? 'gbp' : 'brl';
+
   useEffect(() => {
     if (showStripe && totalPrice > 0) {
       setStripeError(null);
       const initStripe = async () => {
-        const result = await createPaymentIntent(totalPrice * 100);
+        const result = await createPaymentIntent(totalPrice * 100, stripeCurrency);
         if (result.success && result.clientSecret) {
           setClientSecret(result.clientSecret);
         } else {
@@ -88,7 +90,7 @@ export function GiftGrid() {
       setClientSecret(null);
       setStripeError(null);
     }
-  }, [showStripe, totalPrice]);
+  }, [showStripe, totalPrice, stripeCurrency]);
 
   /**
    * Renders the grid of gifts.

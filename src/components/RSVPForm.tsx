@@ -82,17 +82,23 @@ export function RSVPForm() {
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Clamp adults to >= 1 (someone has to come) and kids to >= 0 before sending.
+    const payload = {
+      ...formData,
+      adults: Math.max(1, Number.isFinite(formData.adults) ? formData.adults : 1),
+      kids: Math.max(0, Number.isFinite(formData.kids) ? formData.kids : 0),
+    };
     setIsSubmitting(true);
     setError(null);
-    
-    const result = await submitRSVP(formData);
-    
+
+    const result = await submitRSVP(payload);
+
     if (result.success) {
       setSubmitted(true);
     } else {
       setError(result.error || 'Error. Try again.');
     }
-    
+
     setIsSubmitting(false);
   };
 
@@ -172,7 +178,14 @@ export function RSVPForm() {
                 min='1'
                 className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
                 value={formData.adults || ''}
-                onChange={(e) => setFormData({ ...formData, adults: e.target.value === '' ? 0 : parseInt(e.target.value) })}
+                onChange={(e) => {
+                  if (e.target.value === '') {
+                    setFormData({ ...formData, adults: 0 });
+                    return;
+                  }
+                  const n = parseInt(e.target.value, 10);
+                  setFormData({ ...formData, adults: Number.isFinite(n) ? Math.max(0, n) : 0 });
+                }}
               />
             </div>
             <div className='flex flex-col gap-2'>
@@ -184,7 +197,14 @@ export function RSVPForm() {
                 min='0'
                 className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
                 value={formData.kids === 0 ? '0' : formData.kids}
-                onChange={(e) => setFormData({ ...formData, kids: e.target.value === '' ? 0 : parseInt(e.target.value) })}
+                onChange={(e) => {
+                  if (e.target.value === '') {
+                    setFormData({ ...formData, kids: 0 });
+                    return;
+                  }
+                  const n = parseInt(e.target.value, 10);
+                  setFormData({ ...formData, kids: Number.isFinite(n) ? Math.max(0, n) : 0 });
+                }}
               />
             </div>
           </div>
