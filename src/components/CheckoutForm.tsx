@@ -41,7 +41,7 @@ const copy: Record<
     back: 'Volver',
     validationError: 'Error de validación',
     unexpectedError: 'Ocurrió un error inesperado.',
-    currencySymbol: 'R$',
+    currencySymbol: '$',
     numberLocale: 'es-AR',
   },
   en: {

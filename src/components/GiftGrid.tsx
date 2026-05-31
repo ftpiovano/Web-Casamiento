@@ -72,7 +72,7 @@ export function GiftGrid() {
     setStep('success');
   };
 
-  const stripeCurrency = region === 'en' ? 'gbp' : 'brl';
+  const stripeCurrency = region === 'en' ? 'gbp' : region === 'ar' ? 'ars' : 'brl';
 
   useEffect(() => {
     if (showStripe && totalPrice > 0) {
