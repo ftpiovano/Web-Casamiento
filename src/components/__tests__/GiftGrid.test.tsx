@@ -5,8 +5,8 @@ import { describe, it, expect } from 'vitest';
 describe('GiftGrid', () => {
   it('renders gift items', () => {
     render(<GiftGrid />);
-    expect(screen.getByText(/Jantar Rom/i)).toBeDefined();
-    expect(screen.getByText(/Passagens/i)).toBeDefined();
+    expect(screen.getByText(/Taxa para a noiva/i)).toBeDefined();
+    expect(screen.getByText(/Ir junto com os noivos/i)).toBeDefined();
   });
 
   it('changes sort order', () => {
