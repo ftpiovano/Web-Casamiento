@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Single-page wedding website for **Alexita & Chico** (groom: Chico, bride: Alexita). The site covers two ceremonies — a civil event in Argentina (Feb 20, 2027) and a religious celebration in Brazil (March 6, 2027) — and is localized for guests in three regions: **Brazil (pt)**, **Argentina (es)**, and **International (en)**.
+Single-page wedding website for **Alexita & Chico** (groom: Chico, bride: Alexita). The site covers two ceremonies — a civil event in Argentina (Feb 27, 2027) and a religious celebration in Brazil (March 6, 2027) — and is localized for guests in three regions: **Brazil (pt)**, **Argentina (es)**, and **International (en)**.
 
 Live site: https://web-casamiento-five.vercel.app/
 
