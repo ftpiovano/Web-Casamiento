@@ -149,3 +149,47 @@ export async function submitGiftMessage(data: GiftMessageData) {
 
   return { success: true };
 }
+
+/**
+ * Interface for a guestbook message.
+ */
+export interface GuestbookMessageInput {
+  name: string;
+  text: string;
+}
+
+/**
+ * Persists a guestbook message to Supabase.
+ * @param {GuestbookMessageInput} data The guest's name and message.
+ * @return {Promise<{success: boolean, error?: string}>} The result.
+ */
+export async function submitGuestbookMessage(data: GuestbookMessageInput) {
+  const { error } = await supabase
+    .from('guestbook_messages')
+    .insert([{ name: data.name, text: data.text }]);
+
+  if (error) {
+    console.error('Error submitting guestbook message:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
+
+/**
+ * Reads all guestbook messages from Supabase, newest first.
+ * @return {Promise<{success: boolean, data?: any[], error?: string}>} The fetched messages.
+ */
+export async function getGuestbookMessages() {
+  const { data, error } = await supabase
+    .from('guestbook_messages')
+    .select('id, name, text, created_at')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching guestbook messages:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true, data };
+}
