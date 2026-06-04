@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, MessageCircle, ExternalLink, Plane, Bus, Check } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Plane, Check } from 'lucide-react';
 import { siteConfig } from '@/site.config';
 
 export const metadata: Metadata = {
@@ -15,106 +15,89 @@ const AGENCY_WHATSAPP_URL = 'https://wa.me/5491169630806';
 const DESPEGAR_URL =
   'https://www.despegar.com.ar/shop/flights/results/roundtrip/BUE/SSA/2027-03-04/2027-03-14/1/0/0?from=SB&di=1&currency=USD';
 
-type OutboundOption = {
-  id: number;
-  type: string;
-  airline: string;
+const NAVY = '#13234d';
+const IDA_BLUE = '#7aa8ff';
+const VUELTA_GREEN = '#7be0a9';
+
+type FlightLeg = {
+  kind: 'ida' | 'vuelta';
+  route: string; // e.g. "AEP → SSA"
+  type: string; // e.g. "directo"
   dateLabel: string;
   fromTime: string;
   toTime: string;
-  arrivalDetail: string;
-  route: string;
-};
-
-const outboundOptions: OutboundOption[] = [
-  {
-    id: 1,
-    type: 'Directo',
-    airline: 'Aerolíneas Argentinas',
-    dateLabel: 'Jueves 4 mar 2027',
-    fromTime: '19:10',
-    toTime: '23:30',
-    arrivalDetail: 'en SSA',
-    route: 'AEP → SSA',
-  },
-  {
-    id: 2,
-    type: 'Con escala',
-    airline: 'Gol',
-    dateLabel: '4 / 5 mar 2027',
-    fromTime: '18:05',
-    toTime: '02:15',
-    arrivalDetail: 'en SSA',
-    route: 'AEP → GRU → SSA',
-  },
-];
-
-type ReturnOption = {
-  id: number;
-  dateLabel: string;
   airline: string;
-  flightType: string;
-  fromTime: string | null;
-  fromAirport: string | null;
-  toTime: string | null;
-  toAirport: string | null;
-  // Combined ida + vuelta totals per departure choice. null = a confirmar.
-  comboWithDep1Usd: number | null; // with Salida 1 (Directo · Aerolíneas Argentinas)
-  comboWithDep2Usd: number | null; // with Salida 2 (Con escala · Gol)
 };
 
-const returnOptions: ReturnOption[] = [
+type TripPackage = {
+  id: number;
+  tag?: string;
+  legs: FlightLeg[];
+  adultUsd: number;
+  childUsd: number;
+};
+
+const packages: TripPackage[] = [
   {
     id: 1,
-    dateLabel: 'Lunes 8 mar 2027',
-    airline: 'Aerolíneas Argentinas',
-    flightType: 'Vuelo directo',
-    fromTime: '00:30',
-    fromAirport: 'Salvador · SSA',
-    toTime: '05:00',
-    toAirport: 'Aeroparque · AEP',
-    comboWithDep1Usd: null,
-    comboWithDep2Usd: 689,
+    legs: [
+      {
+        kind: 'ida',
+        route: 'AEP → SSA',
+        type: 'directo',
+        dateLabel: 'Jueves 4 mar 2027',
+        fromTime: '19:10',
+        toTime: '23:30',
+        airline: 'Aerolíneas Argentinas',
+      },
+      {
+        kind: 'vuelta',
+        route: 'SSA → AEP',
+        type: 'directo',
+        dateLabel: 'Lunes 8 mar 2027',
+        fromTime: '00:30',
+        toTime: '05:00',
+        airline: 'Aerolíneas Argentinas',
+      },
+    ],
+    adultUsd: 795,
+    childUsd: 627,
   },
   {
     id: 2,
-    dateLabel: 'Jueves 11 mar 2027',
-    airline: 'Aerolíneas Argentinas',
-    flightType: 'Vuelo directo',
-    fromTime: '00:30',
-    fromAirport: 'Salvador · SSA',
-    toTime: '05:00',
-    toAirport: 'Aeroparque · AEP',
-    comboWithDep1Usd: null,
-    comboWithDep2Usd: 689,
-  },
-  {
-    id: 3,
-    dateLabel: 'Sábado 13 mar 2027',
-    airline: 'Gol',
-    flightType: 'Vuelo directo',
-    fromTime: '15:10',
-    fromAirport: 'Salvador · SSA',
-    toTime: '20:05',
-    toAirport: 'Aeroparque · AEP',
-    comboWithDep1Usd: null,
-    comboWithDep2Usd: 573,
-  },
-  {
-    id: 4,
-    dateLabel: 'Domingo (a confirmar)',
-    airline: 'Por confirmar',
-    flightType: 'A confirmar con la agencia',
-    fromTime: null,
-    fromAirport: null,
-    toTime: null,
-    toAirport: null,
-    comboWithDep1Usd: null,
-    comboWithDep2Usd: null,
+    tag: 'Más días',
+    legs: [
+      {
+        kind: 'ida',
+        route: 'AEP → SSA',
+        type: 'directo',
+        dateLabel: 'Jueves 4 mar 2027',
+        fromTime: '19:10',
+        toTime: '23:30',
+        airline: 'Aerolíneas Argentinas',
+      },
+      {
+        kind: 'vuelta',
+        route: 'SSA → AEP',
+        type: 'directo',
+        dateLabel: 'Sábado 13 mar 2027',
+        fromTime: '15:10',
+        toTime: '20:05',
+        airline: 'Gol',
+      },
+    ],
+    adultUsd: 652,
+    childUsd: 568,
   },
 ];
 
-const NAVY = '#13234d';
+type Inclusion = { icon: string; label: string };
+const inclusions: Inclusion[] = [
+  { icon: '🎁', label: 'Kit de bienvenida de regalo' },
+  { icon: '📋', label: 'Check-in incluido' },
+  { icon: '🔄', label: 'Soporte ante cambios' },
+  { icon: '🎒', label: 'Carry on + mochila' },
+];
 
 export default function VuelosBrasilPage() {
   return (
@@ -210,7 +193,7 @@ export default function VuelosBrasilPage() {
                 rel='noopener noreferrer'
                 className='inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-background text-foreground text-sm uppercase tracking-[0.2em] hover:opacity-90 transition-opacity'
               >
-                <MessageCircle size={15} />
+                <WhatsAppIcon size={15} />
                 Escribir por WhatsApp
               </a>
             </div>
@@ -238,224 +221,52 @@ export default function VuelosBrasilPage() {
           </div>
         </section>
 
-        <section className='mb-20'>
-          <div className='flex items-baseline justify-between mb-5'>
-            <h2 className='font-heading text-2xl md:text-3xl'>Viaje de ida</h2>
+        <section className='mb-16'>
+          <div className='flex items-baseline justify-between mb-6'>
+            <h2 className='font-heading text-2xl md:text-3xl'>
+              Opciones de viaje
+            </h2>
             <span className='text-[11px] uppercase tracking-[0.25em] text-foreground/50'>
-              {outboundOptions.length} opciones
+              {packages.length} opciones
             </span>
           </div>
 
-          <div className='md:hidden space-y-4'>
-            {outboundOptions.map((opt) => (
-              <article
-                key={opt.id}
-                className='rounded-2xl border p-5 bg-background'
-                style={{ borderColor: `${NAVY}1f` }}
-              >
-                <div className='mb-3'>
-                  <p className='text-[11px] uppercase tracking-[0.25em] text-primary mb-1'>
-                    Ida {opt.id} · {opt.type}
-                  </p>
-                  <p className='font-heading text-xl leading-tight'>{opt.airline}</p>
-                </div>
-                <dl className='space-y-2.5 text-sm border-t border-accent/40 pt-4'>
-                  <Row label='Fecha' value={opt.dateLabel} />
-                  <Row label='Ruta' value={opt.route} />
-                  <Row
-                    label='Horario'
-                    value={`${opt.fromTime} → ${opt.toTime} (${opt.arrivalDetail})`}
-                  />
-                </dl>
-              </article>
+          <div className='space-y-6'>
+            {packages.map((pkg) => (
+              <PackageCard key={pkg.id} pkg={pkg} />
             ))}
-          </div>
-
-          <div
-            className='hidden md:block overflow-hidden rounded-2xl border'
-            style={{ borderColor: `${NAVY}1f` }}
-          >
-            <table className='w-full text-left'>
-              <thead style={{ backgroundColor: NAVY }} className='text-background'>
-                <tr>
-                  <Th>Ida</Th>
-                  <Th>Aerolínea</Th>
-                  <Th>Fecha</Th>
-                  <Th>Horario</Th>
-                  <Th>Ruta</Th>
-                </tr>
-              </thead>
-              <tbody>
-                {outboundOptions.map((opt, i) => (
-                  <tr
-                    key={opt.id}
-                    className={
-                      i < outboundOptions.length - 1
-                        ? 'border-b border-accent/40'
-                        : ''
-                    }
-                  >
-                    <Td>
-                      <span className='font-heading text-xl' style={{ color: NAVY }}>
-                        {opt.id}
-                      </span>
-                      <div className='text-xs text-foreground/55 mt-0.5'>{opt.type}</div>
-                    </Td>
-                    <Td>
-                      <span className='font-medium'>{opt.airline}</span>
-                    </Td>
-                    <Td>{opt.dateLabel}</Td>
-                    <Td>
-                      <div className='text-sm'>
-                        {opt.fromTime} → {opt.toTime}
-                      </div>
-                      <div className='text-xs text-foreground/55'>{opt.arrivalDetail}</div>
-                    </Td>
-                    <Td>{opt.route}</Td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
 
           <p className='text-xs md:text-sm text-foreground/60 italic mt-5 max-w-3xl'>
-            El precio total del viaje (ida + vuelta) se muestra en cada opción
-            de vuelta, según la combinación elegida con la salida 1 o la salida 2.
+            Precios por pasajero, incluyen ida + vuelta. Sujetos a
+            disponibilidad y confirmación por la agencia.
           </p>
-
-          <div className='mt-3 flex items-center gap-2 text-sm text-foreground/70'>
-            <Bus size={16} className='text-primary' />
-            <span>Transfer incluido desde el aeropuerto al hotel de la boda.</span>
-          </div>
         </section>
 
-        <section className='mb-12'>
-          <div className='flex items-baseline justify-between mb-5'>
-            <h2 className='font-heading text-2xl md:text-3xl'>Viaje de vuelta</h2>
+        <section className='mb-16'>
+          <div className='flex items-baseline justify-between mb-6'>
+            <h2 className='font-heading text-2xl md:text-3xl'>Lo que incluye</h2>
             <span className='text-[11px] uppercase tracking-[0.25em] text-foreground/50'>
-              {returnOptions.length} opciones
+              En ambos paquetes
             </span>
           </div>
 
-          <div className='md:hidden space-y-4'>
-            {returnOptions.map((opt) => (
-              <article
-                key={opt.id}
-                className='rounded-2xl border p-5 bg-background'
-                style={{ borderColor: `${NAVY}1f` }}
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
+            {inclusions.map((inc) => (
+              <div
+                key={inc.label}
+                className='rounded-2xl p-5 flex flex-col items-start gap-3'
+                style={{ backgroundColor: NAVY }}
               >
-                <div className='mb-4'>
-                  <p className='text-[11px] uppercase tracking-[0.25em] text-primary mb-1'>
-                    Vuelta {opt.id}
-                  </p>
-                  <p className='font-heading text-xl leading-tight'>{opt.dateLabel}</p>
-                </div>
-                <dl className='space-y-2.5 text-sm border-t border-accent/40 pt-4'>
-                  <Row
-                    label='Vuelo'
-                    value={`${opt.airline} · ${opt.flightType}`}
-                  />
-                  {opt.fromTime && opt.toTime && (
-                    <Row
-                      label='Horario'
-                      value={`${opt.fromTime} → ${opt.toTime}`}
-                    />
-                  )}
-                  {opt.fromAirport && opt.toAirport && (
-                    <Row label='Ruta' value={`${opt.fromAirport} → ${opt.toAirport}`} />
-                  )}
-                </dl>
-                <div className='mt-4 pt-4 border-t border-accent/40 grid grid-cols-2 gap-3'>
-                  <ComboPrice
-                    label='Con Ida 1'
-                    sub='Directo · AA'
-                    value={opt.comboWithDep1Usd}
-                  />
-                  <ComboPrice
-                    label='Con Ida 2'
-                    sub='Con escala · Gol'
-                    value={opt.comboWithDep2Usd}
-                  />
-                </div>
-              </article>
+                <span className='text-3xl leading-none select-none' aria-hidden>
+                  {inc.icon}
+                </span>
+                <p className='text-sm text-background/90 leading-snug font-medium'>
+                  {inc.label}
+                </p>
+              </div>
             ))}
           </div>
-
-          <div className='hidden md:block overflow-hidden rounded-2xl border' style={{ borderColor: `${NAVY}1f` }}>
-            <table className='w-full text-left'>
-              <thead style={{ backgroundColor: NAVY }} className='text-background'>
-                <tr>
-                  <Th>Vuelta</Th>
-                  <Th>Fecha</Th>
-                  <Th>Vuelo</Th>
-                  <Th>Horarios</Th>
-                  <Th className='text-right whitespace-nowrap'>
-                    <div>Con Ida 1</div>
-                    <div className='text-[10px] font-normal opacity-70'>Directo · AA</div>
-                  </Th>
-                  <Th className='text-right whitespace-nowrap'>
-                    <div>Con Ida 2</div>
-                    <div className='text-[10px] font-normal opacity-70'>Con escala · Gol</div>
-                  </Th>
-                </tr>
-              </thead>
-              <tbody>
-                {returnOptions.map((opt, i) => (
-                  <tr
-                    key={opt.id}
-                    className={
-                      i < returnOptions.length - 1
-                        ? 'border-b border-accent/40'
-                        : ''
-                    }
-                  >
-                    <Td>
-                      <span className='font-heading text-xl' style={{ color: NAVY }}>
-                        {opt.id}
-                      </span>
-                    </Td>
-                    <Td>
-                      <span className='font-medium'>{opt.dateLabel}</span>
-                    </Td>
-                    <Td>
-                      <div>{opt.airline}</div>
-                      <div className='text-xs text-foreground/55'>
-                        {opt.flightType}
-                      </div>
-                    </Td>
-                    <Td>
-                      {opt.fromTime && opt.toTime ? (
-                        <>
-                          <div className='text-sm'>
-                            {opt.fromTime} → {opt.toTime}
-                          </div>
-                          {opt.fromAirport && opt.toAirport && (
-                            <div className='text-xs text-foreground/55'>
-                              {opt.fromAirport} → {opt.toAirport}
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <span className='text-foreground/45'>—</span>
-                      )}
-                    </Td>
-                    <Td className='text-right'>
-                      <PriceCell value={opt.comboWithDep1Usd} />
-                    </Td>
-                    <Td className='text-right'>
-                      <PriceCell value={opt.comboWithDep2Usd} />
-                    </Td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <p className='text-xs md:text-sm text-foreground/60 italic mt-5 md:mt-6 max-w-3xl'>
-            Cada precio es el total del viaje (ida + vuelta) según la salida
-            elegida. Las combinaciones marcadas «—» están a confirmar con
-            la agencia. Precios grupales sujetos a disponibilidad.
-          </p>
         </section>
 
         <section className='mb-12 text-center'>
@@ -489,29 +300,149 @@ export default function VuelosBrasilPage() {
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function PackageCard({ pkg }: { pkg: TripPackage }) {
   return (
-    <div className='flex items-start gap-3'>
-      <dt className='text-[10px] uppercase tracking-[0.25em] text-primary min-w-16 pt-1'>
-        {label}
-      </dt>
-      <dd className='flex-1'>{value}</dd>
-    </div>
-  );
-}
-
-function Th({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return (
-    <th
-      className={`py-4 px-5 text-[11px] uppercase tracking-[0.2em] font-medium ${className}`}
+    <article
+      className='rounded-3xl overflow-hidden border shadow-sm'
+      style={{ borderColor: `${NAVY}33`, backgroundColor: NAVY }}
     >
-      {children}
-    </th>
+      <div className='flex items-baseline justify-between px-6 md:px-8 pt-6 md:pt-8 pb-4'>
+        <div className='flex items-baseline gap-3 flex-wrap'>
+          <p className='text-[10px] uppercase tracking-[0.35em] text-background/60'>
+            Opción {pkg.id}
+          </p>
+          {pkg.tag && (
+            <span
+              className='text-[10px] uppercase tracking-[0.2em] font-medium px-2.5 py-1 rounded-full'
+              style={{ backgroundColor: '#d4a37340', color: '#f0c995' }}
+            >
+              {pkg.tag}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Desktop legs table */}
+      <div className='hidden md:block'>
+        <div
+          className='grid text-[11px] uppercase tracking-[0.2em] text-background/55 font-medium px-8 pb-3'
+          style={{ gridTemplateColumns: '1.3fr 1fr 1fr 1.2fr' }}
+        >
+          <span>Tramo</span>
+          <span>Fecha</span>
+          <span>Horario</span>
+          <span>Aerolínea</span>
+        </div>
+        <div className='border-t border-white/10'>
+          {pkg.legs.map((leg, i) => (
+            <div
+              key={i}
+              className='grid items-center px-8 py-5 text-background/95'
+              style={{
+                gridTemplateColumns: '1.3fr 1fr 1fr 1.2fr',
+                borderBottom: i < pkg.legs.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+              }}
+            >
+              <div>
+                <p className='font-medium' style={{ color: leg.kind === 'ida' ? IDA_BLUE : VUELTA_GREEN }}>
+                  {leg.route}
+                </p>
+                <LegBadge kind={leg.kind} type={leg.type} />
+              </div>
+              <div className='text-sm'>{leg.dateLabel}</div>
+              <div className='font-medium tabular-nums'>
+                {leg.fromTime} → {leg.toTime}
+              </div>
+              <div className='text-sm'>{leg.airline}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile stacked legs */}
+      <div className='md:hidden border-t border-white/10'>
+        {pkg.legs.map((leg, i) => (
+          <div
+            key={i}
+            className='px-6 py-5 text-background/95'
+            style={{
+              borderBottom: i < pkg.legs.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+            }}
+          >
+            <div className='flex items-baseline justify-between mb-2'>
+              <p className='font-medium text-base' style={{ color: leg.kind === 'ida' ? IDA_BLUE : VUELTA_GREEN }}>
+                {leg.route}
+              </p>
+              <LegBadge kind={leg.kind} type={leg.type} />
+            </div>
+            <dl className='space-y-1 text-sm'>
+              <div className='flex justify-between'>
+                <dt className='text-background/55'>Fecha</dt>
+                <dd>{leg.dateLabel}</dd>
+              </div>
+              <div className='flex justify-between'>
+                <dt className='text-background/55'>Horario</dt>
+                <dd className='tabular-nums'>{leg.fromTime} → {leg.toTime}</dd>
+              </div>
+              <div className='flex justify-between'>
+                <dt className='text-background/55'>Aerolínea</dt>
+                <dd>{leg.airline}</dd>
+              </div>
+            </dl>
+          </div>
+        ))}
+      </div>
+
+      <div
+        className='px-6 md:px-8 py-5 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3'
+        style={{ backgroundColor: 'rgba(255,255,255,0.04)', borderTop: '1px solid rgba(255,255,255,0.12)' }}
+      >
+        <p className='text-xs uppercase tracking-[0.25em] text-background/65'>
+          Precio por pasajero · ida + vuelta
+        </p>
+        <div className='flex items-baseline gap-5'>
+          <div className='flex items-baseline gap-2'>
+            <span
+              className='font-heading text-xl md:text-2xl tabular-nums'
+              style={{ color: IDA_BLUE }}
+            >
+              USD {pkg.adultUsd}
+            </span>
+            <span className='text-[11px] uppercase tracking-[0.2em] text-background/65'>
+              adulto
+            </span>
+          </div>
+          <div className='flex items-baseline gap-2'>
+            <span
+              className='font-heading text-xl md:text-2xl tabular-nums'
+              style={{ color: VUELTA_GREEN }}
+            >
+              USD {pkg.childUsd}
+            </span>
+            <span className='text-[11px] uppercase tracking-[0.2em] text-background/65'>
+              niño
+            </span>
+          </div>
+        </div>
+      </div>
+    </article>
   );
 }
 
-function Td({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <td className={`py-5 px-5 align-top ${className}`}>{children}</td>;
+function LegBadge({ kind, type }: { kind: 'ida' | 'vuelta'; type: string }) {
+  const color = kind === 'ida' ? IDA_BLUE : VUELTA_GREEN;
+  return (
+    <span
+      className='inline-flex items-center gap-1 text-[9px] uppercase tracking-[0.18em] font-medium px-2 py-0.5 rounded-full mt-1'
+      style={{
+        backgroundColor: `${color}24`,
+        color,
+        border: `1px solid ${color}55`,
+      }}
+    >
+      {kind} · {type}
+    </span>
+  );
 }
 
 function WhatsAppIcon({ size = 20 }: { size?: number }) {
@@ -525,44 +456,5 @@ function WhatsAppIcon({ size = 20 }: { size?: number }) {
     >
       <path d='M19.05 4.91A9.82 9.82 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zM12.04 20.15h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.4c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.23 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42-.14 0-.31-.02-.48-.02-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.05 0 1.21.88 2.38 1.01 2.55.12.17 1.74 2.65 4.21 3.72.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18-.06-.1-.23-.16-.48-.28z' />
     </svg>
-  );
-}
-
-function PriceCell({ value }: { value: number | null }) {
-  if (value == null) {
-    return <span className='text-foreground/45'>—</span>;
-  }
-  return (
-    <span className='font-heading text-xl' style={{ color: NAVY }}>
-      ${value.toLocaleString('es-AR')}
-    </span>
-  );
-}
-
-function ComboPrice({
-  label,
-  sub,
-  value,
-}: {
-  label: string;
-  sub: string;
-  value: number | null;
-}) {
-  return (
-    <div>
-      <p className='text-[10px] uppercase tracking-[0.22em] text-primary mb-0.5'>
-        {label}
-      </p>
-      <p className='text-[10px] uppercase tracking-[0.2em] text-foreground/55 mb-1'>
-        {sub}
-      </p>
-      {value != null ? (
-        <p className='font-heading text-xl' style={{ color: NAVY }}>
-          US$ {value.toLocaleString('es-AR')}
-        </p>
-      ) : (
-        <p className='text-foreground/45'>—</p>
-      )}
-    </div>
   );
 }
