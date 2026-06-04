@@ -16,8 +16,9 @@ const DESPEGAR_URL =
   'https://www.despegar.com.ar/shop/flights/results/roundtrip/BUE/SSA/2027-03-04/2027-03-14/1/0/0?from=SB&di=1&currency=USD';
 
 const NAVY = '#13234d';
-const IDA_BLUE = '#7aa8ff';
-const VUELTA_GREEN = '#7be0a9';
+const SAGE = '#46785a';
+const IDA_COLOR = NAVY;
+const VUELTA_COLOR = SAGE;
 
 type FlightLeg = {
   kind: 'ida' | 'vuelta';
@@ -255,13 +256,13 @@ export default function VuelosBrasilPage() {
             {inclusions.map((inc) => (
               <div
                 key={inc.label}
-                className='rounded-2xl p-5 flex flex-col items-start gap-3'
-                style={{ backgroundColor: NAVY }}
+                className='rounded-2xl p-5 flex flex-col items-start gap-3 bg-background border transition-shadow hover:shadow-md'
+                style={{ borderColor: `${NAVY}1f` }}
               >
                 <span className='text-3xl leading-none select-none' aria-hidden>
                   {inc.icon}
                 </span>
-                <p className='text-sm text-background/90 leading-snug font-medium'>
+                <p className='text-sm text-foreground/85 leading-snug font-medium'>
                   {inc.label}
                 </p>
               </div>
@@ -303,18 +304,21 @@ export default function VuelosBrasilPage() {
 function PackageCard({ pkg }: { pkg: TripPackage }) {
   return (
     <article
-      className='rounded-3xl overflow-hidden border shadow-sm'
-      style={{ borderColor: `${NAVY}33`, backgroundColor: NAVY }}
+      className='rounded-3xl overflow-hidden bg-background border shadow-sm transition-shadow hover:shadow-md'
+      style={{ borderColor: `${NAVY}1f` }}
     >
-      <div className='flex items-baseline justify-between px-6 md:px-8 pt-6 md:pt-8 pb-4'>
+      <div className='flex items-baseline justify-between px-6 md:px-8 pt-7 pb-5'>
         <div className='flex items-baseline gap-3 flex-wrap'>
-          <p className='text-[10px] uppercase tracking-[0.35em] text-background/60'>
+          <p
+            className='font-heading text-2xl md:text-[1.6rem] leading-none'
+            style={{ color: NAVY }}
+          >
             Opción {pkg.id}
           </p>
           {pkg.tag && (
             <span
-              className='text-[10px] uppercase tracking-[0.2em] font-medium px-2.5 py-1 rounded-full'
-              style={{ backgroundColor: '#d4a37340', color: '#f0c995' }}
+              className='text-[10px] uppercase tracking-[0.22em] font-medium px-2.5 py-1 rounded-full'
+              style={{ backgroundColor: 'rgba(212,163,115,0.18)', color: '#8b6940' }}
             >
               {pkg.tag}
             </span>
@@ -322,71 +326,89 @@ function PackageCard({ pkg }: { pkg: TripPackage }) {
         </div>
       </div>
 
-      {/* Desktop legs table */}
-      <div className='hidden md:block'>
+      {/* Desktop legs */}
+      <div
+        className='hidden md:block border-t'
+        style={{ borderColor: `${NAVY}14` }}
+      >
         <div
-          className='grid text-[11px] uppercase tracking-[0.2em] text-background/55 font-medium px-8 pb-3'
-          style={{ gridTemplateColumns: '1.3fr 1fr 1fr 1.2fr' }}
+          className='grid text-[10px] uppercase tracking-[0.25em] text-foreground/45 font-medium px-8 pt-5 pb-3'
+          style={{ gridTemplateColumns: '1.5fr 1fr 1fr 1.2fr' }}
         >
           <span>Tramo</span>
           <span>Fecha</span>
           <span>Horario</span>
           <span>Aerolínea</span>
         </div>
-        <div className='border-t border-white/10'>
-          {pkg.legs.map((leg, i) => (
-            <div
-              key={i}
-              className='grid items-center px-8 py-5 text-background/95'
-              style={{
-                gridTemplateColumns: '1.3fr 1fr 1fr 1.2fr',
-                borderBottom: i < pkg.legs.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
-              }}
-            >
-              <div>
-                <p className='font-medium' style={{ color: leg.kind === 'ida' ? IDA_BLUE : VUELTA_GREEN }}>
-                  {leg.route}
-                </p>
-                <LegBadge kind={leg.kind} type={leg.type} />
-              </div>
-              <div className='text-sm'>{leg.dateLabel}</div>
-              <div className='font-medium tabular-nums'>
-                {leg.fromTime} → {leg.toTime}
-              </div>
-              <div className='text-sm'>{leg.airline}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Mobile stacked legs */}
-      <div className='md:hidden border-t border-white/10'>
         {pkg.legs.map((leg, i) => (
           <div
             key={i}
-            className='px-6 py-5 text-background/95'
+            className='grid items-center px-8 py-5'
             style={{
-              borderBottom: i < pkg.legs.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+              gridTemplateColumns: '1.5fr 1fr 1fr 1.2fr',
+              borderTop: `1px solid ${NAVY}10`,
             }}
           >
-            <div className='flex items-baseline justify-between mb-2'>
-              <p className='font-medium text-base' style={{ color: leg.kind === 'ida' ? IDA_BLUE : VUELTA_GREEN }}>
+            <div>
+              <p className='font-heading text-lg leading-none mb-2'>
                 {leg.route}
               </p>
               <LegBadge kind={leg.kind} type={leg.type} />
             </div>
-            <dl className='space-y-1 text-sm'>
-              <div className='flex justify-between'>
-                <dt className='text-background/55'>Fecha</dt>
-                <dd>{leg.dateLabel}</dd>
+            <div className='text-sm text-foreground/80'>{leg.dateLabel}</div>
+            <div
+              className='font-heading text-base tabular-nums'
+              style={{ color: NAVY }}
+            >
+              {leg.fromTime} <span className='text-foreground/35'>→</span> {leg.toTime}
+            </div>
+            <div className='text-sm text-foreground/75'>{leg.airline}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile stacked legs */}
+      <div
+        className='md:hidden border-t'
+        style={{ borderColor: `${NAVY}14` }}
+      >
+        {pkg.legs.map((leg, i) => (
+          <div
+            key={i}
+            className='px-6 py-5'
+            style={{
+              borderTop: i === 0 ? 'none' : `1px solid ${NAVY}10`,
+            }}
+          >
+            <div className='flex items-center justify-between mb-3'>
+              <p className='font-heading text-lg leading-none'>
+                {leg.route}
+              </p>
+              <LegBadge kind={leg.kind} type={leg.type} />
+            </div>
+            <dl className='space-y-1.5 text-sm'>
+              <div className='flex justify-between gap-3'>
+                <dt className='text-foreground/50 uppercase tracking-[0.15em] text-[10px] pt-1'>
+                  Fecha
+                </dt>
+                <dd className='text-foreground/85'>{leg.dateLabel}</dd>
               </div>
-              <div className='flex justify-between'>
-                <dt className='text-background/55'>Horario</dt>
-                <dd className='tabular-nums'>{leg.fromTime} → {leg.toTime}</dd>
+              <div className='flex justify-between gap-3'>
+                <dt className='text-foreground/50 uppercase tracking-[0.15em] text-[10px] pt-1'>
+                  Horario
+                </dt>
+                <dd
+                  className='font-heading tabular-nums'
+                  style={{ color: NAVY }}
+                >
+                  {leg.fromTime} → {leg.toTime}
+                </dd>
               </div>
-              <div className='flex justify-between'>
-                <dt className='text-background/55'>Aerolínea</dt>
-                <dd>{leg.airline}</dd>
+              <div className='flex justify-between gap-3'>
+                <dt className='text-foreground/50 uppercase tracking-[0.15em] text-[10px] pt-1'>
+                  Aerolínea
+                </dt>
+                <dd className='text-foreground/85'>{leg.airline}</dd>
               </div>
             </dl>
           </div>
@@ -395,31 +417,34 @@ function PackageCard({ pkg }: { pkg: TripPackage }) {
 
       <div
         className='px-6 md:px-8 py-5 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3'
-        style={{ backgroundColor: 'rgba(255,255,255,0.04)', borderTop: '1px solid rgba(255,255,255,0.12)' }}
+        style={{
+          backgroundColor: 'rgba(233,237,201,0.35)',
+          borderTop: `1px solid ${NAVY}14`,
+        }}
       >
-        <p className='text-xs uppercase tracking-[0.25em] text-background/65'>
+        <p className='text-[10px] uppercase tracking-[0.3em] text-foreground/55 font-medium'>
           Precio por pasajero · ida + vuelta
         </p>
-        <div className='flex items-baseline gap-5'>
+        <div className='flex items-baseline gap-6'>
           <div className='flex items-baseline gap-2'>
             <span
-              className='font-heading text-xl md:text-2xl tabular-nums'
-              style={{ color: IDA_BLUE }}
+              className='font-heading text-2xl md:text-3xl tabular-nums'
+              style={{ color: IDA_COLOR }}
             >
               USD {pkg.adultUsd}
             </span>
-            <span className='text-[11px] uppercase tracking-[0.2em] text-background/65'>
+            <span className='text-[10px] uppercase tracking-[0.25em] text-foreground/55'>
               adulto
             </span>
           </div>
           <div className='flex items-baseline gap-2'>
             <span
-              className='font-heading text-xl md:text-2xl tabular-nums'
-              style={{ color: VUELTA_GREEN }}
+              className='font-heading text-2xl md:text-3xl tabular-nums'
+              style={{ color: VUELTA_COLOR }}
             >
               USD {pkg.childUsd}
             </span>
-            <span className='text-[11px] uppercase tracking-[0.2em] text-background/65'>
+            <span className='text-[10px] uppercase tracking-[0.25em] text-foreground/55'>
               niño
             </span>
           </div>
@@ -430,14 +455,14 @@ function PackageCard({ pkg }: { pkg: TripPackage }) {
 }
 
 function LegBadge({ kind, type }: { kind: 'ida' | 'vuelta'; type: string }) {
-  const color = kind === 'ida' ? IDA_BLUE : VUELTA_GREEN;
+  const color = kind === 'ida' ? IDA_COLOR : VUELTA_COLOR;
   return (
     <span
-      className='inline-flex items-center gap-1 text-[9px] uppercase tracking-[0.18em] font-medium px-2 py-0.5 rounded-full mt-1'
+      className='inline-flex items-center gap-1 text-[9px] uppercase tracking-[0.2em] font-medium px-2 py-0.5 rounded-full'
       style={{
-        backgroundColor: `${color}24`,
+        backgroundColor: `${color}12`,
         color,
-        border: `1px solid ${color}55`,
+        border: `1px solid ${color}33`,
       }}
     >
       {kind} · {type}
