@@ -84,6 +84,52 @@ export const siteConfig = {
       },
     },
     {
+      id: 19,
+      emoji: '🇧🇷',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Camisa do Brasil para o noivo curtir a Copa do Mundo',
+          description: 'Estratégia diplomática para os jogos que dividem o casal.',
+          price: 140,
+        },
+        ar: {
+          name: 'Camiseta de Brasil para que el novio disfrute el Mundial',
+          description: 'Estrategia diplomática para los partidos que dividen a la pareja.',
+          price: 2500000,
+        },
+        en: {
+          name: 'Brazil jersey for the groom to enjoy the World Cup',
+          description: 'Diplomatic strategy for the matches that divide the couple.',
+          price: 350,
+        },
+      },
+    },
+    {
+      id: 20,
+      emoji: '🇦🇷',
+      image: '',
+      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
+      localized: {
+        br: {
+          name: 'Camisa da Argentina para a noiva curtir a Copa do Mundo',
+          description: 'Para empatar o placar antes mesmo da bola rolar.',
+          price: 2500,
+        },
+        ar: {
+          name: 'Camiseta de Argentina para que la novia disfrute el Mundial',
+          description: 'Para empatar el marcador antes incluso de que ruede la pelota.',
+          price: 1000,
+        },
+        en: {
+          name: 'Argentina jersey for the bride to enjoy the World Cup',
+          description: 'To even the score before the ball even starts rolling.',
+          price: 90,
+        },
+      },
+    },
+    {
       id: 2,
       emoji: '🥖',
       image: '',
@@ -165,19 +211,19 @@ export const siteConfig = {
       category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
         br: {
-          name: 'Perna de pau para a noiva conseguir beijar o noivo no altar',
+          name: 'Escada para a noiva conseguir beijar o noivo no altar',
           description:
             'Solução criativa para alcançar os lábios do noivo sem abrir mão da elegância.',
           price: 350,
         },
         ar: {
-          name: 'Zancos para que la novia llegue a besar al novio en el altar',
+          name: 'Escalera para que la novia llegue a besar al novio en el altar',
           description:
             'Solución creativa para llegar a los labios del novio sin perder la elegancia.',
           price: 150000,
         },
         en: {
-          name: 'Stilts so the bride can kiss the groom at the altar',
+          name: 'Ladder so the bride can kiss the groom at the altar',
           description:
             'A creative way to reach the groom’s lips without giving up the elegance.',
           price: 100,
@@ -492,52 +538,6 @@ export const siteConfig = {
           name: 'Just to say I didn’t give anything',
           description: 'You pay for this and still tell everyone you gave nothing. Double win.',
           price: 10,
-        },
-      },
-    },
-    {
-      id: 19,
-      emoji: '🇧🇷',
-      image: '',
-      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
-      localized: {
-        br: {
-          name: 'Camisa do Brasil para o noivo curtir a Copa do Mundo',
-          description: 'Estratégia diplomática para os jogos que dividem o casal.',
-          price: 140,
-        },
-        ar: {
-          name: 'Camiseta de Brasil para que el novio disfrute el Mundial',
-          description: 'Estrategia diplomática para los partidos que dividen a la pareja.',
-          price: 2500000,
-        },
-        en: {
-          name: 'Brazil jersey for the groom to enjoy the World Cup',
-          description: 'Diplomatic strategy for the matches that divide the couple.',
-          price: 350,
-        },
-      },
-    },
-    {
-      id: 20,
-      emoji: '🇦🇷',
-      image: '',
-      category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
-      localized: {
-        br: {
-          name: 'Camisa da Argentina para a noiva curtir a Copa do Mundo',
-          description: 'Para empatar o placar antes mesmo da bola rolar.',
-          price: 2500,
-        },
-        ar: {
-          name: 'Camiseta de Argentina para que la novia disfrute el Mundial',
-          description: 'Para empatar el marcador antes incluso de que ruede la pelota.',
-          price: 1000,
-        },
-        en: {
-          name: 'Argentina jersey for the bride to enjoy the World Cup',
-          description: 'To even the score before the ball even starts rolling.',
-          price: 90,
         },
       },
     },

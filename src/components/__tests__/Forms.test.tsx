@@ -6,6 +6,8 @@ import { describe, it, expect, vi } from 'vitest';
 // Mock server actions
 vi.mock('@/app/actions', () => ({
   submitRSVP: vi.fn(() => Promise.resolve({ success: true })),
+  submitGuestbookMessage: vi.fn(() => Promise.resolve({ success: true })),
+  getGuestbookMessages: vi.fn(() => Promise.resolve({ success: true, data: [] })),
 }));
 
 describe('Forms', () => {
