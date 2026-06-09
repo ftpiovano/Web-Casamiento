@@ -44,7 +44,11 @@ export const siteConfig = {
       address: 'Loteamento Ponta de Inhambupe, 189 - Baixio, Esplanada - BA, 48370-000, Brasil',
       mapLink: 'https://www.google.com/maps/place/Hotel+Boutique+%26+Spa+Ponta+de+Inhambupe+by+Slaviero+Hot%C3%A9is/@-12.1023221,-37.6930429,17z/data=!3m1!4b1!4m9!3m8!1s0x717376dd6887931:0x6d4526a6d0ab8dea!5m2!4m1!1i2!8m2!3d-12.1023221!4d-37.690468!16s%2Fg%2F11pdxwrbyd?entry=ttu',
       flightPackagesUrl: '/vuelos-brasil',
-      accommodationsUrl: '/hospedagens-brasil',
+      // Hospedagens button temporarily hidden — set to '' so the
+      // EventDetails conditional skips rendering it. The page at
+      // /hospedagens-brasil is still live; switch back to
+      // '/hospedagens-brasil' to surface the button again.
+      accommodationsUrl: '',
       backgroundImage: '/branding/brasil-bg.jpg',
       backgroundPosition: 'center 25%',
     },
@@ -156,26 +160,26 @@ export const siteConfig = {
     },
     {
       id: 5,
-      emoji: '👠',
+      emoji: '🪜',
       image: '',
       category: { br: 'Brincadeira', ar: 'Broma', en: 'Joke' },
       localized: {
         br: {
-          name: 'Salto alto para a noiva caber no vestido',
+          name: 'Perna de pau para a noiva conseguir beijar o noivo no altar',
           description:
-            'Para a altura combinar com o vestido e o noivo continuar sendo o mais alto.',
+            'Solução criativa para alcançar os lábios do noivo sem abrir mão da elegância.',
           price: 350,
         },
         ar: {
-          name: 'Tacos altos para que la novia entre en el vestido',
+          name: 'Zancos para que la novia llegue a besar al novio en el altar',
           description:
-            'Para que la altura combine con el vestido y el novio siga siendo el más alto.',
+            'Solución creativa para llegar a los labios del novio sin perder la elegancia.',
           price: 150000,
         },
         en: {
-          name: 'High heels so the bride fits her dress',
+          name: 'Stilts so the bride can kiss the groom at the altar',
           description:
-            'So the height matches the dress and the groom keeps being the tallest.',
+            'A creative way to reach the groom’s lips without giving up the elegance.',
           price: 100,
         },
       },

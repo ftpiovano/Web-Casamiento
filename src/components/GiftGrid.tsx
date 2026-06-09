@@ -23,7 +23,7 @@ export function GiftGrid() {
   const { config, region } = useLanguage();
   const [step, setStep] = useState<CheckoutStep>('grid');
   const [cart, setCart] = useState<any[]>([]);
-  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name'>('name');
+  const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'name'>('default');
   const [gifterInfo, setGifterInfo] = useState({ name: '', note: '' });
   const [showStripe, setShowStripe] = useState(false);
   const [showPix, setShowPix] = useState(false);
@@ -42,11 +42,14 @@ export function GiftGrid() {
     price: (gift.localized as any)[region].price,
   }));
 
-  const sortedGifts = [...localizedGifts].sort((a, b) => {
-    if (sortBy === 'price-asc') return a.price - b.price;
-    if (sortBy === 'price-desc') return b.price - a.price;
-    return a.name.localeCompare(b.name);
-  });
+  const sortedGifts =
+    sortBy === 'default'
+      ? localizedGifts
+      : [...localizedGifts].sort((a, b) => {
+          if (sortBy === 'price-asc') return a.price - b.price;
+          if (sortBy === 'price-desc') return b.price - a.price;
+          return a.name.localeCompare(b.name);
+        });
 
   const addToCart = (item: any) => {
     setCart((prev) => [...prev, item]);
@@ -106,9 +109,10 @@ export function GiftGrid() {
           </span>
           <select 
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as 'price-asc' | 'price-desc' | 'name')}
+            onChange={(e) => setSortBy(e.target.value as 'default' | 'price-asc' | 'price-desc' | 'name')}
             className='bg-background border border-accent/20 rounded-full px-4 py-2 text-sm outline-none focus:border-primary/50 transition-colors'
           >
+            <option value='default'>{region === 'br' ? 'Sugerido' : region === 'ar' ? 'Sugerido' : 'Suggested'}</option>
             <option value='name'>{region === 'br' ? 'Nome' : region === 'ar' ? 'Nombre' : 'Name'}</option>
             <option value='price-asc'>{region === 'br' ? 'Menor Preço' : region === 'ar' ? 'Menor Precio' : 'Lowest Price'}</option>
             <option value='price-desc'>{region === 'br' ? 'Maior Preço' : region === 'ar' ? 'Mayor Precio' : 'Highest Price'}</option>
