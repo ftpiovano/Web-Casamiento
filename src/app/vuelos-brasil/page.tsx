@@ -36,6 +36,8 @@ type TripPackage = {
   legs: FlightLeg[];
   adultUsd: number;
   childUsd: number;
+  firstPaymentUsd: number;
+  recurringPaymentUsd: number;
 };
 
 const packages: TripPackage[] = [
@@ -63,6 +65,8 @@ const packages: TripPackage[] = [
     ],
     adultUsd: 795,
     childUsd: 627,
+    firstPaymentUsd: 239,
+    recurringPaymentUsd: 112,
   },
   {
     id: 2,
@@ -89,6 +93,8 @@ const packages: TripPackage[] = [
     ],
     adultUsd: 652,
     childUsd: 568,
+    firstPaymentUsd: 196,
+    recurringPaymentUsd: 92,
   },
 ];
 
@@ -159,21 +165,23 @@ export default function VuelosBrasilPage() {
               </h2>
               <p className='text-background/85 leading-relaxed mb-7 max-w-2xl'>
                 La empresa organizadora del viaje grupal te ofrece{' '}
-                <strong className='text-background'>varias formas de pago</strong>
-                . Elegí la que mejor se acomode a vos:
+                <strong className='text-background'>financiación propia en 6 cuotas</strong>
+                . Pagás por transferencia bancaria o Mercado Pago —{' '}
+                <strong className='text-background'>
+                  sin consumir tu línea de crédito
+                </strong>
+                .
               </p>
               <ul className='space-y-2.5 mb-8'>
                 {[
                   <>
                     6 cuotas mensuales con financiación propia (anticipo
-                    en junio + cuotas hasta diciembre,{' '}
-                    <strong className='text-background'>
-                      sin tarjeta de crédito
-                    </strong>
-                    )
+                    en junio + 5 cuotas hasta diciembre)
                   </>,
-                  'Pago con tarjeta de crédito',
-                  'Pago de contado',
+                  <>
+                    Pago por <strong className='text-background'>transferencia bancaria o Mercado Pago</strong> — no se toca tu línea de crédito
+                  </>,
+                  'También podés pagar de contado',
                   'La agencia coordina todo el viaje grupal',
                 ].map((item, idx) => (
                   <li
@@ -449,6 +457,40 @@ function PackageCard({ pkg }: { pkg: TripPackage }) {
             </span>
           </div>
         </div>
+      </div>
+
+      <div
+        className='px-6 md:px-8 py-4 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 text-xs sm:text-sm'
+        style={{
+          backgroundColor: 'rgba(212,163,115,0.07)',
+          borderTop: `1px solid ${NAVY}14`,
+        }}
+      >
+        <p className='uppercase tracking-[0.25em] text-foreground/55 font-medium text-[10px]'>
+          Plan adulto · 6 cuotas
+        </p>
+        <p className='text-foreground/85 flex items-baseline gap-3 flex-wrap'>
+          <span>
+            1ª cuota{' '}
+            <span
+              className='font-heading tabular-nums'
+              style={{ color: NAVY }}
+            >
+              USD {pkg.firstPaymentUsd}
+            </span>
+          </span>
+          <span className='text-foreground/35'>·</span>
+          <span>
+            2ª a 6ª{' '}
+            <span
+              className='font-heading tabular-nums'
+              style={{ color: NAVY }}
+            >
+              USD {pkg.recurringPaymentUsd}
+            </span>{' '}
+            c/u
+          </span>
+        </p>
       </div>
     </article>
   );
