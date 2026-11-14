@@ -17,10 +17,8 @@ export function RSVPForm() {
   const [formData, setFormData] = useState({
     name: '',
     attending: 'yes',
-    adults: 1,
-    kids: 0,
     email: '',
-    notes: '',
+    phone: '',
   });
 
   const i18n = {
@@ -28,12 +26,10 @@ export function RSVPForm() {
       title: 'Confirmar Presença',
       nameLabel: 'Nome Completo',
       emailLabel: 'E-mail',
+      phoneLabel: 'Telefone',
       attendingLabel: 'Você comparecerá?',
       yesOption: 'Sim, com certeza!',
       noOption: 'Infelizmente não',
-      adultsLabel: 'Adultos',
-      kidsLabel: 'Crianças',
-      notesLabel: 'Mensagem ou Observações',
       submitBtn: 'Enviar Confirmação',
       submittingBtn: 'Enviando...',
       successTitle: 'Obrigado!',
@@ -44,12 +40,10 @@ export function RSVPForm() {
       title: 'Confirmar Asistencia',
       nameLabel: 'Nombre Completo',
       emailLabel: 'Correo Electrónico',
+      phoneLabel: 'Teléfono',
       attendingLabel: '¿Asistirás?',
       yesOption: '¡Sí, por supuesto!',
       noOption: 'Lamentablemente no',
-      adultsLabel: 'Adultos',
-      kidsLabel: 'Niños',
-      notesLabel: 'Mensaje u Observaciones',
       submitBtn: 'Enviar Confirmación',
       submittingBtn: 'Enviando...',
       successTitle: '¡Gracias!',
@@ -60,12 +54,10 @@ export function RSVPForm() {
       title: 'Confirm Attendance',
       nameLabel: 'Full Name',
       emailLabel: 'Email',
+      phoneLabel: 'Phone',
       attendingLabel: 'Will you attend?',
       yesOption: 'Yes, definitely!',
       noOption: 'Unfortunately not',
-      adultsLabel: 'Adults',
-      kidsLabel: 'Children',
-      notesLabel: 'Message or Notes',
       submitBtn: 'Send Confirmation',
       submittingBtn: 'Sending...',
       successTitle: 'Thank You!',
@@ -82,16 +74,10 @@ export function RSVPForm() {
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Clamp adults to >= 1 (someone has to come) and kids to >= 0 before sending.
-    const payload = {
-      ...formData,
-      adults: Math.max(1, Number.isFinite(formData.adults) ? formData.adults : 1),
-      kids: Math.max(0, Number.isFinite(formData.kids) ? formData.kids : 0),
-    };
     setIsSubmitting(true);
     setError(null);
 
-    const result = await submitRSVP(payload);
+    const result = await submitRSVP(formData);
 
     if (result.success) {
       setSubmitted(true);
@@ -144,6 +130,19 @@ export function RSVPForm() {
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
+            <div className='flex flex-col gap-2 md:col-span-2'>
+              <label htmlFor='rsvp-phone' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.phoneLabel}</label>
+              <input
+                id='rsvp-phone'
+                required
+                disabled={isSubmitting}
+                type='tel'
+                autoComplete='tel'
+                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 transition-colors disabled:opacity-50'
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              />
+            </div>
           </div>
 
           <div className='flex flex-col gap-2'>
@@ -166,58 +165,6 @@ export function RSVPForm() {
                 {t.noOption}
               </button>
             </div>
-          </div>
-
-          <div className='grid md:grid-cols-2 gap-6'>
-            <div className='flex flex-col gap-2'>
-              <label htmlFor='rsvp-adults' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.adultsLabel}</label>
-              <input
-                id='rsvp-adults'
-                disabled={isSubmitting}
-                type='number'
-                min='1'
-                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
-                value={formData.adults || ''}
-                onChange={(e) => {
-                  if (e.target.value === '') {
-                    setFormData({ ...formData, adults: 0 });
-                    return;
-                  }
-                  const n = parseInt(e.target.value, 10);
-                  setFormData({ ...formData, adults: Number.isFinite(n) ? Math.max(0, n) : 0 });
-                }}
-              />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <label htmlFor='rsvp-kids' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.kidsLabel}</label>
-              <input
-                id='rsvp-kids'
-                disabled={isSubmitting}
-                type='number'
-                min='0'
-                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
-                value={formData.kids === 0 ? '0' : formData.kids}
-                onChange={(e) => {
-                  if (e.target.value === '') {
-                    setFormData({ ...formData, kids: 0 });
-                    return;
-                  }
-                  const n = parseInt(e.target.value, 10);
-                  setFormData({ ...formData, kids: Number.isFinite(n) ? Math.max(0, n) : 0 });
-                }}
-              />
-            </div>
-          </div>
-
-          <div className='flex flex-col gap-2'>
-            <label htmlFor='rsvp-notes' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.notesLabel}</label>
-            <textarea
-              id='rsvp-notes'
-              disabled={isSubmitting}
-              className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 min-h-[100px] disabled:opacity-50'
-              value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-            />
           </div>
 
           {error && <p className='text-red-500 text-sm'>{error}</p>}

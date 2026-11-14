@@ -19,6 +19,7 @@ describe('Forms', () => {
 
     fireEvent.change(nameInput, { target: { value: 'Test Guest' } });
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByLabelText(/Telefone/i), { target: { value: '+55 11 99999-9999' } });
     fireEvent.click(submitBtn);
 
     const successMessage = await screen.findByText(/Obrigado/i);

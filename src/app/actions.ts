@@ -21,9 +21,7 @@ export interface RSVPData {
   name: string;
   email: string;
   attending: string;
-  adults: number;
-  kids: number;
-  notes: string;
+  phone: string;
 }
 
 /**
@@ -39,9 +37,7 @@ export async function submitRSVP(data: RSVPData) {
         name: data.name,
         email: data.email,
         attending: data.attending,
-        adults: data.adults,
-        kids: data.kids,
-        notes: data.notes,
+        phone: data.phone,
       },
     ]);
 

@@ -33,9 +33,7 @@ describe('Server Actions', () => {
         name: 'Test Guest',
         email: 'test@example.com',
         attending: 'yes',
-        adults: 2,
-        kids: 0,
-        notes: 'No notes',
+        phone: '+55 11 99999-9999',
       };
 
       const result = await submitRSVP(data);

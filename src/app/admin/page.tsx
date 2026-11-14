@@ -72,17 +72,7 @@ export default function AdminPage() {
     );
   }
 
-  const totals = rsvps.reduce(
-    (acc, curr) => {
-      if (curr.attending === 'yes') {
-        acc.adults += curr.adults || 0;
-        acc.kids += curr.kids || 0;
-        acc.confirmations += 1;
-      }
-      return acc;
-    },
-    { adults: 0, kids: 0, confirmations: 0 }
-  );
+  const confirmations = rsvps.filter((r) => r.attending === 'yes').length;
 
   return (
     <Section className='bg-background min-h-screen'>
@@ -92,21 +82,16 @@ export default function AdminPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mb-12'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-8 mb-12'>
         <Card className='flex flex-col items-center text-center py-6'>
           <UserCheck className='text-primary mb-2' size={32} />
-          <Typography className='text-3xl font-heading mb-0'>{totals.confirmations}</Typography>
+          <Typography className='text-3xl font-heading mb-0'>{confirmations}</Typography>
           <Typography className='text-xs uppercase tracking-widest opacity-60'>Confirmações</Typography>
         </Card>
         <Card className='flex flex-col items-center text-center py-6'>
           <Users className='text-primary mb-2' size={32} />
-          <Typography className='text-3xl font-heading mb-0'>{totals.adults}</Typography>
-          <Typography className='text-xs uppercase tracking-widest opacity-60'>Total Adultos</Typography>
-        </Card>
-        <Card className='flex flex-col items-center text-center py-6'>
-          <Users className='text-primary/60 mb-2' size={32} />
-          <Typography className='text-3xl font-heading mb-0'>{totals.kids}</Typography>
-          <Typography className='text-xs uppercase tracking-widest opacity-60'>Total Crianças</Typography>
+          <Typography className='text-3xl font-heading mb-0'>{rsvps.length - confirmations}</Typography>
+          <Typography className='text-xs uppercase tracking-widest opacity-60'>Não vão</Typography>
         </Card>
       </div>
 
@@ -117,8 +102,7 @@ export default function AdminPage() {
             <tr className='border-b border-accent/10'>
               <th className='py-4 px-4 text-xs uppercase tracking-widest font-bold opacity-40'>Convidado</th>
               <th className='py-4 px-4 text-xs uppercase tracking-widest font-bold opacity-40'>Vai?</th>
-              <th className='py-4 px-4 text-xs uppercase tracking-widest font-bold opacity-40 text-center'>Ad/Cr</th>
-              <th className='py-4 px-4 text-xs uppercase tracking-widest font-bold opacity-40'>Mensagem</th>
+              <th className='py-4 px-4 text-xs uppercase tracking-widest font-bold opacity-40'>Telefone</th>
             </tr>
           </thead>
           <tbody>
@@ -133,19 +117,12 @@ export default function AdminPage() {
                     {rsvp.attending === 'yes' ? 'Sim' : 'Não'}
                   </span>
                 </td>
-                <td className='py-4 px-4 text-center tabular-nums'>
-                  {rsvp.adults} / {rsvp.kids}
-                </td>
-                <td className='py-4 px-4 max-w-xs'>
-                  <div className='text-sm italic opacity-60 line-clamp-2' title={rsvp.notes}>
-                    {rsvp.notes || '-'}
-                  </div>
-                </td>
+                <td className='py-4 px-4'>{rsvp.phone || '-'}</td>
               </tr>
             ))}
             {rsvps.length === 0 && !loading && (
               <tr>
-                <td colSpan={4} className='py-12 text-center opacity-40'>Nenhum convidado confirmado ainda.</td>
+                <td colSpan={3} className='py-12 text-center opacity-40'>Nenhum convidado confirmado ainda.</td>
               </tr>
             )}
           </tbody>

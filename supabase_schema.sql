@@ -21,3 +21,6 @@ CREATE POLICY "Allow public inserts" ON rsvps
 -- but for simplicity in this prototype, we'll fetch via a server action or specific key)
 CREATE POLICY "Allow admin read" ON rsvps
   FOR SELECT USING (true); -- Note: In production, restrict this to admin users!
+
+-- Migration: guests now provide a phone number (run on existing projects)
+ALTER TABLE rsvps ADD COLUMN IF NOT EXISTS phone TEXT;
