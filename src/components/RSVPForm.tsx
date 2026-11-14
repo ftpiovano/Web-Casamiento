@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Section, Typography, Card, Button } from './Base';
-import { submitRSVP, findInvite, listInvitesByGroup, getInviteLink } from '@/app/actions';
+import { submitRSVP, findInvite, listInvites, getInviteLink } from '@/app/actions';
 import { useLanguage } from '@/context/LanguageContext';
 
 /**
@@ -16,10 +16,9 @@ export function RSVPForm() {
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const [group, setGroup] = useState('');
-  const [groupInvites, setGroupInvites] = useState<{ id: string; name: string }[]>([]);
-  const [selectedInvite, setSelectedInvite] = useState('');
-  const [isLoadingList, setIsLoadingList] = useState(false);
+  const [allInvites, setAllInvites] = useState<{ id: string; name: string; aliases: string[] }[] | null>(null);
+  const [listOpen, setListOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const [lookup, setLookup] = useState<{ status: 'idle' | 'found' | 'notfound' | 'error'; inviteName?: string; url?: string }>({ status: 'idle' });
   const [formData, setFormData] = useState({
     name: '',
@@ -42,14 +41,9 @@ export function RSVPForm() {
       successTitle: 'Obrigado!',
       successText: 'Sua confirmação foi salva com sucesso. Mal podemos esperar para celebrar com você!',
       backBtn: 'Voltar',
-      orPick: 'ou escolha na lista',
-      groupLabel: 'Seu grupo',
-      groupPlaceholder: 'Selecione o grupo',
-      groups: { noiva_familia: 'Família da Alexita', noivo_familia: 'Família do Chico', noiva_amigos: 'Amigos da Alexita', noivo_amigos: 'Amigos do Chico', outros: 'Outros' },
-      inviteLabel: 'Seu convite',
-      invitePlaceholder: 'Selecione seu nome',
-      lookupIntro: 'Digite seu nome completo ou telefone para abrir seu convite personalizado e confirmar sua presença.',
-      lookupLabel: 'Nome completo ou telefone',
+      noMatches: 'Nenhum nome encontrado. Tente o telefone ou preencha o formulário.',
+      lookupIntro: 'Comece a digitar seu nome e escolha seu convite na lista. Se preferir, digite seu telefone e clique em buscar.',
+      lookupLabel: 'Seu nome ou telefone',
       lookupBtn: 'Encontrar meu convite',
       lookupSearching: 'Buscando...',
       foundText: 'Encontramos seu convite!',
@@ -70,14 +64,9 @@ export function RSVPForm() {
       successTitle: '¡Gracias!',
       successText: 'Tu confirmación ha sido guardada con éxito. ¡No podemos esperar para celebrar con vos!',
       backBtn: 'Volver',
-      orPick: 'o elegí de la lista',
-      groupLabel: 'Tu grupo',
-      groupPlaceholder: 'Seleccioná el grupo',
-      groups: { noiva_familia: 'Familia de Alexita', noivo_familia: 'Familia de Chico', noiva_amigos: 'Amigos de Alexita', noivo_amigos: 'Amigos de Chico', outros: 'Otros' },
-      inviteLabel: 'Tu invitación',
-      invitePlaceholder: 'Seleccioná tu nombre',
-      lookupIntro: 'Escribí tu nombre completo o teléfono para abrir tu invitación personalizada y confirmar tu asistencia.',
-      lookupLabel: 'Nombre completo o teléfono',
+      noMatches: 'No encontramos ese nombre. Probá con el teléfono o completá el formulario.',
+      lookupIntro: 'Empezá a escribir tu nombre y elegí tu invitación de la lista. Si preferís, escribí tu teléfono y tocá buscar.',
+      lookupLabel: 'Tu nombre o teléfono',
       lookupBtn: 'Encontrar mi invitación',
       lookupSearching: 'Buscando...',
       foundText: '¡Encontramos tu invitación!',
@@ -98,14 +87,9 @@ export function RSVPForm() {
       successTitle: 'Thank You!',
       successText: 'Your confirmation has been successfully saved. We can\'t wait to celebrate with you!',
       backBtn: 'Back',
-      orPick: 'or choose from the list',
-      groupLabel: 'Your group',
-      groupPlaceholder: 'Select your group',
-      groups: { noiva_familia: 'Alexita\'s family', noivo_familia: 'Chico\'s family', noiva_amigos: 'Alexita\'s friends', noivo_amigos: 'Chico\'s friends', outros: 'Others' },
-      inviteLabel: 'Your invitation',
-      invitePlaceholder: 'Select your name',
-      lookupIntro: 'Enter your full name or phone number to open your personal invitation and confirm your attendance.',
-      lookupLabel: 'Full name or phone',
+      noMatches: 'No names found. Try your phone number or fill in the form.',
+      lookupIntro: 'Start typing your name and pick your invitation from the list. If you prefer, type your phone number and press search.',
+      lookupLabel: 'Your name or phone',
       lookupBtn: 'Find my invitation',
       lookupSearching: 'Searching...',
       foundText: 'We found your invitation!',
@@ -155,39 +139,64 @@ export function RSVPForm() {
     setIsSearching(false);
   };
 
-  /**
-   * Loads the invite names of the chosen group into the second dropdown.
-   * @param {string} value The selected group code.
-   */
-  const handleGroupChange = async (value: string) => {
-    setGroup(value);
-    setSelectedInvite('');
-    setGroupInvites([]);
-    setLookup({ status: 'idle' });
-    if (!value) return;
-    setIsLoadingList(true);
-    const result = await listInvitesByGroup(value);
-    setGroupInvites(result.invites);
+  const normalize = (v: string) =>
+    v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean);
+
+  const matches = useMemo(() => {
+    if (!allInvites) return [];
+    const tokens = normalize(query);
+    if (tokens.length === 0) return allInvites;
+    return allInvites.filter((inv) => {
+      const hay = normalize(`${inv.name} ${inv.aliases.join(' ')}`).join(' ');
+      return tokens.every((tok) => hay.includes(tok));
+    });
+  }, [allInvites, query]);
+
+  /** Loads the guest list the first time the field is used. */
+  const ensureList = async () => {
+    setListOpen(true);
+    if (allInvites) return;
+    const result = await listInvites();
+    setAllInvites(result.invites);
     if (!result.success) setLookup({ status: 'error' });
-    setIsLoadingList(false);
   };
 
   /**
    * Resolves the personal link of the invite picked from the dropdown.
-   * @param {string} id The selected invite id.
+   * @param {{id: string, name: string}} inv The selected invite.
    */
-  const handleInviteChange = async (id: string) => {
-    setSelectedInvite(id);
-    setLookup({ status: 'idle' });
-    if (!id) return;
-    setIsLoadingList(true);
-    const result = await getInviteLink(id);
+  const handlePick = async (inv: { id: string; name: string }) => {
+    setQuery(inv.name);
+    setListOpen(false);
+    setActiveIndex(-1);
+    setIsSearching(true);
+    const result = await getInviteLink(inv.id);
     if (result.found) {
       setLookup({ status: 'found', inviteName: result.inviteName, url: result.url });
     } else {
       setLookup({ status: 'error' });
     }
-    setIsLoadingList(false);
+    setIsSearching(false);
+  };
+
+  /**
+   * Keyboard support for the dropdown (arrows, Enter, Escape).
+   * @param {React.KeyboardEvent} e The key event.
+   */
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setListOpen(true);
+      setActiveIndex((i) => Math.min(i + 1, matches.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, 0));
+    } else if (e.key === 'Enter' && listOpen && activeIndex >= 0 && matches[activeIndex]) {
+      e.preventDefault();
+      handlePick(matches[activeIndex]);
+    } else if (e.key === 'Escape') {
+      setListOpen(false);
+    }
   };
 
   const showFallbackForm = lookup.status === 'notfound' || lookup.status === 'error';
@@ -210,62 +219,57 @@ export function RSVPForm() {
       <Card className='max-w-2xl mx-auto mb-8'>
         <form onSubmit={handleLookup} className='space-y-6'>
           <Typography>{t.lookupIntro}</Typography>
-          <div className='flex flex-col gap-2'>
+          <div className='flex flex-col gap-2 relative'>
             <label htmlFor='rsvp-lookup' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.lookupLabel}</label>
             <input
               id='rsvp-lookup'
+              role='combobox'
+              aria-expanded={listOpen}
+              aria-controls='rsvp-lookup-list'
+              aria-autocomplete='list'
+              aria-activedescendant={activeIndex >= 0 ? `rsvp-opt-${activeIndex}` : undefined}
               required
               disabled={isSearching}
               type='text'
               autoComplete='off'
               className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 transition-colors disabled:opacity-50'
               value={query}
+              onFocus={ensureList}
+              onBlur={() => setTimeout(() => setListOpen(false), 150)}
+              onKeyDown={handleKeyDown}
               onChange={(e) => {
                 setQuery(e.target.value);
+                setActiveIndex(-1);
+                setListOpen(true);
                 if (lookup.status !== 'idle') setLookup({ status: 'idle' });
               }}
             />
+            {listOpen && allInvites && (
+              <ul
+                id='rsvp-lookup-list'
+                role='listbox'
+                className='absolute left-0 right-0 top-full mt-1 z-20 max-h-60 overflow-auto rounded-lg border border-accent/20 bg-background shadow-lg'
+              >
+                {matches.length === 0 && <li className='px-4 py-3 text-sm text-foreground/60'>{t.noMatches}</li>}
+                {matches.map((inv, i) => (
+                  <li
+                    key={inv.id}
+                    id={`rsvp-opt-${i}`}
+                    role='option'
+                    aria-selected={i === activeIndex}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => handlePick(inv)}
+                    className={`px-4 py-3 cursor-pointer hover:bg-primary/10 ${i === activeIndex ? 'bg-primary/10' : ''}`}
+                  >
+                    {inv.name}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <Button type='submit' className='w-full py-4' disabled={isSearching}>
             {isSearching ? t.lookupSearching : t.lookupBtn}
           </Button>
-          <div className='flex items-center gap-4 text-xs uppercase tracking-widest text-foreground/40'>
-            <span className='flex-1 h-px bg-accent/20' />
-            <span>{t.orPick}</span>
-            <span className='flex-1 h-px bg-accent/20' />
-          </div>
-          <div className='grid md:grid-cols-2 gap-6'>
-            <div className='flex flex-col gap-2'>
-              <label htmlFor='rsvp-group' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.groupLabel}</label>
-              <select
-                id='rsvp-group'
-                disabled={isLoadingList}
-                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
-                value={group}
-                onChange={(e) => handleGroupChange(e.target.value)}
-              >
-                <option value=''>{t.groupPlaceholder}</option>
-                {Object.entries(t.groups).map(([code, label]) => (
-                  <option key={code} value={code}>{label}</option>
-                ))}
-              </select>
-            </div>
-            <div className='flex flex-col gap-2'>
-              <label htmlFor='rsvp-invite' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.inviteLabel}</label>
-              <select
-                id='rsvp-invite'
-                disabled={isLoadingList || groupInvites.length === 0}
-                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
-                value={selectedInvite}
-                onChange={(e) => handleInviteChange(e.target.value)}
-              >
-                <option value=''>{t.invitePlaceholder}</option>
-                {groupInvites.map((inv) => (
-                  <option key={inv.id} value={inv.id}>{inv.name}</option>
-                ))}
-              </select>
-            </div>
-          </div>
           {lookup.status === 'found' && lookup.url && (
             <div className='text-center space-y-4'>
               <Typography className='text-primary'>{t.foundText}</Typography>

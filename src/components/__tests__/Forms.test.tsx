@@ -2,13 +2,13 @@ import { render, screen, fireEvent } from '../../test/test-utils';
 import { RSVPForm } from '../RSVPForm';
 import { Guestbook } from '../Guestbook';
 import { describe, it, expect, vi } from 'vitest';
-import { findInvite, listInvitesByGroup, getInviteLink } from '@/app/actions';
+import { findInvite, listInvites, getInviteLink } from '@/app/actions';
 
 // Mock server actions
 vi.mock('@/app/actions', () => ({
   submitRSVP: vi.fn(() => Promise.resolve({ success: true })),
   findInvite: vi.fn(),
-  listInvitesByGroup: vi.fn(),
+  listInvites: vi.fn(),
   getInviteLink: vi.fn(),
   submitGuestbookMessage: vi.fn(() => Promise.resolve({ success: true })),
   getGuestbookMessages: vi.fn(() => Promise.resolve({ success: true, data: [] })),
@@ -20,7 +20,7 @@ describe('Forms', () => {
       success: true, found: true, inviteName: 'Test Guest', url: 'https://assessoriavip.com.br/rsvp/abc',
     });
     render(<RSVPForm />);
-    fireEvent.change(screen.getByLabelText(/Nome completo ou telefone/i), { target: { value: 'Test Guest' } });
+    fireEvent.change(screen.getByLabelText(/Seu nome ou telefone/i), { target: { value: 'Test Guest' } });
     fireEvent.click(screen.getByText(/Encontrar meu convite/i));
 
     const link = await screen.findByRole('link', { name: /Abrir meu convite/i });
@@ -33,7 +33,7 @@ describe('Forms', () => {
     render(<RSVPForm />);
     expect(screen.queryByLabelText(/E-mail/i)).toBeNull();
 
-    fireEvent.change(screen.getByLabelText(/Nome completo ou telefone/i), { target: { value: 'Nobody Here' } });
+    fireEvent.change(screen.getByLabelText(/Seu nome ou telefone/i), { target: { value: 'Nobody Here' } });
     fireEvent.click(screen.getByText(/Encontrar meu convite/i));
 
     const emailInput = await screen.findByLabelText(/E-mail/i);
@@ -46,21 +46,42 @@ describe('Forms', () => {
     expect(successMessage).toBeDefined();
   });
 
-  it('lets the guest pick a group and then their name from dropdowns', async () => {
-    vi.mocked(listInvitesByGroup).mockResolvedValueOnce({ success: true, invites: [{ id: '11111111-1111-1111-1111-111111111111', name: 'Test Family' }] });
-    vi.mocked(getInviteLink).mockResolvedValueOnce({ success: true, found: true, inviteName: 'Test Family', url: 'https://assessoriavip.com.br/rsvp/xyz' });
+  it('filters the full guest list while typing and opens the picked invitation', async () => {
+    vi.mocked(listInvites).mockResolvedValueOnce({
+      success: true,
+      invites: [
+        { id: '11111111-1111-1111-1111-111111111111', name: 'Alderi e Mylena', aliases: ['alderi lima', 'mylena saldenha'] },
+        { id: '22222222-2222-2222-2222-222222222222', name: 'Tía Dora', aliases: ['tia dora'] },
+      ],
+    });
+    vi.mocked(getInviteLink).mockResolvedValueOnce({ success: true, found: true, inviteName: 'Alderi e Mylena', url: 'https://assessoriavip.com.br/rsvp/xyz' });
     render(<RSVPForm />);
 
-    const inviteSelect = screen.getByLabelText(/Seu convite/i) as HTMLSelectElement;
-    expect(inviteSelect.disabled).toBe(true);
+    const input = screen.getByRole('combobox');
+    fireEvent.focus(input);
+    expect((await screen.findAllByRole('option')).length).toBe(2);
 
-    fireEvent.change(screen.getByLabelText(/Seu grupo/i), { target: { value: 'noiva_familia' } });
-    await screen.findByRole('option', { name: 'Test Family' });
-    expect(listInvitesByGroup).toHaveBeenCalledWith('noiva_familia');
+    // matches a guest's full name (alias) and ignores accents/case
+    fireEvent.change(input, { target: { value: 'SALDENHA' } });
+    const options = screen.getAllByRole('option');
+    expect(options.length).toBe(1);
+    expect(options[0].textContent).toBe('Alderi e Mylena');
 
-    fireEvent.change(screen.getByLabelText(/Seu convite/i), { target: { value: '11111111-1111-1111-1111-111111111111' } });
+    fireEvent.click(options[0]);
     const link = await screen.findByRole('link', { name: /Abrir meu convite/i });
     expect(link.getAttribute('href')).toBe('https://assessoriavip.com.br/rsvp/xyz');
+    expect(getInviteLink).toHaveBeenCalledWith('11111111-1111-1111-1111-111111111111');
+  });
+
+  it('shows a message when no name matches', async () => {
+    vi.mocked(listInvites).mockResolvedValueOnce({ success: true, invites: [{ id: '33333333-3333-3333-3333-333333333333', name: 'Rafa', aliases: [] }] });
+    render(<RSVPForm />);
+    const input = screen.getByRole('combobox');
+    fireEvent.focus(input);
+    await screen.findAllByRole('option');
+    fireEvent.change(input, { target: { value: 'zzz' } });
+    expect(screen.queryAllByRole('option').length).toBe(0);
+    expect(screen.getByText(/Nenhum nome encontrado/i)).toBeDefined();
   });
 
   it('renders Guestbook and allows message entry', () => {

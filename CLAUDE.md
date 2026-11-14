@@ -74,7 +74,7 @@ Components consume the active region's strings via `useLanguage().config.content
 - `validateAdminPassword(password)` → checks against `ADMIN_PASSWORD` env var
 - `createPaymentIntent(amount)` → creates a Stripe PaymentIntent (currency hardcoded to `brl`)
 - `submitGiftMessage(data)` → inserts into Supabase `gift_messages` table
-- `listInvitesByGroup(group)` / `getInviteLink(id)` → back the group → name dropdown of the RSVP section.
+- `listInvites()` / `getInviteLink(id)` → back the type-to-filter guest dropdown of the RSVP section.
 - `findInvite(query)` → looks up a guest's personal Assessoria VIP RSVP link by full name or phone via the `find_invite()` DB function (table `invites` has RLS with no policies; see `supabase_invites_schema.sql`). Guest data is loaded straight into Supabase from the exported spreadsheet and must never be committed to the repo.
 
 Stripe is lazily initialized inside `getStripe()` so the module doesn't crash when `STRIPE_SECRET_KEY` is absent (e.g., during tests).

@@ -92,28 +92,32 @@ export async function findInvite(query: string) {
   return { success: true, found: true, inviteName: row.invite_name as string, url: row.rsvp_url as string };
 }
 
-const INVITE_GROUPS = ['noiva_familia', 'noivo_familia', 'noiva_amigos', 'noivo_amigos', 'outros'];
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
- * Lists the invite names (and ids) of one guest group, for the dropdown.
- * @param {string} group One of the known group codes.
- * @return {Promise<{success: boolean, invites: {id: string, name: string}[]}>} The group's invites.
+ * Lists every invite (id, display name, searchable guest names) for the
+ * type-to-filter dropdown. Phone numbers are never returned.
+ * @return {Promise<{success: boolean, invites: {id: string, name: string, aliases: string[]}[]}>} All invites.
  */
-export async function listInvitesByGroup(group: string) {
-  if (!INVITE_GROUPS.includes(group)) return { success: false, invites: [] };
-  const { data, error } = await supabase.rpc('list_invites_by_group', { g: group });
+export async function listInvites() {
+  const { data, error } = await supabase.rpc('list_invites');
   if (error) {
     console.error('Error listing invites:', error);
     return { success: false, invites: [] };
   }
-  const invites = (Array.isArray(data) ? data : []).map((r: { id: string; invite_name: string }) => ({ id: r.id, name: r.invite_name }));
+  const invites = (Array.isArray(data) ? data : []).map(
+    (r: { id: string; invite_name: string; aliases: string[] | null }) => ({
+      id: r.id,
+      name: r.invite_name,
+      aliases: r.aliases || [],
+    }),
+  );
   return { success: true, invites };
 }
 
 /**
  * Gets the personal RSVP link of the invite picked in the dropdown.
- * @param {string} id The invite id returned by listInvitesByGroup.
+ * @param {string} id The invite id returned by listInvites.
  * @return {Promise<{success: boolean, found: boolean, inviteName?: string, url?: string}>} The invite link.
  */
 export async function getInviteLink(id: string) {
