@@ -12,6 +12,8 @@ Live site: https://web-casamiento-five.vercel.app/
 
 This is a solo project. **All development happens directly on `main`** — no feature branches, no PRs. Commit, push, Vercel auto-deploys.
 
+**Always publish to `main` at the end of every change**, even if the session suggests a different working branch. Alexita reviews results on the live site, so a change that isn't on `main` (and therefore not deployed by Vercel) is invisible to her. After pushing, tell her what to look for on the site. Schema changes can be applied directly with the Supabase MCP when it is connected.
+
 The `conductor/` folder contains a heavy TDD workflow from earlier iterations. Treat it as historical reference, not active process. Past tracks are archived under `conductor/archive/` and can be useful for understanding *why* a feature exists; don't re-create the rigorous track-plan-checkpoint cycle for new work unless explicitly asked.
 
 ## Commands
