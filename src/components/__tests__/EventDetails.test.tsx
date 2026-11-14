@@ -12,9 +12,9 @@ describe('EventDetails', () => {
     expect(brasilElements.length).toBeGreaterThan(0);
   });
 
-  it('shows the dress code link only on the Bahia card', () => {
+  it('shows the outfit inspiration link only on the Bahia card', () => {
     render(<EventDetails />);
-    const links = screen.getAllByRole('link', { name: /Dress Code/i });
+    const links = screen.getAllByRole('link', { name: /Inspirações de Looks/i });
     expect(links.length).toBe(1);
     expect(links[0].getAttribute('href')).toBe('https://pin.it/4DbRqOul1');
     expect(links[0].getAttribute('target')).toBe('_blank');

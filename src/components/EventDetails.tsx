@@ -103,9 +103,9 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
   };
 
   const labels = {
-    br: { map: 'Abrir Mapa', cal: 'Adicionar ao Calendário', flights: 'Pacotes de Voo', stay: 'Hospedagens', dress: 'Dress Code & Looks' },
-    ar: { map: 'Abrir Mapa', cal: 'Agregar al Calendario', flights: 'Paquetes de Vuelo', stay: 'Alojamiento', dress: 'Dress Code & Looks' },
-    en: { map: 'Open Map', cal: 'Add to Calendar', flights: 'Flight Packages', stay: 'Accommodations', dress: 'Dress Code & Outfit Ideas' },
+    br: { map: 'Abrir Mapa', cal: 'Adicionar ao Calendário', flights: 'Pacotes de Voo', stay: 'Hospedagens', dress: 'Inspirações de Looks' },
+    ar: { map: 'Abrir Mapa', cal: 'Agregar al Calendario', flights: 'Paquetes de Vuelo', stay: 'Alojamiento', dress: 'Inspiración de Looks' },
+    en: { map: 'Open Map', cal: 'Add to Calendar', flights: 'Flight Packages', stay: 'Accommodations', dress: 'Outfit Inspiration' },
   };
 
   const currentLabels = labels[region] || labels.en;
