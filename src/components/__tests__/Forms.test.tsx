@@ -2,12 +2,14 @@ import { render, screen, fireEvent } from '../../test/test-utils';
 import { RSVPForm } from '../RSVPForm';
 import { Guestbook } from '../Guestbook';
 import { describe, it, expect, vi } from 'vitest';
-import { findInvite } from '@/app/actions';
+import { findInvite, listInvitesByGroup, getInviteLink } from '@/app/actions';
 
 // Mock server actions
 vi.mock('@/app/actions', () => ({
   submitRSVP: vi.fn(() => Promise.resolve({ success: true })),
   findInvite: vi.fn(),
+  listInvitesByGroup: vi.fn(),
+  getInviteLink: vi.fn(),
   submitGuestbookMessage: vi.fn(() => Promise.resolve({ success: true })),
   getGuestbookMessages: vi.fn(() => Promise.resolve({ success: true, data: [] })),
 }));
@@ -42,6 +44,23 @@ describe('Forms', () => {
 
     const successMessage = await screen.findByText(/Obrigado/i);
     expect(successMessage).toBeDefined();
+  });
+
+  it('lets the guest pick a group and then their name from dropdowns', async () => {
+    vi.mocked(listInvitesByGroup).mockResolvedValueOnce({ success: true, invites: [{ id: '11111111-1111-1111-1111-111111111111', name: 'Test Family' }] });
+    vi.mocked(getInviteLink).mockResolvedValueOnce({ success: true, found: true, inviteName: 'Test Family', url: 'https://assessoriavip.com.br/rsvp/xyz' });
+    render(<RSVPForm />);
+
+    const inviteSelect = screen.getByLabelText(/Seu convite/i) as HTMLSelectElement;
+    expect(inviteSelect.disabled).toBe(true);
+
+    fireEvent.change(screen.getByLabelText(/Seu grupo/i), { target: { value: 'noiva_familia' } });
+    await screen.findByRole('option', { name: 'Test Family' });
+    expect(listInvitesByGroup).toHaveBeenCalledWith('noiva_familia');
+
+    fireEvent.change(screen.getByLabelText(/Seu convite/i), { target: { value: '11111111-1111-1111-1111-111111111111' } });
+    const link = await screen.findByRole('link', { name: /Abrir meu convite/i });
+    expect(link.getAttribute('href')).toBe('https://assessoriavip.com.br/rsvp/xyz');
   });
 
   it('renders Guestbook and allows message entry', () => {

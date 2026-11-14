@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Section, Typography, Card, Button } from './Base';
-import { submitRSVP, findInvite } from '@/app/actions';
+import { submitRSVP, findInvite, listInvitesByGroup, getInviteLink } from '@/app/actions';
 import { useLanguage } from '@/context/LanguageContext';
 
 /**
@@ -16,6 +16,10 @@ export function RSVPForm() {
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const [group, setGroup] = useState('');
+  const [groupInvites, setGroupInvites] = useState<{ id: string; name: string }[]>([]);
+  const [selectedInvite, setSelectedInvite] = useState('');
+  const [isLoadingList, setIsLoadingList] = useState(false);
   const [lookup, setLookup] = useState<{ status: 'idle' | 'found' | 'notfound' | 'error'; inviteName?: string; url?: string }>({ status: 'idle' });
   const [formData, setFormData] = useState({
     name: '',
@@ -38,6 +42,12 @@ export function RSVPForm() {
       successTitle: 'Obrigado!',
       successText: 'Sua confirmação foi salva com sucesso. Mal podemos esperar para celebrar com você!',
       backBtn: 'Voltar',
+      orPick: 'ou escolha na lista',
+      groupLabel: 'Seu grupo',
+      groupPlaceholder: 'Selecione o grupo',
+      groups: { noiva_familia: 'Família da Alexita', noivo_familia: 'Família do Chico', noiva_amigos: 'Amigos da Alexita', noivo_amigos: 'Amigos do Chico', outros: 'Outros' },
+      inviteLabel: 'Seu convite',
+      invitePlaceholder: 'Selecione seu nome',
       lookupIntro: 'Digite seu nome completo ou telefone para abrir seu convite personalizado e confirmar sua presença.',
       lookupLabel: 'Nome completo ou telefone',
       lookupBtn: 'Encontrar meu convite',
@@ -60,6 +70,12 @@ export function RSVPForm() {
       successTitle: '¡Gracias!',
       successText: 'Tu confirmación ha sido guardada con éxito. ¡No podemos esperar para celebrar con vos!',
       backBtn: 'Volver',
+      orPick: 'o elegí de la lista',
+      groupLabel: 'Tu grupo',
+      groupPlaceholder: 'Seleccioná el grupo',
+      groups: { noiva_familia: 'Familia de Alexita', noivo_familia: 'Familia de Chico', noiva_amigos: 'Amigos de Alexita', noivo_amigos: 'Amigos de Chico', outros: 'Otros' },
+      inviteLabel: 'Tu invitación',
+      invitePlaceholder: 'Seleccioná tu nombre',
       lookupIntro: 'Escribí tu nombre completo o teléfono para abrir tu invitación personalizada y confirmar tu asistencia.',
       lookupLabel: 'Nombre completo o teléfono',
       lookupBtn: 'Encontrar mi invitación',
@@ -82,6 +98,12 @@ export function RSVPForm() {
       successTitle: 'Thank You!',
       successText: 'Your confirmation has been successfully saved. We can\'t wait to celebrate with you!',
       backBtn: 'Back',
+      orPick: 'or choose from the list',
+      groupLabel: 'Your group',
+      groupPlaceholder: 'Select your group',
+      groups: { noiva_familia: 'Alexita\'s family', noivo_familia: 'Chico\'s family', noiva_amigos: 'Alexita\'s friends', noivo_amigos: 'Chico\'s friends', outros: 'Others' },
+      inviteLabel: 'Your invitation',
+      invitePlaceholder: 'Select your name',
       lookupIntro: 'Enter your full name or phone number to open your personal invitation and confirm your attendance.',
       lookupLabel: 'Full name or phone',
       lookupBtn: 'Find my invitation',
@@ -133,6 +155,41 @@ export function RSVPForm() {
     setIsSearching(false);
   };
 
+  /**
+   * Loads the invite names of the chosen group into the second dropdown.
+   * @param {string} value The selected group code.
+   */
+  const handleGroupChange = async (value: string) => {
+    setGroup(value);
+    setSelectedInvite('');
+    setGroupInvites([]);
+    setLookup({ status: 'idle' });
+    if (!value) return;
+    setIsLoadingList(true);
+    const result = await listInvitesByGroup(value);
+    setGroupInvites(result.invites);
+    if (!result.success) setLookup({ status: 'error' });
+    setIsLoadingList(false);
+  };
+
+  /**
+   * Resolves the personal link of the invite picked from the dropdown.
+   * @param {string} id The selected invite id.
+   */
+  const handleInviteChange = async (id: string) => {
+    setSelectedInvite(id);
+    setLookup({ status: 'idle' });
+    if (!id) return;
+    setIsLoadingList(true);
+    const result = await getInviteLink(id);
+    if (result.found) {
+      setLookup({ status: 'found', inviteName: result.inviteName, url: result.url });
+    } else {
+      setLookup({ status: 'error' });
+    }
+    setIsLoadingList(false);
+  };
+
   const showFallbackForm = lookup.status === 'notfound' || lookup.status === 'error';
 
   if (submitted) {
@@ -169,6 +226,46 @@ export function RSVPForm() {
               }}
             />
           </div>
+          <Button type='submit' className='w-full py-4' disabled={isSearching}>
+            {isSearching ? t.lookupSearching : t.lookupBtn}
+          </Button>
+          <div className='flex items-center gap-4 text-xs uppercase tracking-widest text-foreground/40'>
+            <span className='flex-1 h-px bg-accent/20' />
+            <span>{t.orPick}</span>
+            <span className='flex-1 h-px bg-accent/20' />
+          </div>
+          <div className='grid md:grid-cols-2 gap-6'>
+            <div className='flex flex-col gap-2'>
+              <label htmlFor='rsvp-group' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.groupLabel}</label>
+              <select
+                id='rsvp-group'
+                disabled={isLoadingList}
+                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
+                value={group}
+                onChange={(e) => handleGroupChange(e.target.value)}
+              >
+                <option value=''>{t.groupPlaceholder}</option>
+                {Object.entries(t.groups).map(([code, label]) => (
+                  <option key={code} value={code}>{label}</option>
+                ))}
+              </select>
+            </div>
+            <div className='flex flex-col gap-2'>
+              <label htmlFor='rsvp-invite' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.inviteLabel}</label>
+              <select
+                id='rsvp-invite'
+                disabled={isLoadingList || groupInvites.length === 0}
+                className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 disabled:opacity-50'
+                value={selectedInvite}
+                onChange={(e) => handleInviteChange(e.target.value)}
+              >
+                <option value=''>{t.invitePlaceholder}</option>
+                {groupInvites.map((inv) => (
+                  <option key={inv.id} value={inv.id}>{inv.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
           {lookup.status === 'found' && lookup.url && (
             <div className='text-center space-y-4'>
               <Typography className='text-primary'>{t.foundText}</Typography>
@@ -184,9 +281,6 @@ export function RSVPForm() {
           )}
           {lookup.status === 'notfound' && <p role='status' className='text-sm text-foreground/70'>{t.notFoundText}</p>}
           {lookup.status === 'error' && <p role='alert' className='text-red-500 text-sm'>{t.lookupError}</p>}
-          <Button type='submit' className='w-full py-4' disabled={isSearching}>
-            {isSearching ? t.lookupSearching : t.lookupBtn}
-          </Button>
         </form>
       </Card>
       {showFallbackForm && (

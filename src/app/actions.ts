@@ -92,6 +92,44 @@ export async function findInvite(query: string) {
   return { success: true, found: true, inviteName: row.invite_name as string, url: row.rsvp_url as string };
 }
 
+const INVITE_GROUPS = ['noiva_familia', 'noivo_familia', 'noiva_amigos', 'noivo_amigos', 'outros'];
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Lists the invite names (and ids) of one guest group, for the dropdown.
+ * @param {string} group One of the known group codes.
+ * @return {Promise<{success: boolean, invites: {id: string, name: string}[]}>} The group's invites.
+ */
+export async function listInvitesByGroup(group: string) {
+  if (!INVITE_GROUPS.includes(group)) return { success: false, invites: [] };
+  const { data, error } = await supabase.rpc('list_invites_by_group', { g: group });
+  if (error) {
+    console.error('Error listing invites:', error);
+    return { success: false, invites: [] };
+  }
+  const invites = (Array.isArray(data) ? data : []).map((r: { id: string; invite_name: string }) => ({ id: r.id, name: r.invite_name }));
+  return { success: true, invites };
+}
+
+/**
+ * Gets the personal RSVP link of the invite picked in the dropdown.
+ * @param {string} id The invite id returned by listInvitesByGroup.
+ * @return {Promise<{success: boolean, found: boolean, inviteName?: string, url?: string}>} The invite link.
+ */
+export async function getInviteLink(id: string) {
+  if (!UUID_RE.test(id)) return { success: true, found: false };
+  const { data, error } = await supabase.rpc('get_invite_link', { p_id: id });
+  if (error) {
+    console.error('Error getting invite link:', error);
+    return { success: false, found: false };
+  }
+  const row = Array.isArray(data) ? data[0] : null;
+  if (!row || typeof row.rsvp_url !== 'string' || !row.rsvp_url.startsWith('https://assessoriavip.com.br/')) {
+    return { success: true, found: false };
+  }
+  return { success: true, found: true, inviteName: row.invite_name as string, url: row.rsvp_url as string };
+}
+
 /**
  * Fetches all RSVPs from Supabase.
  * @return {Promise<{success: boolean, data?: any[], error?: string}>} The fetched RSVPs.
