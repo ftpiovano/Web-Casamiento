@@ -11,7 +11,7 @@ export const siteConfig = {
     bride: { src: '/branding/couple-alexita.jpg', width: 862, height: 1062 },
     groom: { src: '/branding/couple-chico.jpg', width: 856, height: 1055 },
   },
-  eventDate: '2027-03-06T17:00:00', // Reference date for general countdown
+  eventDate: '2027-03-06T15:30:00', // Reference date for general countdown
   theme: {
     colors: {
       background: '#faf8f5', // Warm off-white
@@ -43,7 +43,10 @@ export const siteConfig = {
       locationName: 'Hotel Boutique & Spa Ponta de Inhambupe',
       address: 'Loteamento Ponta de Inhambupe, 189 - Baixio, Esplanada - BA, 48370-000, Brasil',
       mapLink: 'https://www.google.com/maps/place/Hotel+Boutique+%26+Spa+Ponta+de+Inhambupe+by+Slaviero+Hot%C3%A9is/@-12.1023221,-37.6930429,17z/data=!3m1!4b1!4m9!3m8!1s0x717376dd6887931:0x6d4526a6d0ab8dea!5m2!4m1!1i2!8m2!3d-12.1023221!4d-37.690468!16s%2Fg%2F11pdxwrbyd?entry=ttu',
-      flightPackagesUrl: '/vuelos-brasil',
+      // Flight-packages button hidden — set to '' so the EventDetails
+      // conditional skips rendering it. The page at /vuelos-brasil is
+      // still live; switch back to '/vuelos-brasil' to surface the button.
+      flightPackagesUrl: '',
       // Hospedagens button temporarily hidden — set to '' so the
       // EventDetails conditional skips rendering it. The page at
       // /hospedagens-brasil is still live; switch back to
