@@ -29,7 +29,7 @@ export const siteConfig = {
     ar: {
       id: 'argentina',
       title: 'Argentina',
-      dateTime: '2027-02-27T11:00:00',
+      dateTime: '2027-02-27T17:00:00',
       locationName: 'Club de Campo San Diego',
       address: 'Au Acceso Oeste Km 42, B1744 Moreno, Provincia de Buenos Aires, Argentina',
       mapLink: 'https://www.google.com/maps/place/Club+de+Campo+San+Diego/@-34.6147323,-58.8543517,17z/data=!3m1!4b1!4m6!3m5!1s0x95bc9437abeabf2b:0xd3205ac9847354cf!8m2!3d-34.6147323!4d-58.8517768!16s%2Fg%2F11tk8ps8f?entry=ttu',
