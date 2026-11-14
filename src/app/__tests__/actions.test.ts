@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { submitRSVP, createPaymentIntent } from '../actions';
+import { submitRSVP, createPaymentIntent, findInvite } from '../actions';
 import { supabase } from '@/lib/supabase';
 
 vi.mock('@/lib/supabase', () => ({
@@ -9,6 +9,7 @@ vi.mock('@/lib/supabase', () => ({
         error: null,
       })),
     })),
+    rpc: vi.fn(),
   },
 }));
 
@@ -39,6 +40,31 @@ describe('Server Actions', () => {
       const result = await submitRSVP(data);
       expect(result.success).toBe(true);
       expect(supabase.from).toHaveBeenCalledWith('rsvps');
+    });
+  });
+
+  describe('findInvite', () => {
+    it('normalizes names and phones before calling the database function', async () => {
+      vi.mocked(supabase.rpc).mockResolvedValue({
+        data: [{ invite_name: 'X', rsvp_url: 'https://assessoriavip.com.br/rsvp/abc' }], error: null,
+      } as never);
+      const byName = await findInvite('  ÁLDERI   Lima ');
+      expect(supabase.rpc).toHaveBeenLastCalledWith('find_invite', { q: 'alderi lima' });
+      expect(byName).toMatchObject({ success: true, found: true, url: 'https://assessoriavip.com.br/rsvp/abc' });
+
+      await findInvite('+55 (71) 99682-1462');
+      expect(supabase.rpc).toHaveBeenLastCalledWith('find_invite', { q: '5571996821462' });
+    });
+
+    it('does not query for too-short input and rejects foreign URLs', async () => {
+      vi.mocked(supabase.rpc).mockClear();
+      expect(await findInvite('maria')).toEqual({ success: true, found: false });
+      expect(supabase.rpc).not.toHaveBeenCalled();
+
+      vi.mocked(supabase.rpc).mockResolvedValue({
+        data: [{ invite_name: 'X', rsvp_url: 'https://evil.example/phish' }], error: null,
+      } as never);
+      expect(await findInvite('alderi lima')).toEqual({ success: true, found: false });
     });
   });
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Section, Typography, Card, Button } from './Base';
-import { submitRSVP } from '@/app/actions';
+import { submitRSVP, findInvite } from '@/app/actions';
 import { useLanguage } from '@/context/LanguageContext';
 
 /**
@@ -14,6 +14,9 @@ export function RSVPForm() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [lookup, setLookup] = useState<{ status: 'idle' | 'found' | 'notfound' | 'error'; inviteName?: string; url?: string }>({ status: 'idle' });
   const [formData, setFormData] = useState({
     name: '',
     attending: 'yes',
@@ -35,6 +38,14 @@ export function RSVPForm() {
       successTitle: 'Obrigado!',
       successText: 'Sua confirmação foi salva com sucesso. Mal podemos esperar para celebrar com você!',
       backBtn: 'Voltar',
+      lookupIntro: 'Digite seu nome completo ou telefone para abrir seu convite personalizado e confirmar sua presença.',
+      lookupLabel: 'Nome completo ou telefone',
+      lookupBtn: 'Encontrar meu convite',
+      lookupSearching: 'Buscando...',
+      foundText: 'Encontramos seu convite!',
+      openInvite: 'Abrir meu convite',
+      notFoundText: 'Não encontramos seu convite. Confira o nome ou telefone, ou preencha o formulário abaixo.',
+      lookupError: 'Não foi possível buscar agora. Tente novamente ou preencha o formulário abaixo.',
     },
     ar: {
       title: 'Confirmar Asistencia',
@@ -49,6 +60,14 @@ export function RSVPForm() {
       successTitle: '¡Gracias!',
       successText: 'Tu confirmación ha sido guardada con éxito. ¡No podemos esperar para celebrar con vos!',
       backBtn: 'Volver',
+      lookupIntro: 'Escribí tu nombre completo o teléfono para abrir tu invitación personalizada y confirmar tu asistencia.',
+      lookupLabel: 'Nombre completo o teléfono',
+      lookupBtn: 'Encontrar mi invitación',
+      lookupSearching: 'Buscando...',
+      foundText: '¡Encontramos tu invitación!',
+      openInvite: 'Abrir mi invitación',
+      notFoundText: 'No encontramos tu invitación. Revisá el nombre o teléfono, o completá el formulario de abajo.',
+      lookupError: 'No pudimos buscar ahora. Intentá de nuevo o completá el formulario de abajo.',
     },
     en: {
       title: 'Confirm Attendance',
@@ -63,6 +82,14 @@ export function RSVPForm() {
       successTitle: 'Thank You!',
       successText: 'Your confirmation has been successfully saved. We can\'t wait to celebrate with you!',
       backBtn: 'Back',
+      lookupIntro: 'Enter your full name or phone number to open your personal invitation and confirm your attendance.',
+      lookupLabel: 'Full name or phone',
+      lookupBtn: 'Find my invitation',
+      lookupSearching: 'Searching...',
+      foundText: 'We found your invitation!',
+      openInvite: 'Open my invitation',
+      notFoundText: 'We could not find your invitation. Check the name or phone, or fill in the form below.',
+      lookupError: 'We could not search right now. Try again or fill in the form below.',
     },
   };
 
@@ -88,6 +115,26 @@ export function RSVPForm() {
     setIsSubmitting(false);
   };
 
+  /**
+   * Looks up the guest's personal invitation link by name or phone.
+   * @param {React.FormEvent} e The form event.
+   */
+  const handleLookup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSearching(true);
+    const result = await findInvite(query);
+    if (!result.success) {
+      setLookup({ status: 'error' });
+    } else if (result.found) {
+      setLookup({ status: 'found', inviteName: result.inviteName, url: result.url });
+    } else {
+      setLookup({ status: 'notfound' });
+    }
+    setIsSearching(false);
+  };
+
+  const showFallbackForm = lookup.status === 'notfound' || lookup.status === 'error';
+
   if (submitted) {
     return (
       <Section id='rsvp' className='bg-background'>
@@ -103,6 +150,46 @@ export function RSVPForm() {
   return (
     <Section id='rsvp' className='bg-background'>
       <Typography as='h2'>{t.title}</Typography>
+      <Card className='max-w-2xl mx-auto mb-8'>
+        <form onSubmit={handleLookup} className='space-y-6'>
+          <Typography>{t.lookupIntro}</Typography>
+          <div className='flex flex-col gap-2'>
+            <label htmlFor='rsvp-lookup' className='text-xs uppercase tracking-widest font-bold text-foreground/40'>{t.lookupLabel}</label>
+            <input
+              id='rsvp-lookup'
+              required
+              disabled={isSearching}
+              type='text'
+              autoComplete='off'
+              className='bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 outline-none focus:border-primary/50 transition-colors disabled:opacity-50'
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                if (lookup.status !== 'idle') setLookup({ status: 'idle' });
+              }}
+            />
+          </div>
+          {lookup.status === 'found' && lookup.url && (
+            <div className='text-center space-y-4'>
+              <Typography className='text-primary'>{t.foundText}</Typography>
+              <a
+                href={lookup.url}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='inline-block px-8 py-3 rounded-full font-medium tracking-wide uppercase text-sm bg-primary text-white hover:bg-primary/90 transition-all duration-200'
+              >
+                {t.openInvite}
+              </a>
+            </div>
+          )}
+          {lookup.status === 'notfound' && <p role='status' className='text-sm text-foreground/70'>{t.notFoundText}</p>}
+          {lookup.status === 'error' && <p role='alert' className='text-red-500 text-sm'>{t.lookupError}</p>}
+          <Button type='submit' className='w-full py-4' disabled={isSearching}>
+            {isSearching ? t.lookupSearching : t.lookupBtn}
+          </Button>
+        </form>
+      </Card>
+      {showFallbackForm && (
       <Card className='max-w-2xl mx-auto'>
         <form onSubmit={handleSubmit} className='space-y-6'>
           <div className='grid md:grid-cols-2 gap-6'>
@@ -174,6 +261,7 @@ export function RSVPForm() {
           </Button>
         </form>
       </Card>
+      )}
     </Section>
   );
 }

@@ -2,25 +2,43 @@ import { render, screen, fireEvent } from '../../test/test-utils';
 import { RSVPForm } from '../RSVPForm';
 import { Guestbook } from '../Guestbook';
 import { describe, it, expect, vi } from 'vitest';
+import { findInvite } from '@/app/actions';
 
 // Mock server actions
 vi.mock('@/app/actions', () => ({
   submitRSVP: vi.fn(() => Promise.resolve({ success: true })),
+  findInvite: vi.fn(),
   submitGuestbookMessage: vi.fn(() => Promise.resolve({ success: true })),
   getGuestbookMessages: vi.fn(() => Promise.resolve({ success: true, data: [] })),
 }));
 
 describe('Forms', () => {
-  it('submits RSVP form', async () => {
+  it('shows the personal invitation link when the guest is found', async () => {
+    vi.mocked(findInvite).mockResolvedValueOnce({
+      success: true, found: true, inviteName: 'Test Guest', url: 'https://assessoriavip.com.br/rsvp/abc',
+    });
     render(<RSVPForm />);
-    const nameInput = screen.getByLabelText(/Nome/i);
-    const emailInput = screen.getByLabelText(/E-mail/i);
-    const submitBtn = screen.getByText(/Enviar/i);
+    fireEvent.change(screen.getByLabelText(/Nome completo ou telefone/i), { target: { value: 'Test Guest' } });
+    fireEvent.click(screen.getByText(/Encontrar meu convite/i));
 
-    fireEvent.change(nameInput, { target: { value: 'Test Guest' } });
+    const link = await screen.findByRole('link', { name: /Abrir meu convite/i });
+    expect(link.getAttribute('href')).toBe('https://assessoriavip.com.br/rsvp/abc');
+    expect(screen.queryByLabelText(/E-mail/i)).toBeNull();
+  });
+
+  it('falls back to the RSVP form when the guest is not found', async () => {
+    vi.mocked(findInvite).mockResolvedValueOnce({ success: true, found: false });
+    render(<RSVPForm />);
+    expect(screen.queryByLabelText(/E-mail/i)).toBeNull();
+
+    fireEvent.change(screen.getByLabelText(/Nome completo ou telefone/i), { target: { value: 'Nobody Here' } });
+    fireEvent.click(screen.getByText(/Encontrar meu convite/i));
+
+    const emailInput = await screen.findByLabelText(/E-mail/i);
+    fireEvent.change(screen.getByLabelText(/^Nome Completo$/i), { target: { value: 'Test Guest' } });
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText(/Telefone/i), { target: { value: '+55 11 99999-9999' } });
-    fireEvent.click(submitBtn);
+    fireEvent.change(screen.getByLabelText(/^Telefone$/i), { target: { value: '+55 11 99999-9999' } });
+    fireEvent.click(screen.getByText(/Enviar Confirmação/i));
 
     const successMessage = await screen.findByText(/Obrigado/i);
     expect(successMessage).toBeDefined();
