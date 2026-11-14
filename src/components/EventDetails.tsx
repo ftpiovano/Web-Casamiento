@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Clock, Calendar, Plane, BedDouble } from 'lucide-react';
+import { MapPin, Clock, Calendar, Plane, BedDouble, Shirt } from 'lucide-react';
 import { siteConfig } from '@/site.config';
 import { Section, Typography, Card, Button } from './Base';
 import { useLanguage } from '@/context/LanguageContext';
@@ -16,6 +16,7 @@ interface EventProps {
   mapLink: string;
   flightPackagesUrl: string;
   accommodationsUrl?: string;
+  dressCodeUrl?: string;
   backgroundImage?: string;
   backgroundPosition?: string;
   id: string;
@@ -26,7 +27,7 @@ interface EventProps {
  * @param {EventProps} props component properties.
  * @return {JSX.Element} The rendered event card.
  */
-function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl, accommodationsUrl, backgroundImage, backgroundPosition = 'center', id }: EventProps) {
+function EventCard({ title, dateTime, locationName, address, mapLink, flightPackagesUrl, accommodationsUrl, dressCodeUrl, backgroundImage, backgroundPosition = 'center', id }: EventProps) {
   const { region } = useLanguage();
   
   const locale = region === 'br' ? 'pt-BR' : region === 'ar' ? 'es-AR' : 'en-US';
@@ -102,9 +103,9 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
   };
 
   const labels = {
-    br: { map: 'Abrir Mapa', cal: 'Adicionar ao Calendário', flights: 'Pacotes de Voo', stay: 'Hospedagens' },
-    ar: { map: 'Abrir Mapa', cal: 'Agregar al Calendario', flights: 'Paquetes de Vuelo', stay: 'Alojamiento' },
-    en: { map: 'Open Map', cal: 'Add to Calendar', flights: 'Flight Packages', stay: 'Accommodations' },
+    br: { map: 'Abrir Mapa', cal: 'Adicionar ao Calendário', flights: 'Pacotes de Voo', stay: 'Hospedagens', dress: 'Dress Code & Looks' },
+    ar: { map: 'Abrir Mapa', cal: 'Agregar al Calendario', flights: 'Paquetes de Vuelo', stay: 'Alojamiento', dress: 'Dress Code & Looks' },
+    en: { map: 'Open Map', cal: 'Add to Calendar', flights: 'Flight Packages', stay: 'Accommodations', dress: 'Dress Code & Outfit Ideas' },
   };
 
   const currentLabels = labels[region] || labels.en;
@@ -180,6 +181,14 @@ function EventCard({ title, dateTime, locationName, address, mapLink, flightPack
             </Button>
           </a>
         )}
+        {dressCodeUrl && (
+          <a href={dressCodeUrl} target='_blank' rel='noopener noreferrer' className='w-full'>
+            <Button variant='outline' className='w-full'>
+              <Shirt size={16} className='mr-2 inline' />
+              {currentLabels.dress}
+            </Button>
+          </a>
+        )}
       </div>
       </div>
     </Card>
@@ -222,6 +231,7 @@ export function EventDetails() {
           mapLink={siteConfig.events.br.mapLink}
           flightPackagesUrl={siteConfig.events.br.flightPackagesUrl}
           accommodationsUrl={siteConfig.events.br.accommodationsUrl}
+          dressCodeUrl={siteConfig.events.br.dressCodeUrl}
           backgroundImage={siteConfig.events.br.backgroundImage}
           backgroundPosition={siteConfig.events.br.backgroundPosition}
         />

@@ -47,6 +47,8 @@ export const siteConfig = {
       // conditional skips rendering it. The page at /vuelos-brasil is
       // still live; switch back to '/vuelos-brasil' to surface the button.
       flightPackagesUrl: '',
+      // Pinterest board with dress code / outfit inspiration (shown on the Bahia card).
+      dressCodeUrl: 'https://pin.it/4DbRqOul1',
       // Hospedagens button temporarily hidden — set to '' so the
       // EventDetails conditional skips rendering it. The page at
       // /hospedagens-brasil is still live; switch back to
