@@ -22,7 +22,9 @@ type CheckoutStep = 'grid' | 'cart' | 'info' | 'payment' | 'success';
 export function GiftGrid() {
   const { config, region } = useLanguage();
   const [step, setStep] = useState<CheckoutStep>('grid');
-  const [cart, setCart] = useState<any[]>([]);
+  // The cart keeps only gift ids; names/prices are derived from the active
+  // region on every render so switching language re-prices everything.
+  const [cartIds, setCartIds] = useState<number[]>([]);
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'name'>('default');
   const [gifterInfo, setGifterInfo] = useState({ name: '', note: '' });
   const [showStripe, setShowStripe] = useState(false);
@@ -51,13 +53,17 @@ export function GiftGrid() {
           return a.name.localeCompare(b.name);
         });
 
-  const addToCart = (item: any) => {
-    setCart((prev) => [...prev, item]);
+  const cart = cartIds
+    .map((id) => localizedGifts.find((g) => g.id === id))
+    .filter((g): g is (typeof localizedGifts)[number] => Boolean(g));
+
+  const addToCart = (item: { id: number }) => {
+    setCartIds((prev) => [...prev, item.id]);
     setStep('cart');
   };
 
   const removeFromCart = (index: number) => {
-    setCart((prev) => prev.filter((_, i) => i !== index));
+    setCartIds((prev) => prev.filter((_, i) => i !== index));
   };
 
   const totalPrice = cart.reduce((acc, curr) => acc + curr.price, 0);
@@ -80,6 +86,7 @@ export function GiftGrid() {
   useEffect(() => {
     if (showStripe && totalPrice > 0) {
       setStripeError(null);
+      setClientSecret(null); // drop the intent made for the previous amount/currency
       const initStripe = async () => {
         const result = await createPaymentIntent(totalPrice * 100, stripeCurrency);
         if (result.success && result.clientSecret) {
@@ -512,7 +519,7 @@ export function GiftGrid() {
           }
         </Typography>
         <Button onClick={() => {
-          setCart([]);
+          setCartIds([]);
           setGifterInfo({ name: '', note: '' });
           setStep('grid');
           setShowStripe(false);
