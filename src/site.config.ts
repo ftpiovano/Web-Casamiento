@@ -890,6 +890,13 @@ export const siteConfig = {
       },
     },
   },
+  // Pix (Brazil). Payments go to the account that owns this Pix key.
+  // receiverName: max 25 chars / city: max 15 chars, plain letters only.
+  pix: {
+    key: 'alexalarissas21@gmail.com',
+    receiverName: 'Alexita e Chico',
+    city: 'Salvador',
+  },
   // Bank details for manual transfers
   bankDetails: {
     ar: {

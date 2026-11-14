@@ -79,7 +79,11 @@ describe('GiftGrid Checkout Flow', () => {
     fireEvent.click(pixOption);
 
     // Verify detailed Pix UI
-    expect(screen.getByText(/Escaneie o QR Code/i)).toBeDefined();
+    expect(screen.getByText(/Pix Copia e Cola/i)).toBeDefined();
+    // The copy-and-paste code is a real BR Code pointing at the configured Pix key
+    const payload = screen.getByText(/^000201.*br\.gov\.bcb\.pix/).textContent || '';
+    expect(payload).toContain('alexalarissas21@gmail.com');
+    expect(payload).toContain('5303986');
     
     const finishBtn = screen.getByText(/Já realizei/i);
     fireEvent.click(finishBtn);

@@ -10,6 +10,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { createPaymentIntent, submitGiftMessage } from '@/app/actions';
 import { CheckoutForm } from './CheckoutForm';
+import { buildPixPayload } from '@/lib/pix';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
@@ -29,6 +30,7 @@ export function GiftGrid() {
   const [gifterInfo, setGifterInfo] = useState({ name: '', note: '' });
   const [showStripe, setShowStripe] = useState(false);
   const [showPix, setShowPix] = useState(false);
+  const [pixCopied, setPixCopied] = useState(false);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [stripeError, setStripeError] = useState<string | null>(null);
   const [lastPaymentMethod, setLastPaymentMethod] = useState<string | null>(null);
@@ -80,6 +82,13 @@ export function GiftGrid() {
     });
     setStep('success');
   };
+
+  const pixPayload = buildPixPayload({
+    key: siteConfig.pix.key,
+    receiverName: siteConfig.pix.receiverName,
+    city: siteConfig.pix.city,
+    amount: totalPrice,
+  });
 
   const stripeCurrency = region === 'en' ? 'gbp' : region === 'ar' ? 'ars' : 'brl';
 
@@ -346,24 +355,37 @@ export function GiftGrid() {
           </div>
 
           <Card className='mb-8 flex flex-col items-center'>
-            <div className='w-48 h-48 bg-accent/10 rounded-xl mb-6 flex items-center justify-center border-2 border-dashed border-accent/30'>
-              <QrCode size={120} className='text-primary opacity-40' />
-            </div>
-            <Typography className='text-sm opacity-60 mb-6'>
-              Escaneie o QR Code acima ou copie a chave abaixo para pagar via Pix.
+            <Typography className='text-sm opacity-60 mb-1'>Valor a pagar</Typography>
+            <Typography className='text-3xl font-heading mb-6'>
+              {config.currencySymbol} {totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </Typography>
-            
-            <div className='w-full bg-accent/5 rounded-lg p-4 flex items-center justify-between border border-accent/10 mb-8'>
-              <code className='text-xs font-mono break-all text-left truncate mr-4'>
-                00020126580014br.gov.bcb.pix0136sua-chave-pix-aqui-placeholder
-              </code>
-              <button 
-                onClick={() => navigator.clipboard.writeText('sua-chave-pix-aqui-placeholder')}
-                className='text-primary text-[10px] uppercase font-bold hover:underline shrink-0'
-              >
-                Copiar
-              </button>
+            <Typography className='text-sm opacity-60 mb-4'>
+              No app do seu banco, escolha <strong>Pix Copia e Cola</strong>, cole o código abaixo e confirme.
+              O valor já vem preenchido.
+            </Typography>
+
+            <div className='w-full bg-accent/5 rounded-lg p-4 border border-accent/10 mb-3'>
+              <code className='block text-xs font-mono break-all text-left max-h-24 overflow-auto'>{pixPayload}</code>
             </div>
+            <Button
+              variant='secondary'
+              className='w-full mb-6'
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(pixPayload);
+                  setPixCopied(true);
+                  setTimeout(() => setPixCopied(false), 2500);
+                } catch {
+                  setPixCopied(false);
+                }
+              }}
+            >
+              {pixCopied ? 'Código copiado!' : 'Copiar código Pix'}
+            </Button>
+
+            <Typography className='text-xs opacity-60 mb-8'>
+              Ou, se preferir digitar, use a chave Pix (e-mail): <strong className='select-all'>{siteConfig.pix.key}</strong>
+            </Typography>
 
             <Button onClick={() => handlePaymentSuccess('Pix')} className='w-full py-4'>
               Já realizei o Pix
