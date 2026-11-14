@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { submitRSVP, createPaymentIntent, findInvite } from '../actions';
+import { submitRSVP, createPaymentIntent, findInvite, getRSVPs, getGiftMessages, validateAdminPassword } from '../actions';
 import { supabase } from '@/lib/supabase';
 
 vi.mock('@/lib/supabase', () => ({
@@ -65,6 +65,33 @@ describe('Server Actions', () => {
         data: [{ invite_name: 'X', rsvp_url: 'https://evil.example/phish' }], error: null,
       } as never);
       expect(await findInvite('alderi lima')).toEqual({ success: true, found: false });
+    });
+  });
+
+  describe('admin reads', () => {
+    it('refuses to read without the right admin password (and never hits the DB)', async () => {
+      process.env.ADMIN_PASSWORD = 'secret-pw';
+      vi.mocked(supabase.rpc).mockClear();
+      expect(await getRSVPs('wrong')).toEqual({ success: false, error: 'Unauthorized' });
+      expect(await getGiftMessages('')).toEqual({ success: false, error: 'Unauthorized' });
+      expect(supabase.rpc).not.toHaveBeenCalled();
+    });
+
+    it('fails closed when ADMIN_PASSWORD is not configured', async () => {
+      delete process.env.ADMIN_PASSWORD;
+      expect((await validateAdminPassword('')).success).toBe(false);
+      expect((await validateAdminPassword('undefined')).success).toBe(false);
+      expect(await getGiftMessages('anything')).toEqual({ success: false, error: 'Unauthorized' });
+    });
+
+    it('reads through the token-protected DB functions when authorized', async () => {
+      process.env.ADMIN_PASSWORD = 'secret-pw';
+      process.env.ADMIN_DB_TOKEN = 'db-token';
+      vi.mocked(supabase.rpc).mockResolvedValue({ data: [{ id: '1' }], error: null } as never);
+      expect(await getGiftMessages('secret-pw')).toEqual({ success: true, data: [{ id: '1' }] });
+      expect(supabase.rpc).toHaveBeenLastCalledWith('admin_list_gifts', { p_token: 'db-token' });
+      await getRSVPs('secret-pw');
+      expect(supabase.rpc).toHaveBeenLastCalledWith('admin_list_rsvps', { p_token: 'db-token' });
     });
   });
 

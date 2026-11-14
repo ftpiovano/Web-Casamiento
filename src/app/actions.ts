@@ -2,8 +2,22 @@
 
 import { supabase } from '@/lib/supabase';
 import Stripe from 'stripe';
+import { timingSafeEqual } from 'crypto';
 
 let stripe: Stripe | null = null;
+
+/**
+ * Checks the admin password against ADMIN_PASSWORD (fails closed when unset).
+ * @param {string} password The password to check.
+ * @return {boolean} Whether it matches.
+ */
+function isAdminPassword(password: string) {
+  const expected = process.env.ADMIN_PASSWORD;
+  if (!expected || typeof password !== 'string') return false;
+  const a = Buffer.from(password);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
 
 function getStripe() {
   if (!stripe && process.env.STRIPE_SECRET_KEY) {
@@ -135,17 +149,34 @@ export async function getInviteLink(id: string) {
 }
 
 /**
- * Fetches all RSVPs from Supabase.
+ * Fetches all RSVPs from Supabase (admin only).
+ * @param {string} password The admin password.
  * @return {Promise<{success: boolean, data?: any[], error?: string}>} The fetched RSVPs.
  */
-export async function getRSVPs() {
-  const { data, error } = await supabase
-    .from('rsvps')
-    .select('*')
-    .order('created_at', { ascending: false });
+export async function getRSVPs(password: string) {
+  if (!isAdminPassword(password)) return { success: false, error: 'Unauthorized' };
+  const { data, error } = await supabase.rpc('admin_list_rsvps', { p_token: process.env.ADMIN_DB_TOKEN || '' });
 
   if (error) {
     console.error('Error fetching RSVPs:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true, data };
+}
+
+/**
+ * Fetches every gift (who sent it, what, how much, how they paid) for the admin.
+ * Requires the admin password; reads through a token-protected DB function.
+ * @param {string} password The admin password.
+ * @return {Promise<{success: boolean, data?: any[], error?: string}>} The gifts, newest first.
+ */
+export async function getGiftMessages(password: string) {
+  if (!isAdminPassword(password)) return { success: false, error: 'Unauthorized' };
+  const { data, error } = await supabase.rpc('admin_list_gifts', { p_token: process.env.ADMIN_DB_TOKEN || '' });
+
+  if (error) {
+    console.error('Error fetching gifts:', error);
     return { success: false, error: error.message };
   }
 
@@ -158,8 +189,7 @@ export async function getRSVPs() {
  * @return {Promise<{success: boolean}>} Whether the password is correct.
  */
 export async function validateAdminPassword(password: string) {
-  const correctPassword = process.env.ADMIN_PASSWORD;
-  return { success: password === correctPassword };
+  return { success: isAdminPassword(password) };
 }
 
 /**

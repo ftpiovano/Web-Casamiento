@@ -5,6 +5,7 @@ import { describe, it, expect, vi } from 'vitest';
 // Mock server actions
 vi.mock('@/app/actions', () => ({
   getRSVPs: vi.fn(() => Promise.resolve({ success: true, data: [] })),
+  getGiftMessages: vi.fn(() => Promise.resolve({ success: true, data: [] })),
   validateAdminPassword: vi.fn((pw) => Promise.resolve({ success: pw === 'correct' })),
 }));
 

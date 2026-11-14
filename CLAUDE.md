@@ -44,7 +44,8 @@ Required in `.env.local` (and on Vercel for deployment):
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase public anon key |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key (test or live) |
 | `STRIPE_SECRET_KEY` | Stripe server-side secret |
-| `ADMIN_PASSWORD` | Gates `/admin` page |
+| `ADMIN_PASSWORD` | Gates `/admin` page (checked server-side by every admin action; fails closed if unset) |
+| `ADMIN_DB_TOKEN` | Server-only secret that unlocks the `admin_list_*` DB functions (hash in table `admin_secret`; see `supabase_admin_schema.sql`) |
 
 `src/lib/supabase.ts` falls back to placeholders if Supabase env vars are missing (with a warning in non-test environments), so the app boots without crashing — database calls just fail.
 
@@ -70,7 +71,7 @@ Components consume the active region's strings via `useLanguage().config.content
 
 `src/app/actions.ts` ('use server') exposes:
 - `submitRSVP(data)` → inserts into Supabase `rsvps` table
-- `getRSVPs()` → reads RSVPs (used by admin)
+- `getRSVPs(password)` / `getGiftMessages(password)` → admin reads of RSVPs and gifts; check the admin password server-side, then call `admin_list_*` DB functions with `ADMIN_DB_TOKEN`
 - `validateAdminPassword(password)` → checks against `ADMIN_PASSWORD` env var
 - `createPaymentIntent(amount)` → creates a Stripe PaymentIntent (currency hardcoded to `brl`)
 - `submitGiftMessage(data)` → inserts into Supabase `gift_messages` table
@@ -81,7 +82,7 @@ Stripe is lazily initialized inside `getStripe()` so the module doesn't crash wh
 
 ### Database
 
-Two tables, both with RLS enabled and public-insert + public-select policies (intentionally lax for prototype — admin reads use the same policy). Schema files at the repo root:
+`rsvps` and `gift_messages` have RLS with public INSERT only (no public SELECT; admin reads go through token-protected functions). `guestbook_messages` stays publicly readable because the site displays it. Schema files at the repo root:
 - `supabase_schema.sql` — `rsvps`
 - `supabase_gift_schema.sql` — `gift_messages`
 
