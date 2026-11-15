@@ -391,7 +391,7 @@ export const siteConfig = {
         br: {
           name: 'Cueca especial para o noivo na noite de núpcias',
           description: 'Modelo edição limitada — usada uma única vez, mas a história fica.',
-          price: 90,
+          price: 140,
         },
         ar: {
           name: 'Calzoncillo especial para el novio en la noche de bodas',
@@ -463,7 +463,7 @@ export const siteConfig = {
         br: {
           name: 'Tampão de ouvido para não escutar os roncos do Chico',
           description: 'Tecnologia de ponta para preservar a saúde mental da noiva.',
-          price: 50,
+          price: 100,
         },
         ar: {
           name: 'Tapones para no escuchar los ronquidos de Tomi',
