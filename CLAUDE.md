@@ -42,8 +42,6 @@ Required in `.env.local` (and on Vercel for deployment):
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase public anon key |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key (test or live) |
-| `STRIPE_SECRET_KEY` | Stripe server-side secret |
 | `ADMIN_PASSWORD` | Gates `/admin` page (checked server-side by every admin action; fails closed if unset) |
 | `ADMIN_DB_TOKEN` | Server-only secret that unlocks the `admin_list_*` DB functions (hash in table `admin_secret`; see `supabase_admin_schema.sql`) |
 
@@ -73,12 +71,11 @@ Components consume the active region's strings via `useLanguage().config.content
 - `submitRSVP(data)` → inserts into Supabase `rsvps` table
 - `getRSVPs(password)` / `getGiftMessages(password)` → admin reads of RSVPs and gifts; check the admin password server-side, then call `admin_list_*` DB functions with `ADMIN_DB_TOKEN`
 - `validateAdminPassword(password)` → checks against `ADMIN_PASSWORD` env var
-- `createPaymentIntent(amount)` → creates a Stripe PaymentIntent (currency hardcoded to `brl`)
 - `submitGiftMessage(data)` → inserts into Supabase `gift_messages` table
 - `listInvites()` / `getInviteLink(id)` → back the type-to-filter guest dropdown of the RSVP section.
 - `findInvite(query)` → looks up a guest's personal Assessoria VIP RSVP link by full name or phone via the `find_invite()` DB function (table `invites` has RLS with no policies; see `supabase_invites_schema.sql`). Guest data is loaded straight into Supabase from the exported spreadsheet and must never be committed to the repo.
 
-Stripe is lazily initialized inside `getStripe()` so the module doesn't crash when `STRIPE_SECRET_KEY` is absent (e.g., during tests).
+Payments: there is **no card/Stripe flow** (removed on purpose). Brazil pays by Pix (real BR Code from `siteConfig.pix`), Argentina by bank transfer (ARS CVU + USD CBU), international guests by UK bank transfer (GBP) — all in `siteConfig`. The "I already paid" buttons only record the gift in `gift_messages`; they do not verify payment, so check the bank accounts.
 
 ### Database
 

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { submitRSVP, createPaymentIntent, findInvite, getRSVPs, getGiftMessages, validateAdminPassword } from '../actions';
+import { submitRSVP, findInvite, getRSVPs, getGiftMessages, validateAdminPassword } from '../actions';
 import { supabase } from '@/lib/supabase';
 
 vi.mock('@/lib/supabase', () => ({
@@ -13,20 +13,8 @@ vi.mock('@/lib/supabase', () => ({
   },
 }));
 
-vi.mock('stripe', () => {
-  return {
-    default: class {
-      constructor() {}
-      paymentIntents = {
-        create: vi.fn(() => Promise.resolve({ client_secret: 'test_secret' })),
-      };
-    },
-  };
-});
-
 describe('Server Actions', () => {
   beforeEach(() => {
-    process.env.STRIPE_SECRET_KEY = 'sk_test_mock';
   });
   describe('submitRSVP', () => {
     it('should submit RSVP successfully', async () => {
@@ -92,14 +80,6 @@ describe('Server Actions', () => {
       expect(supabase.rpc).toHaveBeenLastCalledWith('admin_list_gifts', { p_token: 'db-token' });
       await getRSVPs('secret-pw');
       expect(supabase.rpc).toHaveBeenLastCalledWith('admin_list_rsvps', { p_token: 'db-token' });
-    });
-  });
-
-  describe('createPaymentIntent', () => {
-    it('should create a payment intent successfully', async () => {
-      const result = await createPaymentIntent(1000);
-      expect(result.success).toBe(true);
-      expect(result.clientSecret).toBe('test_secret');
     });
   });
 });

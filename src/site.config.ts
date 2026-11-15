@@ -919,5 +919,14 @@ export const siteConfig = {
         holder: 'Alexita & Chico',
       },
     },
+    // UK account (international guests pay in GBP by bank transfer).
+    en: {
+      gbp: {
+        label: 'Pounds (GBP)',
+        sortCode: '40-12-63',
+        accountNumber: '30775797',
+        holder: 'Alexita & Chico',
+      },
+    },
   },
 };

@@ -1,10 +1,7 @@
 'use server';
 
 import { supabase } from '@/lib/supabase';
-import Stripe from 'stripe';
 import { timingSafeEqual } from 'crypto';
-
-let stripe: Stripe | null = null;
 
 /**
  * Checks the admin password against ADMIN_PASSWORD (fails closed when unset).
@@ -17,15 +14,6 @@ function isAdminPassword(password: string) {
   const a = Buffer.from(password);
   const b = Buffer.from(expected);
   return a.length === b.length && timingSafeEqual(a, b);
-}
-
-function getStripe() {
-  if (!stripe && process.env.STRIPE_SECRET_KEY) {
-    stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  } else if (!stripe && !process.env.STRIPE_SECRET_KEY) {
-    console.warn('STRIPE_SECRET_KEY is missing!');
-  }
-  return stripe;
 }
 
 /**
@@ -190,36 +178,6 @@ export async function getGiftMessages(password: string) {
  */
 export async function validateAdminPassword(password: string) {
   return { success: isAdminPassword(password) };
-}
-
-/**
- * Creates a Stripe PaymentIntent.
- * @param {number} amount The amount in the smallest currency unit (cents/pence).
- * @param {string} [currency] ISO 4217 lowercase code — defaults to 'brl'.
- * @return {Promise<{success: boolean, clientSecret?: string, error?: string}>} The result.
- */
-export async function createPaymentIntent(amount: number, currency: string = 'brl') {
-  try {
-    const stripeClient = getStripe();
-    if (!stripeClient) {
-      throw new Error('Stripe client not initialized. Check STRIPE_SECRET_KEY.');
-    }
-    const paymentIntent = await stripeClient.paymentIntents.create({
-      amount,
-      currency,
-      automatic_payment_methods: {
-        enabled: true,
-      },
-    });
-
-    return {
-      success: true,
-      clientSecret: paymentIntent.client_secret as string,
-    };
-  } catch (error: any) {
-    console.error('Error creating payment intent:', error);
-    return { success: false, error: error.message };
-  }
 }
 
 /**

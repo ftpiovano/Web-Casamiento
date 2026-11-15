@@ -1,12 +1,32 @@
 import { render, screen, fireEvent } from '../../test/test-utils';
+import { useLanguage } from '@/context/LanguageContext';
+import { siteConfig } from '@/site.config';
 import { GiftGrid } from '../GiftGrid';
 import { describe, it, expect, vi } from 'vitest';
 
 // Mock server actions
 vi.mock('@/app/actions', () => ({
-  createPaymentIntent: vi.fn(() => Promise.resolve({ success: true, clientSecret: 'test_secret' })),
   submitGiftMessage: vi.fn(() => Promise.resolve({ success: true })),
 }));
+
+function RegionSwitcher() {
+  const { setRegion } = useLanguage();
+  return (
+    <>
+      <button onClick={() => setRegion('br')}>to-br</button>
+      <button onClick={() => setRegion('ar')}>to-ar</button>
+      <button onClick={() => setRegion('en')}>to-en</button>
+    </>
+  );
+}
+
+/** Adds the first gift and walks to the payment step in the current region. */
+function goToPayment() {
+  fireEvent.click(screen.getAllByRole('button', { name: /presentear|regalar|gift/i })[0]);
+  fireEvent.click(screen.getByText(/(Continuar|Continue)/i));
+  fireEvent.change(screen.getByLabelText(/(Nome|Nombre|Name)/i), { target: { value: 'Test' } });
+  fireEvent.click(screen.getByText(/(pagamento|pago|payment)/i));
+}
 
 describe('GiftGrid Checkout Flow', () => {
   it('adds items to cart and switches to cart view', () => {
@@ -91,5 +111,24 @@ describe('GiftGrid Checkout Flow', () => {
     const successMsgs = await screen.findAllByText(/Confirmado/i);
     expect(successMsgs.length).toBeGreaterThan(0);
     expect(screen.getByText(/John Doe/i)).toBeDefined();
+  });
+
+  it('Brazil offers Pix only (no card)', () => {
+    render(<GiftGrid />);
+    goToPayment();
+    expect(screen.getAllByText(/Pagar com Pix/i).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/Cartão|Stripe|Credit Card/i)).toBeNull();
+  });
+
+  it('International guests see the UK bank details and no card option', async () => {
+    render(<><RegionSwitcher /><GiftGrid /></>);
+    fireEvent.click(screen.getByText('to-en'));
+    goToPayment();
+    const gbp = siteConfig.bankDetails.en.gbp;
+    expect(screen.getByText(gbp.sortCode)).toBeDefined();
+    expect(screen.getByText(gbp.accountNumber)).toBeDefined();
+    expect(screen.queryByText(/Credit Card|Stripe/i)).toBeNull();
+    fireEvent.click(screen.getByText(/I have made the transfer/i));
+    expect(await screen.findByText(/recorded your gift/i)).toBeDefined();
   });
 });
