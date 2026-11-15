@@ -900,18 +900,22 @@ export const siteConfig = {
   // Bank details for manual transfers
   bankDetails: {
     ar: {
+      // Pesos account is a Mercado Pago wallet, so it uses a CVU (not a CBU).
       ars: {
         label: 'Pesos (ARS)',
-        bank: 'Banco Galicia',
-        alias: 'boda.alexita.chico',
-        cbu: '0070000000000000000000',
+        bank: 'Mercado Pago',
+        alias: 'alexitaytomi',
+        idType: 'CVU',
+        cbu: '0000003100056448900978',
         holder: 'Alexita & Chico',
       },
+      // Dollar account: transfers show as going to Banco Industrial (BIND).
       usd: {
         label: 'Dólares (USD)',
-        bank: 'Banco Galicia',
-        alias: 'boda.usd.alexita',
-        cbu: '0070000000000000000001',
+        bank: 'Banco Industrial (BIND)',
+        alias: 'tomiyalexita',
+        idType: 'CBU',
+        cbu: '3220001888034786340016',
         holder: 'Alexita & Chico',
       },
     },

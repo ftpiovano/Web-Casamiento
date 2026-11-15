@@ -447,11 +447,11 @@ export function GiftGrid() {
                     </div>
                     <div>
                       <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>Alias</label>
-                      <Typography className='text-sm font-medium'>{siteConfig.bankDetails.ar.ars.alias}</Typography>
+                      <Typography className='text-sm font-medium select-all'>{siteConfig.bankDetails.ar.ars.alias}</Typography>
                     </div>
                     <div>
-                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>CBU</label>
-                      <Typography className='text-sm font-medium tabular-nums'>{siteConfig.bankDetails.ar.ars.cbu}</Typography>
+                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>{siteConfig.bankDetails.ar.ars.idType}</label>
+                      <Typography className='text-sm font-medium tabular-nums select-all'>{siteConfig.bankDetails.ar.ars.cbu}</Typography>
                     </div>
                   </div>
 
@@ -464,11 +464,11 @@ export function GiftGrid() {
                     </div>
                     <div>
                       <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>Alias</label>
-                      <Typography className='text-sm font-medium'>{siteConfig.bankDetails.ar.usd.alias}</Typography>
+                      <Typography className='text-sm font-medium select-all'>{siteConfig.bankDetails.ar.usd.alias}</Typography>
                     </div>
                     <div>
-                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>CBU</label>
-                      <Typography className='text-sm font-medium tabular-nums'>{siteConfig.bankDetails.ar.usd.cbu}</Typography>
+                      <label className='text-[10px] uppercase tracking-widest font-bold opacity-40'>{siteConfig.bankDetails.ar.usd.idType}</label>
+                      <Typography className='text-sm font-medium tabular-nums select-all'>{siteConfig.bankDetails.ar.usd.cbu}</Typography>
                     </div>
                   </div>
                 </div>
