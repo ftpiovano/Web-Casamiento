@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { submitRSVP, findInvite, getRSVPs, getGiftMessages, validateAdminPassword } from '../actions';
+import { submitRSVP, submitGiftMessage, findInvite, getRSVPs, getGiftMessages, validateAdminPassword } from '../actions';
 import { supabase } from '@/lib/supabase';
 
 vi.mock('@/lib/supabase', () => ({
@@ -28,6 +28,35 @@ describe('Server Actions', () => {
       const result = await submitRSVP(data);
       expect(result.success).toBe(true);
       expect(supabase.from).toHaveBeenCalledWith('rsvps');
+    });
+  });
+
+  describe('submitGiftMessage', () => {
+    const base = { gifterName: 'A', note: '', amount: 10, items: ['x'], paymentMethod: 'Pix', region: 'br' };
+    const ATTEMPT = '11111111-1111-1111-1111-111111111111';
+
+    it('stores status and attempt id, ignoring invalid values', async () => {
+      const insert = vi.fn(() => ({ error: null }));
+      vi.mocked(supabase.from).mockReturnValueOnce({ insert } as never);
+      await submitGiftMessage({ ...base, status: 'hacked', attemptId: 'not-a-uuid' });
+      expect(insert).toHaveBeenCalledWith([expect.objectContaining({ status: null, attempt_id: null })]);
+
+      vi.mocked(supabase.from).mockReturnValueOnce({ insert } as never);
+      await submitGiftMessage({ ...base, status: 'pix_copiado', attemptId: ATTEMPT });
+      expect(insert).toHaveBeenLastCalledWith([expect.objectContaining({ status: 'pix_copiado', attempt_id: ATTEMPT })]);
+    });
+
+    it('never loses the gift if the optional columns do not exist', async () => {
+      const insert = vi
+        .fn()
+        .mockReturnValueOnce({ error: { message: 'column "status" does not exist' } })
+        .mockReturnValueOnce({ error: null });
+      vi.mocked(supabase.from).mockReturnValue({ insert } as never);
+      const result = await submitGiftMessage({ ...base, status: 'pix_copiado', attemptId: ATTEMPT });
+      expect(result.success).toBe(true);
+      expect(insert).toHaveBeenCalledTimes(2);
+      expect(insert.mock.calls[1][0][0]).not.toHaveProperty('status');
+      vi.mocked(supabase.from).mockReset();
     });
   });
 

@@ -190,6 +190,10 @@ export interface GiftMessageData {
   items: string[];
   paymentMethod: string;
   region: string;
+  /** 'pix_copiado' (copied the Pix code, unconfirmed) | 'pagamento_informado' (guest says they paid). */
+  status?: string;
+  /** One id per checkout so the admin can collapse its rows into one. */
+  attemptId?: string;
 }
 
 /**
@@ -198,18 +202,26 @@ export interface GiftMessageData {
  * @return {Promise<{success: boolean, error?: string}>} The result.
  */
 export async function submitGiftMessage(data: GiftMessageData) {
-  const { error } = await supabase
-    .from('gift_messages')
-    .insert([
-      {
-        name: data.gifterName,
-        note: data.note,
-        amount: data.amount,
-        items: data.items.join(', '),
-        payment_method: data.paymentMethod,
-        region: data.region,
-      },
-    ]);
+  const row = {
+    name: data.gifterName,
+    note: data.note,
+    amount: data.amount,
+    items: data.items.join(', '),
+    payment_method: data.paymentMethod,
+    region: data.region,
+  };
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const extra = {
+    status: data.status === 'pix_copiado' || data.status === 'pagamento_informado' ? data.status : null,
+    attempt_id: data.attemptId && uuid.test(data.attemptId) ? data.attemptId : null,
+  };
+
+  let { error } = await supabase.from('gift_messages').insert([{ ...row, ...extra }]);
+
+  // Never lose a gift because of the optional columns: retry with the base fields.
+  if (error && /status|attempt_id|column/i.test(error.message)) {
+    ({ error } = await supabase.from('gift_messages').insert([row]));
+  }
 
   if (error) {
     console.error('Error saving gift message:', error);

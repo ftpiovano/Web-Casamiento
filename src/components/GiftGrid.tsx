@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Section, Typography, Card, Button } from './Base';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, ArrowLeft, Gift, Landmark, QrCode, Trash2 } from 'lucide-react';
@@ -8,6 +8,15 @@ import { useLanguage } from '@/context/LanguageContext';
 import { siteConfig } from '@/site.config';
 import { submitGiftMessage } from '@/app/actions';
 import { buildPixPayload } from '@/lib/pix';
+
+/** New checkout id (falls back when crypto.randomUUID is unavailable). */
+function newAttemptId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+  });
+}
 
 type CheckoutStep = 'grid' | 'cart' | 'info' | 'payment' | 'success';
 
@@ -25,6 +34,8 @@ export function GiftGrid() {
   const [gifterInfo, setGifterInfo] = useState({ name: '', note: '' });
   const [showPix, setShowPix] = useState(false);
   const [pixCopied, setPixCopied] = useState(false);
+  const [attemptId, setAttemptId] = useState(newAttemptId);
+  const pixLoggedFor = useRef('');
 
   // Map the centralized gifts to the current region's format
   const localizedGifts = siteConfig.gifts.map((gift) => ({
@@ -69,6 +80,8 @@ export function GiftGrid() {
       items: cart.map((item) => item.name),
       paymentMethod: method,
       region: region,
+      status: 'pagamento_informado',
+      attemptId,
     });
     setStep('success');
   };
@@ -298,6 +311,21 @@ export function GiftGrid() {
               variant='secondary'
               className='w-full mb-6'
               onClick={async () => {
+                // Record who copied the Pix right away; don't wait for "Já realizei".
+                const signature = `${totalPrice}|${cart.map((c) => c.id).join(',')}`;
+                if (pixLoggedFor.current !== signature) {
+                  pixLoggedFor.current = signature;
+                  submitGiftMessage({
+                    gifterName: gifterInfo.name,
+                    note: gifterInfo.note,
+                    amount: totalPrice,
+                    items: cart.map((item) => item.name),
+                    paymentMethod: 'Pix',
+                    region: region,
+                    status: 'pix_copiado',
+                    attemptId,
+                  }).catch(() => {});
+                }
                 try {
                   await navigator.clipboard.writeText(pixPayload);
                   setPixCopied(true);
@@ -479,6 +507,8 @@ export function GiftGrid() {
           setGifterInfo({ name: '', note: '' });
           setStep('grid');
           setShowPix(false);
+          setAttemptId(newAttemptId());
+          pixLoggedFor.current = '';
         }} className='mt-8'>
           {config.content.backToSite}
         </Button>

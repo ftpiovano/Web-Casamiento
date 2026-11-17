@@ -97,7 +97,7 @@ export const siteConfig = {
         br: {
           name: 'Camisa do Brasil para o noivo curtir a Copa do Mundo',
           description: 'Estratégia diplomática para os jogos que dividem o casal.',
-          price: 140,
+          price: 147,
         },
         ar: {
           name: 'Camiseta de Brasil para que el novio disfrute el Mundial',
@@ -120,7 +120,7 @@ export const siteConfig = {
         br: {
           name: 'Camisa da Argentina para a noiva curtir a Copa do Mundo',
           description: 'Para empatar o placar antes mesmo da bola rolar.',
-          price: 2500,
+          price: 2625,
         },
         ar: {
           name: 'Camiseta de Argentina para que la novia disfrute el Mundial',
@@ -245,7 +245,7 @@ export const siteConfig = {
           name: 'Cobertor para a noiva, que sempre está coberta de razão',
           description:
             'Para os dias em que ela ganha a discussão antes mesmo de começar.',
-          price: 100,
+          price: 105,
         },
         ar: {
           name: 'Manta para la novia, que siempre está cubierta de razón',
@@ -391,7 +391,7 @@ export const siteConfig = {
         br: {
           name: 'Cueca especial para o noivo na noite de núpcias',
           description: 'Modelo edição limitada — usada uma única vez, mas a história fica.',
-          price: 140,
+          price: 154,
         },
         ar: {
           name: 'Calzoncillo especial para el novio en la noche de bodas',
@@ -415,7 +415,7 @@ export const siteConfig = {
           name: 'Implante capilar na Turquia para o noivo',
           description:
             'Procedimento estético internacional para resolver de uma vez por todas — passagem para Istambul incluída na imaginação.',
-          price: 2500,
+          price: 2750,
         },
         ar: {
           name: 'Implante capilar en Turquía para el novio',
@@ -463,7 +463,7 @@ export const siteConfig = {
         br: {
           name: 'Tampão de ouvido para não escutar os roncos do Chico',
           description: 'Tecnologia de ponta para preservar a saúde mental da noiva.',
-          price: 100,
+          price: 110,
         },
         ar: {
           name: 'Tapones para no escuchar los ronquidos de Tomi',
@@ -532,7 +532,7 @@ export const siteConfig = {
         br: {
           name: 'Só para não dizer que não dei nada',
           description: 'Você paga isto e ainda conta para todos que não deu nada. Vitória dupla.',
-          price: 100,
+          price: 115,
         },
         ar: {
           name: 'Una boludez para los novios',

@@ -31,6 +31,27 @@ function csvCell(v: unknown) {
   return `"${String(v ?? '').replace(/"/g, '""')}"`;
 }
 
+const STATUS: Record<string, { label: string; cls: string }> = {
+  pix_copiado: { label: 'Copiou o Pix', cls: 'bg-amber-100 text-amber-800' },
+  pagamento_informado: { label: 'Informou pagamento', cls: 'bg-green-100 text-green-700' },
+};
+
+/**
+ * One row per checkout: rows sharing an attempt_id collapse into the most recent one
+ * (the list arrives newest first). Rows without attempt_id are kept as they are.
+ * @param {any[]} rows Gift rows, newest first.
+ * @return {any[]} Collapsed rows.
+ */
+function collapseGifts(rows: any[]) {
+  const seen = new Set<string>();
+  return rows.filter((g) => {
+    if (!g.attempt_id) return true;
+    if (seen.has(g.attempt_id)) return false;
+    seen.add(g.attempt_id);
+    return true;
+  });
+}
+
 /**
  * Admin dashboard page for tracking guest confirmations and gifts.
  * @return {JSX.Element} The rendered admin page.
@@ -82,14 +103,15 @@ export default function AdminPage() {
 
   /** Downloads the gift list as a spreadsheet-friendly CSV. */
   const downloadGiftsCsv = () => {
-    const header = ['Data', 'Nome', 'Presentes', 'Valor', 'Moeda', 'Pagamento', 'Idioma', 'Mensagem'];
-    const rows = gifts.map((g) => [
+    const header = ['Data', 'Nome', 'Presentes', 'Valor', 'Moeda', 'Pagamento', 'Status', 'Idioma', 'Mensagem'];
+    const rows = giftRows.map((g) => [
       new Date(g.created_at).toLocaleString('pt-BR'),
       g.name,
       g.items,
       Number(g.amount).toFixed(2),
       (CURRENCY[g.region] || CURRENCY.br).code,
       g.payment_method,
+      (STATUS[g.status]?.label) || 'Registrado',
       g.region,
       g.note,
     ]);
@@ -126,10 +148,15 @@ export default function AdminPage() {
     );
   }
 
+  const giftRows = collapseGifts(gifts);
+  const pendingGifts = giftRows.filter((g) => g.status === 'pix_copiado');
+
   const confirmations = rsvps.filter((r) => r.attending === 'yes').length;
 
   // Total per currency (BRL / ARS / GBP are never summed together)
-  const totals = gifts.reduce<Record<string, number>>((acc, g) => {
+  // (only gifts the guest says were paid; "copied the Pix" is pending and not summed)
+  const totals = giftRows.reduce<Record<string, number>>((acc, g) => {
+    if (g.status === 'pix_copiado') return acc;
     const region = CURRENCY[g.region] ? g.region : 'br';
     acc[region] = (acc[region] || 0) + Number(g.amount || 0);
     return acc;
@@ -147,7 +174,7 @@ export default function AdminPage() {
 
       <div className='flex gap-3 mb-8' role='tablist'>
         <button role='tab' aria-selected={tab === 'gifts'} className={tabClass(tab === 'gifts')} onClick={() => setTab('gifts')}>
-          Presentes ({gifts.length})
+          Presentes ({giftRows.length})
         </button>
         <button role='tab' aria-selected={tab === 'rsvps'} className={tabClass(tab === 'rsvps')} onClick={() => setTab('rsvps')}>
           Confirmações ({rsvps.length})
@@ -209,8 +236,11 @@ export default function AdminPage() {
           <div className='grid grid-cols-1 md:grid-cols-4 gap-8 mb-12'>
             <Card className='flex flex-col items-center text-center py-6'>
               <Gift className='text-primary mb-2' size={32} />
-              <Typography className='text-3xl font-heading mb-0'>{gifts.length}</Typography>
+              <Typography className='text-3xl font-heading mb-0'>{giftRows.length}</Typography>
               <Typography className='text-xs uppercase tracking-widest opacity-60'>Presentes</Typography>
+              {pendingGifts.length > 0 && (
+                <Typography className='text-xs text-amber-700 mt-1'>{pendingGifts.length} copiou o Pix, sem confirmar</Typography>
+              )}
             </Card>
             {(['br', 'ar', 'en'] as const).map((r) => (
               <Card key={r} className='flex flex-col items-center text-center py-6'>
@@ -221,7 +251,7 @@ export default function AdminPage() {
           </div>
 
           <div className='flex justify-end mb-4'>
-            <Button variant='outline' onClick={downloadGiftsCsv} disabled={gifts.length === 0}>
+            <Button variant='outline' onClick={downloadGiftsCsv} disabled={giftRows.length === 0}>
               <Download size={16} className='mr-2 inline' />
               Baixar planilha (CSV)
             </Button>
@@ -231,27 +261,32 @@ export default function AdminPage() {
             <table className='w-full text-left'>
               <thead>
                 <tr className='border-b border-accent/10'>
-                  {['Data', 'Quem presenteou', 'Presente', 'Valor', 'Pagamento', 'Mensagem'].map((h) => (
+                  {['Data', 'Quem presenteou', 'Presente', 'Valor', 'Pagamento', 'Status', 'Mensagem'].map((h) => (
                     <th key={h} className='py-4 px-4 text-xs uppercase tracking-widest font-bold opacity-40'>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {gifts.map((g) => (
+                {giftRows.map((g) => (
                   <tr key={g.id} className='border-b border-accent/5 hover:bg-accent/5 transition-colors align-top'>
                     <td className='py-4 px-4 text-sm whitespace-nowrap'>{new Date(g.created_at).toLocaleDateString('pt-BR')}</td>
                     <td className='py-4 px-4 font-medium'>{g.name}</td>
                     <td className='py-4 px-4 text-sm max-w-xs'>{g.items}</td>
                     <td className='py-4 px-4 tabular-nums whitespace-nowrap'>{money(g.amount, g.region)}</td>
                     <td className='py-4 px-4 text-sm'>{g.payment_method || '-'}</td>
+                    <td className='py-4 px-4'>
+                      <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-full whitespace-nowrap ${STATUS[g.status]?.cls || 'bg-accent/10 text-foreground/60'}`}>
+                        {STATUS[g.status]?.label || 'Registrado'}
+                      </span>
+                    </td>
                     <td className='py-4 px-4 max-w-xs'>
                       <div className='text-sm italic opacity-60 line-clamp-2' title={g.note}>{g.note || '-'}</div>
                     </td>
                   </tr>
                 ))}
-                {gifts.length === 0 && !loading && (
+                {giftRows.length === 0 && !loading && (
                   <tr>
-                    <td colSpan={6} className='py-12 text-center opacity-40'>Nenhum presente registrado ainda.</td>
+                    <td colSpan={7} className='py-12 text-center opacity-40'>Nenhum presente registrado ainda.</td>
                   </tr>
                 )}
               </tbody>

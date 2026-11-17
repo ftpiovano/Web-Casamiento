@@ -3,6 +3,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { siteConfig } from '@/site.config';
 import { GiftGrid } from '../GiftGrid';
 import { describe, it, expect, vi } from 'vitest';
+import { submitGiftMessage } from '@/app/actions';
 
 // Mock server actions
 vi.mock('@/app/actions', () => ({
@@ -130,5 +131,29 @@ describe('GiftGrid Checkout Flow', () => {
     expect(screen.queryByText(/Credit Card|Stripe/i)).toBeNull();
     fireEvent.click(screen.getByText(/I have made the transfer/i));
     expect(await screen.findByText(/recorded your gift/i)).toBeDefined();
+  });
+
+  it('records the gifter as soon as the Pix code is copied, then updates on "Já realizei"', async () => {
+    localStorage.setItem('wedding_region', 'br');
+    vi.mocked(submitGiftMessage).mockClear();
+    render(<GiftGrid />);
+    fireEvent.click(screen.getAllByText(/Presentear/i)[0]);
+    fireEvent.click(screen.getByText(/(Continuar)/i));
+    fireEvent.change(screen.getByLabelText(/Nome/i), { target: { value: 'Maria Teste' } });
+    fireEvent.click(screen.getByText(/(pagamento|pago)/i));
+    fireEvent.click(screen.getAllByText(/Pagar com Pix/i)[0]);
+
+    fireEvent.click(screen.getByText(/Copiar código Pix/i));
+    fireEvent.click(screen.getByText(/Copiar código Pix|Código copiado/i)); // copying twice must not duplicate
+    expect(submitGiftMessage).toHaveBeenCalledTimes(1);
+    const first = vi.mocked(submitGiftMessage).mock.calls[0][0];
+    expect(first).toMatchObject({ gifterName: 'Maria Teste', paymentMethod: 'Pix', status: 'pix_copiado' });
+    expect(first.attemptId).toMatch(/^[0-9a-f-]{36}$/);
+
+    fireEvent.click(screen.getByText(/Já realizei o Pix/i));
+    await screen.findByText(/Registramos o seu presente/i);
+    expect(submitGiftMessage).toHaveBeenCalledTimes(2);
+    const second = vi.mocked(submitGiftMessage).mock.calls[1][0];
+    expect(second).toMatchObject({ status: 'pagamento_informado', attemptId: first.attemptId });
   });
 });
